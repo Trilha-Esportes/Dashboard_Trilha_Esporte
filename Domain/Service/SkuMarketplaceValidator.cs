@@ -1,0 +1,56 @@
+using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhasEsporte.Domain;
+
+namespace DashboardTrilhasEsporte.Service
+{
+    public class SkuMarketplaceValidator
+    {
+        public static List<Erros> BuscaErros(SkuMarketplace marketplace)
+        {
+            List<Erros> listaErros = new List<Erros>();
+
+            if (marketplace.tipoEventoNormalizado == Eventos.RepasseNormal)
+            {
+                Erros? erroComissao = SkuMarketplaceValidator.checarErroComissao(marketplace);
+
+                if (marketplace.valorFinal < 0)
+                {
+                    listaErros.Add(Erros.ValorFinalNegativo);
+                }
+                if (marketplace.porcentagem == 0)
+                {
+                    listaErros.Add(Erros.FaltaDeComisao);
+                }
+                if (marketplace.dataComissao == null)
+                {
+                    listaErros.Add(Erros.FaltaDataComissao);
+                }
+
+                if (erroComissao.HasValue)
+                {
+                    listaErros.Add(Erros.ErroComissao);
+                }
+
+            }
+
+
+            return listaErros;
+        }
+        private static Erros? checarErroComissao(SkuMarketplace marketplace)
+        {
+            if ((marketplace.porcentagem != 0))
+            {
+
+                decimal valorCalculado = (decimal)(marketplace.valorLiquido - (marketplace.valorFinal * marketplace.porcentagem));
+
+                if (Math.Abs(valorCalculado - marketplace.valorFinal) > 0.05m)
+                {
+                    return Erros.ErroComissao;
+                }
+            }
+            return null;
+        }
+
+
+    }
+}
