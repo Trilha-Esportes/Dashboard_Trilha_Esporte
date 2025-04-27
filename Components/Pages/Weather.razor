@@ -65,7 +65,7 @@ else
             <MudTd DataLabel="Número Pedido">@context.skuMarketplace.numeroPedido</MudTd>
             <MudTd DataLabel="Valor Líquido">@context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
             <MudTd DataLabel="Data Comissão">@context.skuMarketplace.dataComissao?.ToShortDateString()</MudTd>
-            <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao?.ToString("C")</MudTd>
+            <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao.ToString("C")</MudTd>
             <MudTd DataLabel="Valor Final">@context.skuMarketplace.valorFinal.ToString("C")</MudTd>
             <MudTd DataLabel="Tipo Evento">@context.skuMarketplace.tipoEventoNormalizado</MudTd>
             <MudTd DataLabel="Erro Devolução">@(context.skuMarketplace.erroDevolucao ? "Sim" : "Não")</MudTd>

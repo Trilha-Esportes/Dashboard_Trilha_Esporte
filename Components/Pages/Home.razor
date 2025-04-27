@@ -1,8 +1,56 @@
-﻿@using DashboardTrilhasEsporte.Domain;
+﻿@page "/"
+
+@using DashboardTrilhasEsporte.Domain;
 @using DashboardTrilhasEsporte.Data;
+
 @inject SkuMarketplaceManager SkuManager
 
-@page "/"
+<style>
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 18rem;
+    }
+    
+    .icon-container {
+        font-size: 40px;
+        color: #4CAF50;
+        margin-bottom: 15px;
+    }
+
+    .card-info {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-description {
+        font-size: 16px;
+    }
+
+    .list-erros-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .list-erros-container li {
+        margin: 5px 0;
+    }
+</style>
+
 
 <PageTitle>Visão Geral</PageTitle>
 
@@ -10,9 +58,49 @@
 @if (skuMarketplaces == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-}
-else
-{
+}else{
+
+<MudText Typo="Typo.h4" GutterBottom="true">Overview</MudText>
+
+
+<div class="card-container">
+
+    <div class="card">
+        <div class="icon-container">
+           <i class="fas fa-wallet"></i>
+        </div>
+        <h3 class="card-info"> @resultadosListaCorrente.somatorioValorFinal.ToString("C")</h3>
+        <p class="card-description">Soma do Valor Final</p>
+    </div>
+
+    <div class="card">
+        <div class="icon-container">
+            <i class="fas fa-list-alt" style="color: lightseagreen;"></i> 
+        </div>
+        <h3 class="card-info">@resultadosListaCorrente.quantidadeTotalRegistro</h3>
+        <p class="card-description">Quantidade de Registros</p>
+    </div>
+
+    <div class="card">
+        <div class="icon-container">
+            <i class="fas fa-exclamation-triangle" style="color:red;"></i> 
+        </div>
+        <p class="card-description">Quantidade total de Erros</p>
+        <h3 class="card-info">@resultadosListaCorrente.quantidadeTotalErros</h3>
+        <br>
+        <p class="card-description">Principais Erros  </p>
+        <br>
+
+        <div class="list-erros-container">
+            <ul>
+                <li>Erro de Devolução : @resultadosListaCorrente.quantidadeVendasErroErroDevolucao</li>
+                <li>Erro  Comissão : @resultadosListaCorrente.quantidadeVendasErroComissao</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
 
     <MudTable Items="skuMarketplaces" Hover="true" SortLabel="Ordenar por" Elevation="0"
         AllowUnsorted="false">
@@ -29,7 +117,7 @@ else
             </MudTh>
             <MudTh>
                 <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.valorLiquido))">Valor
-                    Líquido
+                    Pedido
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
@@ -57,9 +145,9 @@ else
         <RowTemplate>
             <MudTd DataLabel="Marketplace">@context.skuMarketplace.marketplace</MudTd>
             <MudTd DataLabel="Número Pedido">@context.skuMarketplace.numeroPedido</MudTd>
-            <MudTd DataLabel="Valor Líquido">@context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
+            <MudTd DataLabel="Valor Pedido">@context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
             <MudTd DataLabel="Data Comissão">@context.skuMarketplace.dataComissao?.ToShortDateString()</MudTd>
-            <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao</MudTd>
+            <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao.ToString("C")</MudTd>
             <MudTd DataLabel="Valor Final">@context.skuMarketplace.valorFinal.ToString("C")</MudTd>
             <MudTd DataLabel="Tipo Evento">@context.skuMarketplace.tipoEventoNormalizado</MudTd>
             <MudTd DataLabel="Erro Devolução">@(context.skuMarketplace.erroDevolucao ? "Sim" : "Não")</MudTd>
@@ -74,7 +162,10 @@ else
     
 }
 @code {
-    private List<SkuMarketplaceDTO> skuMarketplaces = new List<SkuMarketplaceDTO>();
+    private List<SkuMarketplaceDTO> skuMarketplaces;
+    
+    private SkuMarketplaceListResultDTO resultadosListaCorrente;
+
     protected override async Task OnInitializedAsync()
     {
         // Carregar os dados assíncronos
@@ -83,7 +174,8 @@ else
         // Verificar se os dados estão prontos
         if (SkuManager.resultDTO != null && SkuManager.resultDTO.skuMarketplaceDTOs != null)
         {
-            skuMarketplaces = SkuManager.resultDTO.skuMarketplaceDTOs;
+            resultadosListaCorrente = SkuManager.resultDTO;
+            skuMarketplaces = resultadosListaCorrente.skuMarketplaceDTOs;
         }
 
         // Simular um pequeno atraso para o indicador de carregamento

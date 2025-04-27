@@ -4,13 +4,13 @@ using Npgsql;
 
 public class SkuMarketplace
 {
-    public string? marketplace { get; set; }
+    public string marketplace { get; set; }
     public int skuMarketplaceId { get; set; }
-    public string? numeroPedido { get; set; }
+    public string numeroPedido { get; set; }
     public Decimal valorLiquido { get; set; }
     public DateTime? dataComissao { get; set; }
-    public Decimal? porcentagem { get; set; }
-    public Decimal? comissao { get; set; }
+    public Decimal porcentagem { get; set; }
+    public Decimal comissao { get; set; }
     public Eventos tipoEventoNormalizado { get; set; }
     public Decimal valorFinal { get; set; }
     public DateTime? dataEvento { get; set; }

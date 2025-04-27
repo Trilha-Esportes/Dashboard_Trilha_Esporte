@@ -42,7 +42,7 @@ namespace DashboardTrilhasEsporte.Domain
 
             var dataPedido = grupo.Min(g => g.dataEvento);
             var valorTotal = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
-            var comissaoEsperada = grupo.Select(g => g.comissao).Max() ?? 0m;
+            var comissaoEsperada = grupo.Select(g => g.comissao).Max();
             var valorAReceber = valorTotal - comissaoEsperada;
 
             //Calculo dos Parametros 

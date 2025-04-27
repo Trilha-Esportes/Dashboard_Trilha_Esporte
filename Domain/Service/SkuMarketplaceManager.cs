@@ -1,6 +1,5 @@
 using DashboardTrilhasEsporte.Data;
 using DashboardTrilhasEsporte.Enums;
-using  Blazored.LocalStorage;
 
 namespace DashboardTrilhasEsporte.Domain
 {
@@ -8,43 +7,27 @@ namespace DashboardTrilhasEsporte.Domain
     {
         private readonly SkuMarketplaceRepository _repo;
 
-        private readonly ILocalStorageService _localStorage;
-
 
         public SkuMarketplaceListResultDTO resultDTO { get; private set; }
         private bool _dadosCarregados = false;
 
 
 
-        public SkuMarketplaceManager(SkuMarketplaceRepository repo, ILocalStorageService localStorage)
+        public SkuMarketplaceManager(SkuMarketplaceRepository repo)
         {
             this._repo = repo;
-            this._localStorage = localStorage;
         }
 
         public async Task CarregarDadosAsync()
         {
-            if ( this._dadosCarregados)
+            if (this._dadosCarregados)
             {
-                return; // Se os dados já foram carregados, não recarregue.
-            }
-
-            var dadosLocalStorage = await _localStorage.GetItemAsync<SkuMarketplaceListResultDTO>("dadosSkuMarketplace");
-            
-            if (dadosLocalStorage != null)
+                    return; 
+            } else
             {
-                this.resultDTO = dadosLocalStorage; // Carregar os dados armazenados no LocalStorage
-                this. _dadosCarregados = true;
-                return;
+                var listaSku = await _repo.ObterlistaMarketplace();
+                this.resultDTO = new SkuMarketplaceListResultDTO(listaSku);
             }
-
-            var listaSku = await _repo.ObterlistaMarketplace();
-
-            this.resultDTO = new SkuMarketplaceListResultDTO(listaSku);
-
-            await _localStorage.SetItemAsync("dadosSkuMarketplace", this.resultDTO); // Armazenar no LocalStorage
-
-            _dadosCarregados = true;
         }
 
 

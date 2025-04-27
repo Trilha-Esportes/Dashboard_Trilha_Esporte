@@ -708,19 +708,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Guilbert\\.nuget\\packages\\": {}
+    "/home/wilkerson/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Guilbert\\Documents\\DashboardTrilhasEsporte\\DashboardTrilhasEsporte.csproj",
+      "projectUniqueName": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/DashboardTrilhasEsporte.csproj",
       "projectName": "DashboardTrilhasEsporte",
-      "projectPath": "C:\\Users\\Guilbert\\Documents\\DashboardTrilhasEsporte\\DashboardTrilhasEsporte.csproj",
-      "packagesPath": "C:\\Users\\Guilbert\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Guilbert\\Documents\\DashboardTrilhasEsporte\\obj\\",
+      "projectPath": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/DashboardTrilhasEsporte.csproj",
+      "packagesPath": "/home/wilkerson/.nuget/packages/",
+      "outputPath": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Guilbert\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/wilkerson/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -782,7 +782,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -2,14 +2,12 @@ using MudBlazor.Services;
 using Blazored;
 using DashboardTrilhasEsporte.Components;
 using DashboardTrilhasEsporte.Data;
-using  Blazored.LocalStorage;
 using DashboardTrilhasEsporte.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
 
-builder.Services.AddBlazoredLocalStorage();
 
 
 // Registra serviço com variaveis de ambiente (Conexão com o banco de dados )

@@ -41,7 +41,7 @@ namespace DashboardTrilhasEsporte.Service
             if ((marketplace.porcentagem != 0))
             {
 
-                decimal valorCalculado = (decimal)(marketplace.valorLiquido - (marketplace.valorFinal * marketplace.porcentagem));
+                Decimal valorCalculado = (marketplace.valorLiquido - (marketplace.valorLiquido * marketplace.porcentagem));
 
                 if (Math.Abs(valorCalculado - marketplace.valorFinal) > 0.05m)
                 {
