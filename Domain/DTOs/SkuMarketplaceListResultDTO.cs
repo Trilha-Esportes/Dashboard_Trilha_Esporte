@@ -1,6 +1,7 @@
 
 
 using DashboardTrilhasEsporte.Enums;
+using Microsoft.VisualBasic;
 
 
 namespace DashboardTrilhasEsporte.Domain
@@ -13,7 +14,7 @@ namespace DashboardTrilhasEsporte.Domain
                 public int quantidadeVendasErroValorFinalNegativo { get; set; }
                 public int quantidadeVendasErroFaltaDeComisao { get; set; }
                 public int quantidadeVendasErroFaltaDataComissao { get; set; }
-                public int quantidadeVendasErroErroDevolucao { get; set; }
+                public int quantidadeVendasErroDevolucao { get; set; }
                 public int quantidadeVendasErroValoresDivergentes { get; set; }
                 public int quantidadeTotalRegistro { get; set; }
 
@@ -29,7 +30,34 @@ namespace DashboardTrilhasEsporte.Domain
 
                 DateTime? dataCicloFinal { get; set; }
 
+                public Dictionary<string, double> ObterErros()
+                {
+                        string[] labels = {
+                                "Erro no valor da Comissão",
+                                "Valor Final Negativo",
+                                "Erro na Data da Comissão",
+                                "Falta de valor na Comisao",
+                                "Erro na Devolucao",
+                                "Valores Divergentes"
+                        };
 
+                        double[] erros = {
+                                this.quantidadeVendasErroComissao,
+                                this.quantidadeVendasErroValorFinalNegativo,
+                                this.quantidadeVendasErroFaltaDataComissao,
+                                this.quantidadeVendasErroFaltaDeComisao,
+                                this.quantidadeVendasErroDevolucao,
+                                this.quantidadeVendasErroValoresDivergentes
+                        };
+
+                        var resultado = new Dictionary<string, double>();
+                        for (int i = 0; i < labels.Length; i++)
+                        {
+                                resultado[labels[i]] = erros[i];
+                        }
+
+                        return resultado;
+                }
 
 
                 public SkuMarketplaceListResultDTO(List<SkuMarketplace> skuMarketplaces)
@@ -65,11 +93,11 @@ namespace DashboardTrilhasEsporte.Domain
                         quantidadeVendasErroValorFinalNegativo = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.ValorFinalNegativo));
                         quantidadeVendasErroFaltaDeComisao = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.FaltaDeComisao));
                         quantidadeVendasErroFaltaDataComissao = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.FaltaDataComissao));
-                        quantidadeVendasErroErroDevolucao = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.ErroDevolucao));
+                        quantidadeVendasErroDevolucao = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.ErroDevolucao));
                         quantidadeVendasErroValoresDivergentes = skuMarketplaceDTOs.Count(v => v.listaErros.Contains(Erros.ValoresDivergentes));
 
                         quantidadeTotalErros = quantidadeVendasErroComissao + quantidadeVendasErroValorFinalNegativo + quantidadeVendasErroFaltaDeComisao
-                                                + quantidadeVendasErroFaltaDataComissao + quantidadeVendasErroErroDevolucao + quantidadeVendasErroValoresDivergentes;
+                                                + quantidadeVendasErroFaltaDataComissao + quantidadeVendasErroDevolucao + quantidadeVendasErroValoresDivergentes;
                 }
 
                 public void ObterIntervalosDatas()

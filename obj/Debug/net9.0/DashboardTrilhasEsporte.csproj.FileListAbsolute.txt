@@ -148,7 +148,3 @@ C:/Users/Guilbert/Documents/DashboardTrilhasEsporte/bin/Debug/net9.0/Blazored.Lo
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.pdb
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.genruntimeconfig.cache
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/ref/DashboardTrilhasEsporte.dll
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/scopedcss/Components/Pages/Home.razor.rz.scp.css
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/scopedcss/projectbundle/DashboardTrilhasEsporte.bundle.scp.css
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/gg7rrgdb20-3qlqtg211f.gz
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/3gikyezmfh-3qlqtg211f.gz

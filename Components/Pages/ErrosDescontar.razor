@@ -1,4 +1,4 @@
-﻿@page "/weather"
+﻿@page "/ErrosDescontar"
 
 @using DashboardTrilhasEsporte.Domain;
 @using DashboardTrilhasEsporte.Data;
@@ -84,8 +84,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // Carregar os dados assíncronos
-        await SkuManager.CarregarDadosAsync();
+       
 
         // Verificar se os dados estão prontos
         if (SkuManager.resultDTO != null && SkuManager.resultDTO.skuMarketplaceDTOs != null)

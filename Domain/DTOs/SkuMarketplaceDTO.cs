@@ -24,11 +24,13 @@ namespace DashboardTrilhasEsporte.Domain
 
         public static List<SkuMarketplaceDTO> MapearDTOs(List<SkuMarketplace> skuMarketplaces)
         {
+            List<SkuMarketplace> skuMarketplacesSemduplicacao = skuMarketplaces.Distinct().ToList();
+
             List<SkuMarketplaceDTO> SkuMarketplaceDTOs = new List<SkuMarketplaceDTO>();
 
-            SkuMarketplace.ChecarDescontarHove(skuMarketplaces);
+            SkuMarketplaceValidator.ChecarDescontarHove(skuMarketplacesSemduplicacao);
 
-            foreach (var marketplace in skuMarketplaces)
+            foreach (var marketplace in skuMarketplacesSemduplicacao)
             {
                 SkuMarketplaceDTO dto = new SkuMarketplaceDTO(marketplace);
 

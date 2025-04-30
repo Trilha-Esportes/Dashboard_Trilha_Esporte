@@ -51,6 +51,29 @@ namespace DashboardTrilhasEsporte.Service
             return null;
         }
 
+        public static void ChecarDescontarHove(List<SkuMarketplace> skuMarketplaces)
+        {
+            var grupos = skuMarketplaces
+                .GroupBy(v => v.numeroPedido);
+
+            foreach (var grupo in grupos)
+            {
+                var repasseNormal = grupo.FirstOrDefault(v => v.tipoEventoNormalizado == Eventos.RepasseNormal);
+                var descontarHove = grupo.FirstOrDefault(v => v.tipoEventoNormalizado == Eventos.DescontarHoveHouve);
+
+                if (repasseNormal != null && descontarHove != null)
+                {
+                    Decimal valor1 = Math.Abs(repasseNormal.valorLiquido);
+                    Decimal valor2 = Math.Abs(descontarHove.valorFinal);
+
+                    if (valor1 != valor2)
+                    {
+                        // Marca o erro apenas no evento Descontar
+                        descontarHove.erroDevolucao = true;
+                    }
+                }
+            }
+    }
 
     }
 }

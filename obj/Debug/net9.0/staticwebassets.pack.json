@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/scopedcss/projectbundle/DashboardTrilhasEsporte.bundle.scp.css",
-      "PackagePath": "staticwebassets/DashboardTrilhasEsporte.3qlqtg211f.bundle.scp.css"
-    },
-    {
       "Id": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
     },

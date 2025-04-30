@@ -1,44 +1,53 @@
 /* _content/DashboardTrilhasEsporte/Components/Pages/Home.razor.rz.scp.css */
-.card-container[b-vuighgih61] {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+/* Home.razor.css */
+
+/* Alinha os cards na horizontal */
+:deep .card-container[b-vuighgih61] {
+    display: flex;
+    justify-content: space-around;
     gap: 20px;
     padding: 20px;
+    flex-wrap: wrap; /* Para permitir que os cards se movam para a linha de baixo em telas menores */
 }
 
-.card[b-vuighgih61] {
+/* Estilo dos cards */
+:deep .card[b-vuighgih61] {
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    width: 18rem;
 }
 
-.icon-container[b-vuighgih61] {
+/* Estilo dos ícones dentro dos cards */
+[b-vuighgih61] .mud-icon-root {
     font-size: 40px;
     color: #4CAF50;
     margin-bottom: 15px;
 }
 
-.card-info[b-vuighgih61] {
+/* Estilo dos textos dentro dos cards */
+[b-vuighgih61] .mud-typography {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.card-description[b-vuighgih61] {
+/* Estilo do conteúdo de descrição do card */
+:deep .card-description[b-vuighgih61] {
     font-size: 16px;
-    color: #555;
 }
 
-.list-erros-container ul[b-vuighgih61] {
+/* Estilo da lista de erros */
+:deep .list-erros-container ul[b-vuighgih61] {
     list-style-type: none;
     padding: 0;
 }
 
-.list-erros-container li[b-vuighgih61] {
+:deep .list-erros-container li[b-vuighgih61] {
     margin: 5px 0;
 }

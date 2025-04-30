@@ -1,0 +1,26 @@
+
+@inherits DashboardTrilhasEsporte.Domain.DonutChar
+
+<MudChart ChartType="ChartType.Donut"
+          Width="@Width"
+          Height="@Height"
+          InputData="@Data"
+          InputLabels="@Labels">
+    <CustomGraphics>
+        <text class="donut-inner-text"
+              x="50%" y="35%"
+              dominant-baseline="middle"
+              text-anchor="middle"
+              fill="white"
+              font-family="Helvetica"
+              font-size="20">@Title</text>
+
+        <text class="donut-inner-text"
+              x="50%" y="50%"
+              dominant-baseline="middle"
+              text-anchor="middle"
+              fill="white"
+              font-family="Helvetica"
+              font-size="50">@Data?.Sum().ToString()</text>
+    </CustomGraphics>
+</MudChart>

@@ -1,8 +1,10 @@
 using DashboardTrilhasEsporte.Enums;
-namespace DashboardTrilhasEsporte.Domain;
 using Npgsql;
+using System;
 
-public class SkuMarketplace
+namespace DashboardTrilhasEsporte.Domain{
+
+public class SkuMarketplace : IEquatable<SkuMarketplace>
 {
     public string marketplace { get; set; }
     public int skuMarketplaceId { get; set; }
@@ -79,33 +81,38 @@ public class SkuMarketplace
         return marketplace;
     }
 
-
-
-    public static void ChecarDescontarHove(List<SkuMarketplace> skuMarketplaces)
+    public bool Equals(SkuMarketplace? other)
     {
-        var grupos = skuMarketplaces
-            .GroupBy(v => v.numeroPedido);
+        if (other is null) return false;
 
-        foreach (var grupo in grupos)
-        {
-            var repasseNormal = grupo.FirstOrDefault(v => v.tipoEventoNormalizado == Eventos.RepasseNormal);
-            var descontarHove = grupo.FirstOrDefault(v => v.tipoEventoNormalizado == Eventos.DescontarHoveHouve);
-
-            if (repasseNormal != null && descontarHove != null)
-            {
-                Decimal valor1 = Math.Abs(repasseNormal.valorLiquido);
-                Decimal valor2 = Math.Abs(descontarHove.valorFinal);
-
-                if (valor1 != valor2)
-                {
-                    // Marca o erro apenas no evento Descontar
-                    descontarHove.erroDevolucao = true;
-                }
-            }
-        }
+        return skuMarketplaceId == other.skuMarketplaceId
+            && marketplace == other.marketplace
+            && numeroPedido == other.numeroPedido
+            && valorLiquido == other.valorLiquido
+            && dataComissao == other.dataComissao
+            && porcentagem == other.porcentagem
+            && comissao == other.comissao
+            && tipoEventoNormalizado == other.tipoEventoNormalizado
+            && valorFinal == other.valorFinal
+            && dataEvento == other.dataEvento
+            && dataCiclo == other.dataCiclo;
     }
 
+    public override bool Equals(object? obj) => Equals(obj as SkuMarketplace);
 
+    public override int GetHashCode()
+   {
+        var hash1 = HashCode.Combine(skuMarketplaceId, marketplace, numeroPedido, valorLiquido);
+        var hash2 = HashCode.Combine(dataComissao, porcentagem, comissao, tipoEventoNormalizado);
+        var hash3 = HashCode.Combine(valorFinal, dataEvento, dataCiclo);
+
+        return HashCode.Combine(hash1, hash2, hash3);
+   }      
+
+
+
+
+}
 
 
 }

@@ -64,6 +64,9 @@ namespace DashboardTrilhasEsporte.Data
                 }
             }
 
+            Console.WriteLine("Olá, mundo!\n");
+
+
             return  listaMarketplace;
         }
 

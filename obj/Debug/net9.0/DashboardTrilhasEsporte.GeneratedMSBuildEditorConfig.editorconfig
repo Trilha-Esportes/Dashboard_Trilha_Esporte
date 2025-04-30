@@ -35,16 +35,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
+[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/DonutChartComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Eb251dENoYXJ0Q29tcG9uZW50LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9XZWF0aGVyLnJhem9y
+[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/ErrosDescontar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvc0Rlc2NvbnRhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/ResumoFinanceiro.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9SZXN1bW9GaW5hbmNlaXJvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Routes.razor]
@@ -54,7 +62,3 @@ build_metadata.AdditionalFiles.CssScope =
 [/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9fSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
-
-[/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/Components/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-vuighgih61

@@ -1,17 +1,5 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAssetEndpoint Include="_content/DashboardTrilhasEsporte/DashboardTrilhasEsporte.3qlqtg211f.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DashboardTrilhasEsporte.3qlqtg211f.bundle.scp.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"3qlqtg211f"},{"Name":"integrity","Value":"sha256-hTLC9rUEvoigJY1awbFCWtZk6nEG57TSsSKmWZyCjx0="},{"Name":"label","Value":"_content/DashboardTrilhasEsporte/DashboardTrilhasEsporte.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"896"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hTLC9rUEvoigJY1awbFCWtZk6nEG57TSsSKmWZyCjx0=\u0022"},{"Name":"Last-Modified","Value":"Sun, 27 Apr 2025 19:49:19 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/DashboardTrilhasEsporte/DashboardTrilhasEsporte.bundle.scp.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DashboardTrilhasEsporte.3qlqtg211f.bundle.scp.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-hTLC9rUEvoigJY1awbFCWtZk6nEG57TSsSKmWZyCjx0="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"896"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022hTLC9rUEvoigJY1awbFCWtZk6nEG57TSsSKmWZyCjx0=\u0022"},{"Name":"Last-Modified","Value":"Sun, 27 Apr 2025 19:49:19 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DashboardTrilhasEsporte/favicon.2jeq8efc6q.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

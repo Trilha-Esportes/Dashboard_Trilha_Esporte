@@ -27,6 +27,7 @@ namespace DashboardTrilhasEsporte.Domain
             {
                 var listaSku = await _repo.ObterlistaMarketplace();
                 this.resultDTO = new SkuMarketplaceListResultDTO(listaSku);
+                this._dadosCarregados=true;
             }
         }
 
