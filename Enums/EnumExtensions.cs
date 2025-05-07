@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 
 
-namespace DashboardTrilhasEsporte.Domain{
+namespace DashboardTrilhasEsporte.Enums{
     public static class EnumExtensions
 {
     public static string GetDescription(this Enum value)

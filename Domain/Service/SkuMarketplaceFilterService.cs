@@ -1,7 +1,9 @@
 
 using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhasEsporte.Domain.DTOs;
 
-namespace DashboardTrilhasEsporte.Domain
+
+namespace DashboardTrilhasEsporte.Domain.Service
 {
     public class SkuMarketplaceFilterService
     {
@@ -12,11 +14,14 @@ namespace DashboardTrilhasEsporte.Domain
 
         public String? numeroPedido { get; set; }
 
-        public List<Erros> listaErros { get; set; }
+        public List<Erros> listaErros { get; set; } = new List<Erros>();
 
-        public List<Eventos> TipoEventos { get; set; }
+        public List<Eventos> TipoEventos { get; set; }= new List<Eventos>();
 
 
+        public SkuMarketplaceFilterService (){
+
+        }
         public SkuMarketplaceFilterService(
             DateTime? dataComissaoInicio = null,
             DateTime? dataComissaoFinal = null,

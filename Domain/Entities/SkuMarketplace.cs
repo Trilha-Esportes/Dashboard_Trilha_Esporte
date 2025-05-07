@@ -2,13 +2,13 @@ using DashboardTrilhasEsporte.Enums;
 using Npgsql;
 using System;
 
-namespace DashboardTrilhasEsporte.Domain{
+namespace DashboardTrilhasEsporte.Domain.Entities{
 
 public class SkuMarketplace : IEquatable<SkuMarketplace>
 {
-    public string marketplace { get; set; }
+    public String? marketplace { get; set; } 
     public int skuMarketplaceId { get; set; }
-    public string numeroPedido { get; set; }
+    public String? numeroPedido { get; set; }
     public Decimal valorLiquido { get; set; }
     public DateTime? dataComissao { get; set; }
     public Decimal porcentagem { get; set; }

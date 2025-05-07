@@ -2,22 +2,31 @@ using MudBlazor.Services;
 using Blazored;
 using DashboardTrilhasEsporte.Components;
 using DashboardTrilhasEsporte.Data;
-using DashboardTrilhasEsporte.Domain;
+using DashboardTrilhasEsporte.Application;
+using DashboardTrilhasEsporte.Domain.Entities;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
 
 
+string? conexao = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Registra serviço com variaveis de ambiente (Conexão com o banco de dados )
-builder.Services.AddSingleton<DBContext>(new DBContext(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Usa string vazia apenas se 'conexao' for nula ou em branco
+string conexaoValida = string.IsNullOrWhiteSpace(conexao) ? "" : conexao;
+
+builder.Services.AddSingleton<DBContext>(new DBContext(conexaoValida));
 
 builder.Services.AddScoped<SkuMarketplaceRepository>();
+
+builder.Services.AddScoped<VendasRepository>();
+
 
 
 // Registra o Manager, também com escopo
 builder.Services.AddScoped<SkuMarketplaceManager>();
+builder.Services.AddScoped<AnymarketManager>();
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

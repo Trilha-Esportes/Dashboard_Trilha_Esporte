@@ -10,7 +10,7 @@ namespace DashboardTrilhasEsporte.Enums
         [Description("Descontar Houve")]
         DescontarHoveHouve = 1,
 
-        [Description("Descontar Reversa Centauro Envios")]
+        [Description("Descontar Reversa  Centauro Envios")]
         DescontarReversaCentauroEnvios = 2,
 
         [Description("Ajuste de Ciclo")]
@@ -23,7 +23,7 @@ namespace DashboardTrilhasEsporte.Enums
         Outros = 5,
 
         [Description("Não informado")]
-        Desconhecido = 5
+        Desconhecido = 6
 
     }
 

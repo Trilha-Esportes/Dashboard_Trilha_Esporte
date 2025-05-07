@@ -8,7 +8,7 @@ namespace DashboardTrilhasEsporte.Enums
         SemErros= 0,
 
         [Description("Venda Não Encontrada")]
-        erroVendaNaoEncontrada = 1,
+        ErroVendaNaoEncontrada = 1,
 
         [Description("Valores Divergentes")]
         ErroValoresDivergentes = 2,

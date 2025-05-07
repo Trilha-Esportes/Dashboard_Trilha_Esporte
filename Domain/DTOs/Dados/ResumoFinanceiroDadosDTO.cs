@@ -1,14 +1,8 @@
-/*
-   st.markdown("### Totais")
-            colS1, colS2, colS3 = st.columns(3)
-            colS1.metric("Total Valor a Receber", f"{total_valor_a_receber:,.2f}")
-            colS2.metric("Total Valor Recebido", f"{total_valor_recebido:,.2f}")
-            colS3.metric("Diferença", f"{diferenca:,.2f}")
-*/
 
-namespace DashboardTrilhasEsporte.Domain
+
+namespace DashboardTrilhasEsporte.Domain.DTOs
 {
-    public class ResumoFinanceiroListResultDTO
+    public class ResumoFinanceiroDadosDTO
     {
         public List<ResumoFinanceiroDTO> resumoFinanceiroDTOs { get; set; }
 
@@ -18,7 +12,7 @@ namespace DashboardTrilhasEsporte.Domain
 
         public Decimal valorTotalDiferenca { get; set; }
 
-        public ResumoFinanceiroListResultDTO(List<ResumoFinanceiroDTO> resumoFinanceiroDTOs)
+        public ResumoFinanceiroDadosDTO(List<ResumoFinanceiroDTO> resumoFinanceiroDTOs)
         {
             this.resumoFinanceiroDTOs = resumoFinanceiroDTOs;
             CalcularEstatiticas();

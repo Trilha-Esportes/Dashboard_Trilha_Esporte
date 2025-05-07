@@ -1,50 +1,57 @@
-/*
-"numero_pedido": "Número do Pedido",
-            "valor_liquido": "Valor (sku_marketplace/vendasDF)",
-            "valor_vendas": "Valor (vendas)",
-            "tipo_evento_normalizado": "Tipo de Evento",
-            "erros_anymarket": "Erros Anymarket"
-*/
 
 using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhasEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Domain
+namespace DashboardTrilhasEsporte.Domain.DTOs
 {
     public class AnymarketDTO
     {
-        public String numeroPedido { get; set; }
+        public int skuId { get; set; }
+        public String? numeroPedido { get; set; }
         public Decimal valorSkumarketplace { get; set; }
+        public Decimal valorVenda { get; set; }
+
         public Eventos tipoEventoNormalizado { get; set; }
         public AnymarketErros Erros { get; set; }
 
-        public static List<AnymarketDTO> MontarResumo(List<SkuMarketplace> geral, List<Vendas> vendas)
+        public static List<AnymarketDTO> MontarAnymarketDTO(List<SkuMarketplaceDTO> skuMarketplaces, List<Vendas> vendas)
         {
-            var vendaDict = vendas.ToDictionary(v => v.skuMarketplaceId, v => v.valorVenda);
 
-            var agrupados = geral
-             .GroupBy(x => new { x.numeroPedido, x.tipoEventoNormalizado }) // Agrupamento único
+            vendas = vendas.Distinct().ToList();
+    
+            var vendaDict = new Dictionary<int, decimal>();
+            foreach (var venda in vendas)
+            {
+                if (!vendaDict.ContainsKey(venda.skuMarketplaceId))
+                    vendaDict.Add(venda.skuMarketplaceId, venda.valorVenda);
+            }
+
+            var agrupados = skuMarketplaces.Distinct()
+             .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.tipoEventoNormalizado })
              .Select(grupo => CriarAnymarketDTO(grupo, vendaDict))
              .ToList();
 
             return agrupados;
         }
 
-        private static AnymarketDTO CriarAnymarketDTO(IGrouping<dynamic, SkuMarketplace> grupo, Dictionary<int, decimal> vendaDict)
+        private static AnymarketDTO CriarAnymarketDTO(IGrouping<dynamic, SkuMarketplaceDTO> grupo, Dictionary<int, decimal> vendaDict)
         {
             var primeiro = grupo.First();
-            var skuId = primeiro.skuMarketplaceId;
-            var eventoNormalizado = primeiro.tipoEventoNormalizado;
-            var valorVenda = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
-            var valorLiquido = grupo.Select(g => g.valorLiquido).DefaultIfEmpty(0m).Max();
+            var skuId = primeiro.skuMarketplace.skuMarketplaceId;
+            var eventoNormalizado = primeiro.skuMarketplace.tipoEventoNormalizado;
+            var valorVendaAtual = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
+            var valorLiquido = grupo.Select(g => g.skuMarketplace.valorLiquido).DefaultIfEmpty(0m).Max();
 
-            var erros = ChecarErrosAnymarket(valorVenda, valorLiquido, eventoNormalizado);
+            var erros = ChecarErrosAnymarket(valorVendaAtual, valorLiquido, eventoNormalizado);
 
             return new AnymarketDTO
             {
-                numeroPedido = primeiro.numeroPedido,
-                valorSkumarketplace = valorVenda,
+                numeroPedido = primeiro.skuMarketplace.numeroPedido,
+                valorSkumarketplace = primeiro.skuMarketplace.valorLiquido,
+                valorVenda= valorVendaAtual,
                 tipoEventoNormalizado = eventoNormalizado,
-                Erros = erros
+                Erros = erros,
+                skuId = skuId
             };
         }
 
@@ -52,7 +59,7 @@ namespace DashboardTrilhasEsporte.Domain
         {
             if (valorVenda == 0m)
             {
-                return AnymarketErros.erroVendaNaoEncontrada;
+                return AnymarketErros.ErroVendaNaoEncontrada;
             }
 
             if (tipoEventoNormalizado == Eventos.RepasseNormal && valorLiquido != valorVenda)

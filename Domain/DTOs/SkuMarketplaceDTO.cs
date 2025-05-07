@@ -1,14 +1,15 @@
 
 using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Service;
+using DashboardTrilhasEsporte.Domain.Service;
+using DashboardTrilhasEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Domain
+namespace DashboardTrilhasEsporte.Domain.DTOs
 {
     public class SkuMarketplaceDTO
     {
         public SkuMarketplace skuMarketplace { get; set; }
 
-        public List<Erros> listaErros { get; set; }
+        public List<Erros> listaErros { get; set; } = new List<Erros>();
 
 
 
@@ -16,7 +17,6 @@ namespace DashboardTrilhasEsporte.Domain
         public SkuMarketplaceDTO(SkuMarketplace marketplace)
         {
             this.skuMarketplace = marketplace;
-            this.listaErros = new List<Erros>();
             listaErros.AddRange(SkuMarketplaceValidator.BuscaErros(marketplace));
 
         }

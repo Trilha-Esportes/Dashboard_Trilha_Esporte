@@ -1,5 +1,5 @@
 using Npgsql;
-using DashboardTrilhasEsporte.Domain;
+using DashboardTrilhasEsporte.Domain.Entities;
 
 namespace DashboardTrilhasEsporte.Data
 {
@@ -7,19 +7,25 @@ namespace DashboardTrilhasEsporte.Data
     {
         private readonly DBContext _dbContext;
 
+        public Task<List<Vendas>> _listaVendas;
+
         public VendasRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public List<Vendas> ObterlistaMarketplace()
+        public Task<List<Vendas>> ObterlistaVendas()
         {
-            List<Vendas> listaVendas = new List<Vendas>();
 
-            using (var connection = _dbContext.CreateConnection())
-            using (var command = connection.CreateCommand())
+            if (_listaVendas == null)
             {
-                command.CommandText = @"
+
+                List<Vendas> listaVendas = new List<Vendas>();
+
+                using (var connection = _dbContext.CreateConnection())
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
                         SELECT
                         id AS venda_id,
                         sku_marketplace_id,
@@ -27,17 +33,21 @@ namespace DashboardTrilhasEsporte.Data
                         FROM vendas
                     ";
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
+                    using (var reader = command.ExecuteReader())
                     {
-                        var registro = Vendas.MapearRegistro((NpgsqlDataReader)reader);
-                        listaVendas.Add(registro);
+                        while (reader.Read())
+                        {
+                            var registro = Vendas.MapearRegistro((NpgsqlDataReader)reader);
+                            listaVendas.Add(registro);
+                        }
                     }
                 }
+                this._listaVendas = Task.FromResult(listaVendas);
+
             }
 
-            return listaVendas;
+            return this._listaVendas;
+
         }
 
     }

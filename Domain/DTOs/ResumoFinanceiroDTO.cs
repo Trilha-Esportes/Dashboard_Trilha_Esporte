@@ -1,12 +1,14 @@
 using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhasEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Domain
+
+namespace DashboardTrilhasEsporte.Domain.DTOs
 {
 
     public class ResumoFinanceiroDTO
     {
-        public String marketplace { get; set; }
-        public String codigoPedido { get; set; }
+        public String? marketplace { get; set; }
+        public String? codigoPedido { get; set; }
         public DateTime? dataPedido { get; set; }
         public Decimal valorTotalProdutos { get; set; }
         public Decimal? comissaoEsperada { get; set; }
@@ -20,14 +22,15 @@ namespace DashboardTrilhasEsporte.Domain
         public StatusPagamento situacaoFinal { get; set; }
 
 
-        public static List<ResumoFinanceiroDTO> MontarResumo(List<SkuMarketplace> geral, List<Vendas> vendas)
+        public static List<ResumoFinanceiroDTO> MontarAnymarketDTO(List<SkuMarketplace> skuMarketplaces, List<Vendas> vendas)
         {
-            var vendaDict = vendas.ToDictionary(v => v.skuMarketplaceId, v => v.valorVenda);
 
-            var agrupados = geral
-                .GroupBy(x => new { x.marketplace, x.numeroPedido })
-                .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
-                .ToList();
+            var vendaDict = vendas.Distinct().ToDictionary(v => v.skuMarketplaceId, v => v.valorVenda);
+
+            var agrupados = skuMarketplaces.Distinct()
+             .GroupBy(x => new { x.numeroPedido, x.tipoEventoNormalizado })
+             .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
+             .ToList();
 
             return agrupados;
         }

@@ -1,26 +1,31 @@
 using Npgsql;
 
-using DashboardTrilhasEsporte.Domain;
+using DashboardTrilhasEsporte.Domain.Entities;
 namespace DashboardTrilhasEsporte.Data
 {
     public class SkuMarketplaceRepository
     {
         private readonly DBContext _dbContext;
 
+        Task<List<SkuMarketplace>> _listaSkuMarketplace;
+
         public SkuMarketplaceRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-       public async Task<List<SkuMarketplace>> ObterlistaMarketplace()
+        public Task<List<SkuMarketplace>> ObterlistaMarketplace()
 
         {
-            List<SkuMarketplace> listaMarketplace = new List<SkuMarketplace>();
 
-            using (var connection = _dbContext.CreateConnection())
-            using (var command = connection.CreateCommand())
+            if (_listaSkuMarketplace== null)
             {
-                command.CommandText = @"
+                List<SkuMarketplace> listaMarketplace = new List<SkuMarketplace>();
+
+                using (var connection = _dbContext.CreateConnection())
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
                         SELECT
                             mk.nome AS marketplace,
                             sm.id AS sku_marketplace_id,
@@ -54,20 +59,21 @@ namespace DashboardTrilhasEsporte.Data
 
                     ";
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
+                    using (var reader = command.ExecuteReader())
                     {
-                        var registro = SkuMarketplace.MapearRegistro((NpgsqlDataReader)reader);
-                        listaMarketplace.Add(registro);
+                        while (reader.Read())
+                        {
+                            var registro = SkuMarketplace.MapearRegistro((NpgsqlDataReader)reader);
+                            listaMarketplace.Add(registro);
+                        }
                     }
                 }
+
+                this._listaSkuMarketplace = Task.FromResult(listaMarketplace);
+
             }
 
-            Console.WriteLine("Olá, mundo!\n");
-
-
-            return  listaMarketplace;
+            return this._listaSkuMarketplace;
         }
 
     }

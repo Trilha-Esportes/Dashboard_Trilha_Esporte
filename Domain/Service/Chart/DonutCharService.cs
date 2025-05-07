@@ -1,8 +1,8 @@
 
 using Microsoft.AspNetCore.Components;
 
-namespace DashboardTrilhasEsporte.Domain{
-    public class DonutChar : ComponentBase{
+namespace DashboardTrilhasEsporte.Domain.Service{
+    public class DonutCharService : ComponentBase{
 
     [Parameter] public double[] Data { get; set; } = Array.Empty<double>();
     [Parameter] public string[] Labels { get; set; } = Array.Empty<string>();

@@ -148,3 +148,4 @@ C:/Users/Guilbert/Documents/DashboardTrilhasEsporte/bin/Debug/net9.0/Blazored.Lo
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.pdb
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.genruntimeconfig.cache
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/ref/DashboardTrilhasEsporte.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-5ipweew5fc.gz

@@ -1,21 +1,23 @@
 using DashboardTrilhasEsporte.Data;
 using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhasEsporte.Domain.DTOs;
+using DashboardTrilhasEsporte.Domain.Service;
 
-namespace DashboardTrilhasEsporte.Domain
+namespace DashboardTrilhasEsporte.Application
 {
     class SkuMarketplaceManager
     {
         private readonly SkuMarketplaceRepository _repo;
 
 
-        public SkuMarketplaceListResultDTO resultDTO { get; private set; }
+        public SkuMarketplaceDadosDTO? resultDTO { get; private set; }
         private bool _dadosCarregados = false;
 
 
 
-        public SkuMarketplaceManager(SkuMarketplaceRepository repo)
+        public SkuMarketplaceManager(SkuMarketplaceRepository repository)
         {
-            this._repo = repo;
+            this._repo = repository;
         }
 
         public async Task CarregarDadosAsync()
@@ -26,13 +28,13 @@ namespace DashboardTrilhasEsporte.Domain
             } else
             {
                 var listaSku = await _repo.ObterlistaMarketplace();
-                this.resultDTO = new SkuMarketplaceListResultDTO(listaSku);
+                this.resultDTO = new SkuMarketplaceDadosDTO(listaSku);
                 this._dadosCarregados=true;
             }
         }
 
 
-        public SkuMarketplaceListResultDTO ObterListaFiltrada(
+        public SkuMarketplaceDadosDTO? ObterListaFiltrada(
             DateTime? dataComissaoInicio = null,
             DateTime? dataComissaoFinal = null,
             DateTime? dataCicloInicio = null,
@@ -53,13 +55,15 @@ namespace DashboardTrilhasEsporte.Domain
                 TipoEventos = tipoEventos ?? new List<Eventos>()
             };
 
-            // Aplica os filtros na lista completa
+            if(this.resultDTO != null){
+                // Aplica os filtros na lista completa
+                List<SkuMarketplaceDTO> listaFiltrada = SkuMarketplaceFilterService.
+                                                AplicarFiltros(this.resultDTO.skuMarketplaceDTOs, filtro);
 
-            List<SkuMarketplaceDTO> listaFiltrada = SkuMarketplaceFilterService.
-                                            AplicarFiltros(this.resultDTO.skuMarketplaceDTOs, filtro);
-
-            // Cria o DTO de resultado
-            return new SkuMarketplaceListResultDTO(listaFiltrada);
+                // Cria o DTO de resultado
+                return new SkuMarketplaceDadosDTO(listaFiltrada);
+            }
+           return null;
         }
     }
 }

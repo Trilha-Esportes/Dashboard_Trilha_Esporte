@@ -1,7 +1,6 @@
 using Npgsql;
 
-namespace DashboardTrilhasEsporte.Domain
-{
+namespace DashboardTrilhasEsporte.Domain.Entities{
     public class Vendas
     {
         public int vendaId { get; set; }
@@ -18,6 +17,21 @@ namespace DashboardTrilhasEsporte.Domain
 
             };
             return vendas;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Vendas other)
+                return false;
+
+            return vendaId == other.vendaId &&
+                skuMarketplaceId == other.skuMarketplaceId &&
+                valorVenda == other.valorVenda;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(vendaId, skuMarketplaceId, valorVenda);
         }
     }
 }

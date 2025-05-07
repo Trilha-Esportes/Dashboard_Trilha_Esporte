@@ -1,98 +1,18 @@
 ﻿@page "/ErrosDescontar"
 
-@using DashboardTrilhasEsporte.Domain;
-@using DashboardTrilhasEsporte.Data;
+<PageTitle>Counter</PageTitle>
 
-@inject SkuMarketplaceManager SkuManager
+<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
 
+<MudText Typo="Typo.body1" Class="mb-4">Current count: @currentCount</MudText>
 
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
 
-
-<PageTitle>Weather</PageTitle>
-
-<MudText Typo="Typo.h3" GutterBottom="true">Weather forecast</MudText>
-<MudText Typo="Typo.body1" Class="mb-8">This component demonstrates fetching data from the server.</MudText>
-
-@if (skuMarketplaces == null)
-{
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-}
-else
-{
-
-    <MudTable Items="skuMarketplaces" Hover="true" SortLabel="Ordenar por" Elevation="0"
-        AllowUnsorted="false">
-        <HeaderContent>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.marketplace))">
-                    Marketplace
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.numeroPedido))">Número
-                    Pedido
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.valorLiquido))">Valor
-                    Líquido
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.dataComissao))">Data
-                    Comissão
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.comissao))">Comissão
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.valorFinal))">Valor
-                    Final
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
-                <MudTableSortLabel
-                    SortBy="@(new Func<SkuMarketplaceDTO, object>(x => x.skuMarketplace.tipoEventoNormalizado))">Tipo Evento
-                </MudTableSortLabel>
-            </MudTh>
-            
-        </HeaderContent>
-
-        <RowTemplate>
-            <MudTd DataLabel="Marketplace">@context.skuMarketplace.marketplace</MudTd>
-            <MudTd DataLabel="Número Pedido">@context.skuMarketplace.numeroPedido</MudTd>
-            <MudTd DataLabel="Valor Líquido">@context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
-            <MudTd DataLabel="Data Comissão">@context.skuMarketplace.dataComissao?.ToShortDateString()</MudTd>
-            <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao.ToString("C")</MudTd>
-            <MudTd DataLabel="Valor Final">@context.skuMarketplace.valorFinal.ToString("C")</MudTd>
-            <MudTd DataLabel="Tipo Evento">@context.skuMarketplace.tipoEventoNormalizado</MudTd>
-            <MudTd DataLabel="Erro Devolução">@(context.skuMarketplace.erroDevolucao ? "Sim" : "Não")</MudTd>
-        </RowTemplate>
-
-        <PagerContent>
-            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
-        </PagerContent>
-    </MudTable>
-
-
-    
-}
 @code {
-    private List<SkuMarketplaceDTO> skuMarketplaces;
+    private int currentCount = 0;
 
-    protected override async Task OnInitializedAsync()
+    private void IncrementCount()
     {
-       
-
-        // Verificar se os dados estão prontos
-        if (SkuManager.resultDTO != null && SkuManager.resultDTO.skuMarketplaceDTOs != null)
-        {
-            skuMarketplaces = SkuManager.resultDTO.skuMarketplaceDTOs;
-        }
-
-        // Simular um pequeno atraso para o indicador de carregamento
-        await Task.Delay(500);
+        currentCount++;
     }
 }
