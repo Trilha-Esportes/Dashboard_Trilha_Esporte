@@ -32,15 +32,22 @@ namespace DashboardTrilhasEsporte.Application
             }
         }
 
-        public static List<SkuMarketplaceDTO> SubtrairPorId(
-                List<SkuMarketplaceDTO> listaA,
-                List<AnymarketDTO> listaB,
-                Func<SkuMarketplaceDTO, int> seletorIdA,
-                Func<AnymarketDTO, int> seletorIdB)
-        {
-            var idsParaRemover = listaB.Select(seletorIdB).ToHashSet();
-            return listaA.Where(item => !idsParaRemover.Contains(seletorIdA(item))).ToList();
-        }
+        public static List<AnymarketDTO> SubtrairPorId(
+        List<SkuMarketplaceDTO> origemSkuMarketplaces,
+        List<AnymarketDTO> destinoAnymarket,
+        Func<SkuMarketplaceDTO, String> seletorIdOrigem,
+        Func<AnymarketDTO, String> seletorIdDestino)
+    {
+        var idsOrigem = origemSkuMarketplaces
+            .Select(seletorIdOrigem)
+            .ToHashSet();
+
+
+        return destinoAnymarket
+            .Where(item => idsOrigem.Contains(seletorIdDestino(item)))
+            .ToList();
+    }
+
 
     }
 }

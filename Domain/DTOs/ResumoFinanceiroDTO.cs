@@ -8,7 +8,9 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
     public class ResumoFinanceiroDTO
     {
         public String? marketplace { get; set; }
-        public String? codigoPedido { get; set; }
+        public String skuId { get; set; }
+
+        public String codigoPedido { get; set; }
         public DateTime? dataPedido { get; set; }
         public Decimal valorTotalProdutos { get; set; }
         public Decimal? comissaoEsperada { get; set; }
@@ -22,49 +24,64 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
         public StatusPagamento situacaoFinal { get; set; }
 
 
-        public static List<ResumoFinanceiroDTO> MontarAnymarketDTO(List<SkuMarketplace> skuMarketplaces, List<Vendas> vendas)
+        public static List<ResumoFinanceiroDTO> MontarAnymarketDTO(List<SkuMarketplaceDTO> skuMarketplaces, List<Vendas> vendas)
         {
 
-            var vendaDict = vendas.Distinct().ToDictionary(v => v.skuMarketplaceId, v => v.valorVenda);
+            vendas = vendas.ToList();
 
-            var agrupados = skuMarketplaces.Distinct()
-             .GroupBy(x => new { x.numeroPedido, x.tipoEventoNormalizado })
-             .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
-             .ToList();
+            var vendaDict = vendas
+     .GroupBy(v => v.skuMarketplaceId)
+     .ToDictionary(g => g.Key, g => g.First().valorVenda);
+
+
+
+
+            var agrupados = skuMarketplaces
+        .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.marketplace })
+        .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
+        .Where(resumo => resumo.valorRecebido != 0m)
+        .ToList();
+
 
             return agrupados;
         }
 
-        private static ResumoFinanceiroDTO CriarResumoFinanceiro(IGrouping<object, SkuMarketplace> grupo, Dictionary<int, decimal> vendaDict)
+        private static ResumoFinanceiroDTO CriarResumoFinanceiro(IGrouping<object, SkuMarketplaceDTO> grupo, Dictionary<string, decimal> vendaDict)
         {
 
             // Extrair Informações Gerais do Grupo 
             var primeiro = grupo.First();
-            var skuId = primeiro.skuMarketplaceId;
+            var skuId = primeiro.skuMarketplace.skuMarketplaceId;
 
 
-            var dataPedido = grupo.Min(g => g.dataEvento);
+            var dataPedido = grupo.Min(g => g.skuMarketplace.dataEvento);
+
             var valorTotal = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
-            var comissaoEsperada = grupo.Select(g => g.comissao).Max();
-            var valorAReceber = valorTotal - comissaoEsperada;
+
+            var comissaoEsperada = grupo.Select(g => g.skuMarketplace.comissao).Max();
+
+            var AReceber = valorTotal - comissaoEsperada;
 
             //Calculo dos Parametros 
-            var valorRecebido = CalcularValorRecebido(grupo);
-            var situacaoPagamento = CalcularSituacaoPagamento(valorRecebido, valorAReceber);
+            var Recebido = CalcularValorRecebido(grupo);
+
+            var situacaoPagamento = CalcularSituacaoPagamento(Recebido, AReceber);
             var valorDescontado = CalcularValorDescontado(grupo);
             var descontoFrete = CalcularDescontoFrete(grupo);
             var erroDevolucao = VerificarErroDevolucao(grupo, valorTotal);
-            var situacaoFinal = CalcularSituacaoFinal(situacaoPagamento, valorRecebido - valorAReceber, erroDevolucao);
+            var situacaoFinal = CalcularSituacaoFinal(situacaoPagamento, Recebido - AReceber, erroDevolucao);
+
 
             return new ResumoFinanceiroDTO
             {
-                marketplace = primeiro.marketplace,
-                codigoPedido = primeiro.numeroPedido,
+                skuId = primeiro.skuMarketplace.skuMarketplaceId,
+                marketplace = primeiro.skuMarketplace.marketplace,
+                codigoPedido = primeiro.skuMarketplace.numeroPedido,
                 dataPedido = dataPedido,
                 valorTotalProdutos = valorTotal,
                 comissaoEsperada = comissaoEsperada,
-                valorAReceber = valorAReceber,
-                valorRecebido = valorRecebido,
+                valorAReceber = AReceber,
+                valorRecebido = Recebido,
                 valorDescontado = valorDescontado,
                 descontoFrete = descontoFrete,
                 situacaoPagamento = situacaoPagamento,
@@ -72,14 +89,19 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
             };
         }
 
-        private static decimal CalcularValorRecebido(IEnumerable<SkuMarketplace> grupo)
+        private static decimal CalcularValorRecebido(IEnumerable<SkuMarketplaceDTO> grupo)
         {
-            return grupo
-                .Where(g => g.tipoEventoNormalizado == Eventos.RepasseNormal)
-                .Select(g => g.valorFinal)
-                .DefaultIfEmpty(0)
+
+
+            decimal v = grupo
+                .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.RepasseNormal)
+                .Select(g => g.skuMarketplace.valorFinal)
+                .DefaultIfEmpty()
                 .Max();
+
+            return v;
         }
+
 
         private static StatusPagamento CalcularSituacaoPagamento(decimal valorRecebido, decimal valorAReceber)
         {
@@ -90,33 +112,33 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
             return StatusPagamento.NaoPago;
         }
 
-        private static decimal CalcularValorDescontado(IEnumerable<SkuMarketplace> grupo)
+        private static decimal CalcularValorDescontado(IEnumerable<SkuMarketplaceDTO> grupo)
         {
             var valorHove = grupo
-                .Where(g => g.tipoEventoNormalizado == Eventos.DescontarHoveHouve)
-                .Select(g => g.valorFinal)
+                .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.DescontarHoveHouve)
+                .Select(g => g.skuMarketplace.valorFinal)
                 .DefaultIfEmpty(0)
                 .Max();
 
             var valorRetro = grupo
-                .Where(g => g.tipoEventoNormalizado == Eventos.DescontarRetroativo)
-                .Sum(g => g.valorFinal);
+                .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.DescontarRetroativo)
+                .Sum(g => g.skuMarketplace.valorFinal);
 
             return valorHove + valorRetro;
         }
 
-        private static decimal CalcularDescontoFrete(IEnumerable<SkuMarketplace> grupo)
+        private static decimal CalcularDescontoFrete(IEnumerable<SkuMarketplaceDTO> grupo)
         {
             return grupo
-                .Where(g => g.tipoEventoNormalizado == Eventos.DescontarReversaCentauroEnvios)
-                .Sum(g => g.valorFinal);
+                .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.DescontarReversaCentauroEnvios)
+                .Sum(g => g.skuMarketplace.valorFinal);
         }
 
-        private static bool VerificarErroDevolucao(IEnumerable<SkuMarketplace> grupo, decimal valorTotal)
+        private static bool VerificarErroDevolucao(IEnumerable<SkuMarketplaceDTO> grupo, decimal valorTotal)
         {
             var valorHove = grupo
-                .Where(g => g.tipoEventoNormalizado == Eventos.DescontarHoveHouve)
-                .Select(g => g.valorFinal)
+                .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.DescontarHoveHouve)
+                .Select(g => g.skuMarketplace.valorFinal)
                 .DefaultIfEmpty(0)
                 .Max();
 

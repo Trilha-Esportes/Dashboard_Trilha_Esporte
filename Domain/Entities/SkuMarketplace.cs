@@ -7,7 +7,7 @@ namespace DashboardTrilhasEsporte.Domain.Entities{
 public class SkuMarketplace : IEquatable<SkuMarketplace>
 {
     public String? marketplace { get; set; } 
-    public int skuMarketplaceId { get; set; }
+    public string? skuMarketplaceId { get; set; }
     public String? numeroPedido { get; set; }
     public Decimal valorLiquido { get; set; }
     public DateTime? dataComissao { get; set; }
@@ -64,7 +64,7 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
         SkuMarketplace marketplace = new SkuMarketplace
         {
             marketplace = reader["marketplace"]?.ToString() ?? string.Empty,
-            skuMarketplaceId = reader["sku_marketplace_id"] is DBNull ? 0 : Convert.ToInt32(reader["sku_marketplace_id"]),
+            skuMarketplaceId = reader["sku_marketplace_id"] is DBNull ? string.Empty : Convert.ToString(reader["sku_marketplace_id"]),
             numeroPedido = reader["numero_pedido"]?.ToString() ?? string.Empty,
             valorFinal = reader["valor_final"] is DBNull ? 0 : Convert.ToDecimal(reader["valor_final"]),
             dataComissao = reader["data_comissao"] is DBNull ? null : Convert.ToDateTime(reader["data_comissao"]),

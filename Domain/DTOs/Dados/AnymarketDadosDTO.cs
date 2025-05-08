@@ -10,6 +10,7 @@ namespace DashboardTrilhasEsporte.Domain.DTOs{
 
         public AnymarketDadosDTO (List<AnymarketDTO> anymarketDTOs){
             this.anymarketDTOs = anymarketDTOs;
+            CalcularEstatiticas();
         }
 
         public void CalcularEstatiticas()

@@ -6,7 +6,7 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
 {
     public class AnymarketDTO
     {
-        public int skuId { get; set; }
+        public String? skuId { get; set; }
         public String? numeroPedido { get; set; }
         public Decimal valorSkumarketplace { get; set; }
         public Decimal valorVenda { get; set; }
@@ -19,12 +19,10 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
 
             vendas = vendas.Distinct().ToList();
     
-            var vendaDict = new Dictionary<int, decimal>();
-            foreach (var venda in vendas)
-            {
-                if (!vendaDict.ContainsKey(venda.skuMarketplaceId))
-                    vendaDict.Add(venda.skuMarketplaceId, venda.valorVenda);
-            }
+            var vendaDict = vendas
+    .GroupBy(v => v.skuMarketplaceId)
+    .ToDictionary(g => g.Key, g => g.First().valorVenda);
+
 
             var agrupados = skuMarketplaces.Distinct()
              .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.tipoEventoNormalizado })
@@ -34,7 +32,7 @@ namespace DashboardTrilhasEsporte.Domain.DTOs
             return agrupados;
         }
 
-        private static AnymarketDTO CriarAnymarketDTO(IGrouping<dynamic, SkuMarketplaceDTO> grupo, Dictionary<int, decimal> vendaDict)
+        private static AnymarketDTO CriarAnymarketDTO(IGrouping<dynamic, SkuMarketplaceDTO> grupo, Dictionary<string, decimal> vendaDict)
         {
             var primeiro = grupo.First();
             var skuId = primeiro.skuMarketplace.skuMarketplaceId;

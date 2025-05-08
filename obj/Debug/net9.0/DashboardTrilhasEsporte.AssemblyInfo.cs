@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DashboardTrilhasEsporte")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be8d6e550c0f689f943b426f8f2e92e48eb0306c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6188c3fed9ee7761a2a32219f0c3bc872bbd06ce")]
 [assembly: System.Reflection.AssemblyProductAttribute("DashboardTrilhasEsporte")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DashboardTrilhasEsporte")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

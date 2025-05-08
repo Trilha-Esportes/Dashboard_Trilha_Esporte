@@ -26,6 +26,8 @@ builder.Services.AddScoped<VendasRepository>();
 // Registra o Manager, também com escopo
 builder.Services.AddScoped<SkuMarketplaceManager>();
 builder.Services.AddScoped<AnymarketManager>();
+builder.Services.AddScoped<ResumoFinanceiroManager>();
+
 
 
 // Add services to the container.

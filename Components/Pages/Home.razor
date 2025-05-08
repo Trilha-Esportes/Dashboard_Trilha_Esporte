@@ -14,87 +14,136 @@
 
 @inject AnymarketManager AnymarketManager
 
+@inject ResumoFinanceiroManager FinanceiroManager
+
+
 
 
 
 <PageTitle>Visão Geral</PageTitle>
 
 
-@if (skuMarketplaceListaCorrente == null)
+@if (skuMarketplaceListaCorrente == null || AnymarketDadosListaCorrente == null || financeiroDadosDTOListaCorrente ==
+null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <div class="filtro-container">
-        <MudText Typo="Typo.h6" GutterBottom="true">Aplicar Filros </MudText>
+    <MudPaper Class="d-flex justify-between align-center px-4 py-3 mb-3" Style="border-radius: 6px; height: 60px;">
+        <MudText Typo="Typo.body1" Class="ml-2" Style="font-size: 1rem;">
+            <b>Last updated:</b> @DateTime.UtcNow.ToString("d MMM yyyy, HH:mm") GMT
+        </MudText>
 
-        <MudPaper Class="p-4" Elevation="2">
-            <MudForm @ref="form">
-                <MudGrid>
+        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@OnFiltroClick">
+            <MudIcon Icon="@Icons.Material.Filled.Search" Size="Size.Medium" Class="mr-1" />
+            Filters
+        </MudButton>
+    </MudPaper>
 
-                    <MudItem xs="12" md="6">
-                        <MudDatePicker Label="Data Comissão Início" @bind-Date="_filtro.dataCicloInicio"
-                            MinDate="@SkuManager.resultDTO.dataCicloInicial"
-                            MaxDate="@SkuManager.resultDTO.dataCicloFinal" />
-                    </MudItem>
+    <MudCollapse Expanded="@mostrarFiltro">
 
-                    <MudItem xs="12" md="6">
-                        <MudDatePicker Label="Data Comissão Final" @bind-Date="_filtro.dataComissaoFinal"
-                            MinDate="@SkuManager.resultDTO.dataCicloInicial"
-                            MaxDate="@SkuManager.resultDTO.dataCicloFinal" />
-                    </MudItem>
+        <MudCard Class="mx-auto my-4" Style="max-width: 100%;" Elevation="4">
+            <MudCardContent Class="p-6">
+                <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-6 text-primary font-weight-bold">
+                    Filtros Avançados de Vendas
+                </MudText>
 
-                    <MudItem xs="12" md="6">
-                        <MudDatePicker Label="Data Ciclo Início" @bind-Date="_filtro.dataCicloInicio"
-                            MinDate="@skuMarketplaceListaCorrente.dataComissaoInicial"
-                            MaxDate="@skuMarketplaceListaCorrente.dataComissaoFinal" />
-                    </MudItem>
+                <MudForm @ref="form">
+                    <MudGrid Spacing="3">
 
-                    <MudItem xs="12" md="6">
-                        <MudDatePicker Label="Data Ciclo Final" @bind-Date="_filtro.dataClicloFinal"
-                            MinDate="@skuMarketplaceListaCorrente.dataComissaoInicial"
-                            MaxDate="@skuMarketplaceListaCorrente.dataComissaoFinal" />
-                    </MudItem>
+                        <!-- Grupo: Data Comissão -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle2">Filtrar por Data Comissão</MudText>
+                        </MudItem>
 
-                    <MudItem xs="12" md="6">
-                        <MudTextField Label="Número do Pedido" @bind-Value="_filtro.numeroPedido" />
-                    </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
+                                @bind-Date="_filtro.dataComissaoInicio" MinDate="@SkuManager.resultDTO.dataCicloInicial"
+                                MaxDate="@SkuManager.resultDTO.dataCicloFinal" />
+                        </MudItem>
 
-                    <MudItem xs="12" md="6">
-                        <MudSelect T="Erros" Label="Erros" MultiSelection="true" SelectedValues="_filtro.listaErros"
-                            SelectedValuesChanged="OnErrosChanged">
-                            @foreach (var erro in Enum.GetValues<Erros>())
-                            {
-                                <MudSelectItem Value="@erro">@erro.GetDescription()</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Final"
+                                @bind-Date="_filtro.dataComissaoFinal" MinDate="@SkuManager.resultDTO.dataCicloInicial"
+                                MaxDate="@SkuManager.resultDTO.dataCicloFinal" />
+                        </MudItem>
 
-                    <MudItem xs="12" md="6">
-                        <MudSelect T="Eventos" Label="Eventos" MultiSelection="true" SelectedValues="_filtro.TipoEventos"
-                            SelectedValuesChanged="OnEventosChanged">
-                            @foreach (var evento in Enum.GetValues<Eventos>())
-                            {
-                                <MudSelectItem Value="@evento">@evento.GetDescription()</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
+                        <!-- Grupo: Data Ciclo -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Data Ciclo</MudText>
+                        </MudItem>
 
-                </MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Style="width: 100%;" Label="Data Ciclo Início"
+                                @bind-Date="_filtro.dataCicloInicio"
+                                MinDate="@skuMarketplaceListaCorrente.dataComissaoInicial"
+                                MaxDate="@skuMarketplaceListaCorrente.dataComissaoFinal" />
+                        </MudItem>
 
-                <MudDivider Class="my-3" />
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Style="width: 100%;" Label="Data Ciclo Final"
+                                @bind-Date="_filtro.dataClicloFinal"
+                                MinDate="@skuMarketplaceListaCorrente.dataComissaoInicial"
+                                MaxDate="@skuMarketplaceListaCorrente.dataComissaoFinal" />
+                        </MudItem>
 
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AplicarFiltro">Aplicar Filtro
-                </MudButton>
-            </MudForm>
-        </MudPaper>
-    </div>
+                        <!-- Grupo: Tipo Evento / Erros -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Tipo de Evento / Erro</MudText>
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudSelect T="Erros" Label="Erros" MultiSelection="true" SelectedValues="_filtro.listaErros"
+                                SelectedValuesChanged="OnErrosChanged" Style="width: 100%;">
+                                @foreach (var erro in Enum.GetValues<Erros>())
+                                {
+                                    <MudSelectItem Value="@erro">@erro.GetDescription()</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudSelect T="Eventos" Label="Eventos" MultiSelection="true"
+                                SelectedValues="_filtro.TipoEventos" SelectedValuesChanged="OnEventosChanged"
+                                Style="width: 100%;">
+                                @foreach (var evento in Enum.GetValues<Eventos>())
+                                {
+                                    <MudSelectItem Value="@evento">@evento.GetDescription()</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+
+                        <!-- Grupo: Número do Pedido -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Número do Pedido</MudText>
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudTextField Style="width: 100%;" Label="Número do Pedido"
+                                @bind-Value="_filtro.numeroPedido" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <MudDivider Class="my-4" />
+
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AplicarFiltro">
+                            Aplicar Filtro
+                        </MudButton>
+
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="ResetarFiltro">
+                            Resetar
+                        </MudButton>
+                    </MudStack>
+                </MudForm>
+            </MudCardContent>
+        </MudCard>
+    </MudCollapse>
+
     <MudTabs Rounded="true" TabPanelClass="px-4">
         <MudTabPanel Text="Visão Geral SkuMarkeplace">
-
-
-            <div class="container-VG">
+            <div class="container-main">
 
                 <div class="card-container">
                     <MudGrid GutterSize="20px" Class="pa-4">
@@ -147,23 +196,22 @@ else
                         </MudItem>
                     </MudGrid>
                 </div>
-                <div class="charts-container">
-                    <MudText Typo="Typo.h6" GutterBottom="true"> Análise estatistica </MudText>
+<MudPaper Class="p-6 mt-10 mb-10" Elevation="6" Style="border-radius: 12px;">
+                    
 
-                    <div style="max-width: 100%; display: flex; justify-content: center; align-items: center;">
-                        <div style="width: 50%;">
+                    <MudGrid>
+                        <MudItem xs="12" md="6" Class="d-flex justify-center">
                             <DonutChartComponent Data="@dadosTiposErros" Labels="@labelsTiposErros" Title="Total de Erros"
-                                Width="450px" Height="450px" />
+                                Width="350px" Height="350px" />
+                        </MudItem>
 
-                        </div>
-                        <div style="width: 50%;">
+                        <MudItem xs="12" md="6" Class="d-flex justify-center">
                             <DonutChartComponent Data="@dadosTiposEventos" Labels="@labelsTiposEventos"
-                                Title="Total de Registros" Width="450px" Height="450px" />
+                                Title="Total de Registros" Width="350px" Height="350px" />
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
 
-                        </div>
-                    </div>
-
-                </div>
                 <div class="table-container">
 
                     <MudText Typo="Typo.h6" GutterBottom="true">Lista de Marketplace </MudText>
@@ -269,74 +317,262 @@ else
                 </div>
             </div>
         </MudTabPanel>
-        <MudTabPanel Text="Visão Geral Anymarket">
-            <div class="table-container">
-                <MudText Typo="Typo.h6" GutterBottom="true">Lista de Vendas (Anymarket)</MudText>
+        <MudTabPanel Text="Anymarket">
+            <div class="container-main">
+                <div class="card-container">
+                    <MudGrid GutterSize="20px" Class="pa-4">
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                                <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                                    <MudIcon Icon="fas fa-exclamation-triangle" Size="Size.Large"
+                                        Style="font-size:40px; color:red; margin-bottom:15px;" />
 
-                <div style="max-width: 100%; overflow-x: auto;">
-                    <MudTable Items="AnymarketDadosListaCorrente.anymarketDTOs" Hover="true" SortLabel="Ordenar por"
-                        Elevation="0" Bordered="true" Striped="true" FixedHeader="true">
+                                    <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
+                                        @AnymarketDadosListaCorrente.totalVendasNaoEncontada
 
-                        <HeaderContent>
-                            <MudTh Style="min-width: 150px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.skuId">
-                                    SKU ID
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh Style="min-width: 150px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.numeroPedido">
-                                    Número Pedido
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh Style="min-width: 150px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorSkumarketplace">
-                                    Valor Marketplace
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh Style="min-width: 150px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorVenda">
-                                    Valor Venda
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh Style="min-width: 150px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.tipoEventoNormalizado">
-                                    Tipo Evento
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh Style="min-width: 180px; text-align: center;">
-                                <MudTableSortLabel T="AnymarketDTO">
-                                    Erros
-                                </MudTableSortLabel>
-                            </MudTh>
-                        </HeaderContent>
+                                    </MudText>
+                                    <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                                        Número de Vendas Encontradas
+                                    </MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
 
-                        <RowTemplate>
-                            <MudTd DataLabel="SKU ID">@context.skuId</MudTd>
-                            <MudTd DataLabel="Número Pedido">@context.numeroPedido</MudTd>
-                            <MudTd DataLabel="Valor Marketplace">@context.valorSkumarketplace.ToString("C")</MudTd>
-                            <MudTd DataLabel="Valor Venda">@context.valorVenda.ToString("C")</MudTd>
-                            <MudTd DataLabel="Tipo Evento">@context.tipoEventoNormalizado.GetDescription()</MudTd>
-                            <MudTd DataLabel="Erros">
-                                @if (context.Erros != null)
-                                {
-                                    <span>@context.Erros.GetDescription()</span>
-                                }
-                                else
-                                {
-                                    <em>Sem erros</em>
-                                }
-                            </MudTd>
-                        </RowTemplate>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                                <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                                    <MudIcon Icon="fas fa-exclamation-triangle" Size="Size.Large"
+                                        Style="font-size:40px; color:red; margin-bottom:15px;" />
 
-                        <PagerContent>
-                            <MudTablePager PageSizeOptions="new int[] { 8, 25, 50,100 }" />
-                        </PagerContent>
-                    </MudTable>
+                                    <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
+                                        @AnymarketDadosListaCorrente.totalVendasValorDivergente
+                                    </MudText>
+                                    <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                                        Quantidade de Registros
+                                    </MudText>
+                                </MudCardContent>
+                            </MudCard>
+
+                        </MudItem>
+                    </MudGrid>
                 </div>
+                <div class="table-container">
+                    <MudText Typo="Typo.h6" GutterBottom="true">Lista de Vendas (Anymarket)</MudText>
 
+                    <div style="max-width: 100%; overflow-x: auto;">
+                        <MudTable Items="AnymarketDadosListaCorrente.anymarketDTOs" Hover="true" SortLabel="Ordenar por"
+                            Elevation="0" Bordered="true" Striped="true" FixedHeader="true">
+
+                            <HeaderContent>
+                                <MudTh Style="min-width: 150px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.skuId">
+                                        SKU ID
+                                    </MudTableSortLabel>
+                                </MudTh>
+                                <MudTh Style="min-width: 150px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.numeroPedido">
+                                        Número Pedido
+                                    </MudTableSortLabel>
+                                </MudTh>
+                                <MudTh Style="min-width: 150px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorSkumarketplace">
+                                        Valor Marketplace
+                                    </MudTableSortLabel>
+                                </MudTh>
+                                <MudTh Style="min-width: 150px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorVenda">
+                                        Valor Venda
+                                    </MudTableSortLabel>
+                                </MudTh>
+                                <MudTh Style="min-width: 150px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.tipoEventoNormalizado">
+                                        Tipo Evento
+                                    </MudTableSortLabel>
+                                </MudTh>
+                                <MudTh Style="min-width: 180px; text-align: center;">
+                                    <MudTableSortLabel T="AnymarketDTO">
+                                        Erros
+                                    </MudTableSortLabel>
+                                </MudTh>
+                            </HeaderContent>
+
+                            <RowTemplate>
+                                <MudTd DataLabel="SKU ID">@context.skuId</MudTd>
+                                <MudTd DataLabel="Número Pedido">@context.numeroPedido</MudTd>
+                                <MudTd DataLabel="Valor Marketplace">@context.valorSkumarketplace.ToString("C")</MudTd>
+                                <MudTd DataLabel="Valor Venda">@context.valorVenda.ToString("C")</MudTd>
+                                <MudTd DataLabel="Tipo Evento">@context.tipoEventoNormalizado.GetDescription()</MudTd>
+                                <MudTd DataLabel="Erros">
+
+
+                                    <span>@context.Erros.GetDescription()</span>
+
+                                </MudTd>
+                            </RowTemplate>
+
+                            <PagerContent>
+                                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+                            </PagerContent>
+                        </MudTable>
+                    </div>
+
+                </div>
             </div>
 
         </MudTabPanel>
+        <MudTabPanel Text="Resumo Financeiro">
+            <div class="container-main">
+                <div class="container-VG">
+
+                    <div class="card-container">
+                        <MudGrid GutterSize="20px" Class="pa-4">
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                                        <MudIcon Icon="@Icons.Material.Filled.Paid" Color="Color.Success" Class="me-2" />
+
+                                        <MudText Typo="Typo.h5" GutterBottom="true"
+                                            Style="font-weight:bold; font-size:24px;">
+                                            @financeiroDadosDTOListaCorrente.valorTotalRecebido.ToString("C")
+                                        </MudText>
+                                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                                            Soma do Valor Recebido
+                                        </MudText>
+                                    </MudCardContent>
+                                </MudCard>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                                        <MudIcon Icon="@Icons.Material.Filled.RequestQuote" Color="Color.Primary"
+                                            Class="me-2" />
+
+                                        <MudText Typo="Typo.h5" GutterBottom="true"
+                                            Style="font-weight:bold; font-size:24px;">
+                                            @financeiroDadosDTOListaCorrente.valorTotalReceber.ToString("C")
+                                        </MudText>
+                                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                                            Soma do Valor a Receber
+                                        </MudText>
+                                    </MudCardContent>
+                                </MudCard>
+
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                                        <MudIcon Icon="@Icons.Material.Filled.CompareArrows" Color="Color.Warning"
+                                            Class="me-2" />
+
+
+                                        <MudText Typo="Typo.h5" GutterBottom="true"
+                                            Style="font-weight:bold; font-size:24px;">
+                                            @financeiroDadosDTOListaCorrente.valorTotalDiferenca.ToString("C")
+                                        </MudText>
+                                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                                            valor da diferença
+                                        </MudText>
+                                    </MudCardContent>
+                                </MudCard>
+                            </MudItem>
+                        </MudGrid>
+                    </div>
+                    <div class="table-container">
+                        <MudText Typo="Typo.h6" GutterBottom="true">Resumo Financeiro</MudText>
+
+                        <div style="max-width: 100%; overflow-x: auto;">
+                            <MudTable Items="financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs" Hover="true"
+                                SortLabel="Ordenar por" Elevation="0" Bordered="true" Striped="true" FixedHeader="true">
+
+                                <HeaderContent>
+                                    <MudTh Style="min-width: 150px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.marketplace">
+                                            Marketplace
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 150px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.codigoPedido">
+                                            Código Pedido
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 150px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.dataPedido">
+                                            Data Pedido
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 180px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.valorTotalProdutos">
+                                            Valor Total Produtos
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 180px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.comissaoEsperada">
+                                            Comissão Esperada
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.valorRecebido">
+                                            Valor Recebido
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.valorAReceber">
+                                            Valor a Receber
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.valorDescontado">
+                                            Valor Descontado
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.descontoFrete">
+                                            Desconto Frete
+                                        </MudTableSortLabel>
+                                    </MudTh>
+
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        Situação pagamento
+                                    </MudTh>
+
+                                    <MudTh Style="min-width: 160px; text-align: center;">
+                                        Situação Final
+                                    </MudTh>
+                                </HeaderContent>
+
+                                <RowTemplate>
+                                    <MudTd DataLabel="Marketplace">@context.marketplace</MudTd>
+                                    <MudTd DataLabel="Código Pedido">@context.codigoPedido</MudTd>
+                                    <MudTd DataLabel="Data Pedido">@context.dataPedido?.ToString("dd/MM/yyyy")</MudTd>
+                                    <MudTd DataLabel="Valor Total Produtos">@context.valorTotalProdutos.ToString("C")
+                                    </MudTd>
+                                    <MudTd DataLabel="Comissão Esperada">@context.comissaoEsperada?.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor Recebido">@context.valorRecebido.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor a Receber">@context.valorAReceber.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor Descontado">@context.valorDescontado.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Desconto Frete">@context.descontoFrete.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Situação">@context.situacaoPagamento.GetDescription()</MudTd>
+
+                                    <MudTd DataLabel="Situação Final">@context.situacaoFinal.GetDescription()</MudTd>
+                                </RowTemplate>
+
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                                </PagerContent>
+
+                            </MudTable>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </MudTabPanel>
+
+
     </MudTabs>
 
 
@@ -347,6 +583,9 @@ else
 
     private AnymarketDadosDTO? AnymarketDadosListaCorrente = null;
 
+    private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaCorrente;
+
+
     private double[] dadosTiposErros = [];
     private string[] labelsTiposErros = [];
     private double[] dadosTiposEventos = [];
@@ -354,6 +593,9 @@ else
 
     public MudForm form;
     public SkuMarketplaceFilterService _filtro = new();
+
+    private bool mostrarFiltro = false;
+
 
 
 
@@ -373,6 +615,12 @@ else
                 await AnymarketManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
                 AnymarketDadosListaCorrente = AnymarketManager.anymarketDadosDTO;
+
+                await FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+
+                financeiroDadosDTOListaCorrente = FinanceiroManager.FinanceiroDadosDTO;
+
+
 
                 // Extrair dados para os gráficos
                 ExtrairResultadosListaCorrente();
@@ -405,17 +653,46 @@ else
 
     }
 
+    public void ResetarFiltro()
+    {
+        _filtro = new SkuMarketplaceFilterService();
+        AplicarFiltro();
+    }
+
     private void AplicarFiltro()
     {
         // Aqui você pode aplicar o filtro em sua tabela, API, etc.
         List<SkuMarketplaceDTO> ListaFiltada =
         SkuMarketplaceFilterService.AplicarFiltros(SkuManager.resultDTO.skuMarketplaceDTOs, _filtro);
-
         if (ListaFiltada != null && ListaFiltada.Any())
         {
-            _filtro = new SkuMarketplaceFilterService();
             skuMarketplaceListaCorrente = new SkuMarketplaceDadosDTO(ListaFiltada);
+
+
+            // Lista de AnymarketDTOs filtrados
+            List<AnymarketDTO> anymarketFiltrados = AnymarketManager.SubtrairPorId(
+            skuMarketplaceListaCorrente.skuMarketplaceDTOs,
+            AnymarketManager.anymarketDadosDTO.anymarketDTOs,
+            x => x.skuMarketplace.skuMarketplaceId,
+            y => y.skuId);
+
+            // Lista de ResumoFinanceiroDTOs filtrados
+            List<ResumoFinanceiroDTO> financeiroFiltrados = ResumoFinanceiroManager.SubtrairPorId(
+            skuMarketplaceListaCorrente.skuMarketplaceDTOs,
+            FinanceiroManager.FinanceiroDadosDTO.resumoFinanceiroDTOs,
+            x => x.skuMarketplace.skuMarketplaceId,
+            y => y.skuId);
+
+            // Recriação do objeto com lista filtrada
+            AnymarketDadosListaCorrente = new AnymarketDadosDTO(anymarketFiltrados);
+
+
+            // Recriação do objeto com lista filtrada
+            financeiroDadosDTOListaCorrente = new ResumoFinanceiroDadosDTO(financeiroFiltrados);
+
+
             ExtrairResultadosListaCorrente();
+
 
             Snackbar.Add("Filtro aplicado!", Severity.Success);
         }
@@ -433,5 +710,17 @@ else
     {
         _filtro.TipoEventos = eventosSelecionados.ToList();
     }
+
+    void OnFiltroClick()
+    {
+        mostrarFiltro = !mostrarFiltro;
+        ScrollToTopAsync();
+    }
+    private async Task ScrollToTopAsync()
+    {
+        await JS.InvokeVoidAsync("window.scrollTo", 0, 0);
+    }
+
+    [Inject] IJSRuntime JS { get; set; }
 
 }
