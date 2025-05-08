@@ -4,6 +4,8 @@ using DashboardTrilhasEsporte.Components;
 using DashboardTrilhasEsporte.Data;
 using DashboardTrilhasEsporte.Application;
 using DashboardTrilhasEsporte.Domain.Entities;
+using DashboardTrilhasEsporte.Domain.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
@@ -27,6 +29,7 @@ builder.Services.AddScoped<VendasRepository>();
 builder.Services.AddScoped<SkuMarketplaceManager>();
 builder.Services.AddScoped<AnymarketManager>();
 builder.Services.AddScoped<ResumoFinanceiroManager>();
+builder.Services.AddSingleton<FiltroStateService>();
 
 
 

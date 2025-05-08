@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+
 @using DashboardTrilhasEsporte.Application;
 @using DashboardTrilhasEsporte.Enums;
 @using DashboardTrilhasEsporte.Domain.DTOs;
@@ -7,6 +8,8 @@
 
 @using DashboardTrilhasEsporte.Data;
 @using DashboardTrilhasEsporte.Components.Layout;
+
+@inject DashboardTrilhasEsporte.Domain.Service.FiltroStateService FiltroService
 
 @inject ISnackbar Snackbar
 
@@ -18,11 +21,6 @@
 
 
 
-
-
-<PageTitle>Visão Geral</PageTitle>
-
-
 @if (skuMarketplaceListaCorrente == null || AnymarketDadosListaCorrente == null || financeiroDadosDTOListaCorrente ==
 null)
 {
@@ -30,16 +28,7 @@ null)
 }
 else
 {
-    <MudPaper Class="d-flex justify-between align-center px-4 py-3 mb-3" Style="border-radius: 6px; height: 60px;">
-        <MudText Typo="Typo.body1" Class="ml-2" Style="font-size: 1rem;">
-            <b>Last updated:</b> @DateTime.UtcNow.ToString("d MMM yyyy, HH:mm") GMT
-        </MudText>
-
-        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@OnFiltroClick">
-            <MudIcon Icon="@Icons.Material.Filled.Search" Size="Size.Medium" Class="mr-1" />
-            Filters
-        </MudButton>
-    </MudPaper>
+    
 
     <MudCollapse Expanded="@mostrarFiltro">
 
@@ -594,7 +583,7 @@ else
     public MudForm form;
     public SkuMarketplaceFilterService _filtro = new();
 
-    private bool mostrarFiltro = false;
+    private bool mostrarFiltro;
 
 
 
@@ -626,7 +615,11 @@ else
                 ExtrairResultadosListaCorrente();
 
             }
-
+        FiltroService.OnFiltroToggled += async () =>
+            {
+                mostrarFiltro = FiltroService.MostrarFiltro;
+                await InvokeAsync(StateHasChanged);
+            };
             // Força a re-renderização do componente
             StateHasChanged();
         }
@@ -711,16 +704,6 @@ else
         _filtro.TipoEventos = eventosSelecionados.ToList();
     }
 
-    void OnFiltroClick()
-    {
-        mostrarFiltro = !mostrarFiltro;
-        ScrollToTopAsync();
-    }
-    private async Task ScrollToTopAsync()
-    {
-        await JS.InvokeVoidAsync("window.scrollTo", 0, 0);
-    }
-
-    [Inject] IJSRuntime JS { get; set; }
+   
 
 }
