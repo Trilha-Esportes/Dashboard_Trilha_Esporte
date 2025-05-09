@@ -28,12 +28,21 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
+      # 🔹 Debug: Mostrar o nome da imagem
+      - name: Show Image Name
+        run: |
+          echo "IMAGE_NAME is: ${IMAGE_NAME}"
+          if [ -z "${IMAGE_NAME}" ]; then
+            echo "Error: IMAGE_NAME is not set!"
+            exit 1
+          fi
+
       # 🔹 Construção da Imagem Docker
       - name: Build Docker image
         run: |
           echo "Building Docker image..."
           docker build -t ${IMAGE_NAME} .
-        
+
       # 🔹 Push da imagem para o Artifact Registry
       - name: Push Docker image to Artifact Registry
         run: |
