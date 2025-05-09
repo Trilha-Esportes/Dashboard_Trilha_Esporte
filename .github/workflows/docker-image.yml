@@ -24,7 +24,10 @@ jobs:
 
       - name: Definir variável de nome da imagem
         id: vars
-        run: echo "IMAGE_NAME=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}" >> $GITHUB_ENV
+        run: |
+          echo "IMAGE_NAME=us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/dotnet-repo/trilha-esporte:${GITHUB_SHA}" >> $GITHUB_ENV
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Build da imagem Docker
         run: |
