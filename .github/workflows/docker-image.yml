@@ -37,30 +37,42 @@ jobs:
       # 🔹 Definir nome da imagem Docker com nome padrão
       - name: Definir nome da imagem
         run: |
-         IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}"
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}"
+          echo "IMAGE_NAME<<EOF" >> $GITHUB_ENV
+          echo "$IMAGE_NAME" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       # 🔹 Construir a imagem Docker com Buildx
       - name: Construir a imagem Docker com Buildx
         run: |
           echo "Construindo a imagem Docker..."
           docker buildx build \
-            --tag $IMAGE_NAME \
+            --tag ${{ env.IMAGE_NAME }} \
             --file Dockerfile \
             --progress plain \
+            --push \
             .
 
       # 🔹 Enviar a imagem para Artifact Registry
       - name: Enviar a imagem para Artifact Registry
         run: |
           echo "Enviando imagem para Artifact Registry..."
-          docker push $IMAGE_NAME
+          docker push ${{ env.IMAGE_NAME }}
+
+      # � Chave SSH
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       # 🔹 Realizar o deploy no Cloud Run
       - name: Deploy no Cloud Run
         run: |
           echo "Realizando deploy no Cloud Run..."
           gcloud run deploy trilha-esporte \
-            --image=$IMAGE_NAME \
+            --image=${{ env.IMAGE_NAME }} \
             --region=us-central1 \
             --platform=managed \
             --port=8080 \
