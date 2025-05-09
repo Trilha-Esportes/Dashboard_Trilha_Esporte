@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Trilha-Esporte
     env:
-      IMAGE_NAME: "us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
+      IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}
 
     steps:
       - name: Checkout do código
@@ -28,6 +28,7 @@ jobs:
       - name: Build da imagem Docker
         run: |
           echo "Construindo a imagem Docker..."
+          echo "Nome da imagem: $IMAGE_NAME"
           docker build \
             -t "$IMAGE_NAME" \
             --progress plain \
@@ -38,21 +39,4 @@ jobs:
           echo "Enviando imagem para Artifact Registry..."
           docker push "$IMAGE_NAME"
 
-      - name: Deploy no Cloud Run
-        run: |
-          echo "Realizando deploy no Cloud Run..."
-          gcloud run deploy trilha-esporte \
-            --image="$IMAGE_NAME" \
-            --region=us-central1 \
-            --platform=managed \
-            --port=8080 \
-            --allow-unauthenticated \
-            --timeout=2000s \
-            --set-env-vars="DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_NAME=${{ secrets.DB_NAME }}"
-
-      - name: Mostrar URL do serviço
-        run: |
-          echo "URL do serviço:"
-          gcloud run services describe trilha-esporte \
-            --region=us-central1 \
-            --format 'value(status.url)'
+      # Restante do seu workflow...
