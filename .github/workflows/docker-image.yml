@@ -33,15 +33,15 @@ jobs:
 
       
 
-      # 🔹 Construir a imagem Docker com Buildx
-      - name: Construir e enviar imagem Docker
+      - name: Construir a imagem Docker
         run: |
-          echo "Construindo a imagem Docker com Buildx..."
+          echo "Construindo a imagem Docker..."
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ${IMAGE_NAME} \
+            -t $IMAGE_NAME \
             --progress plain \
             --load .
+
 
           echo "Enviando a imagem para o Google Artifact Registry..."
           docker push ${IMAGE_NAME}
