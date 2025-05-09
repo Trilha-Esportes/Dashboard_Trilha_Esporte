@@ -37,7 +37,7 @@ jobs:
       # 🔹 Definir nome da imagem
       - name: Definir nome da imagem
         run: |
-          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/blazor-repo/blazor-app:${{ github.sha }}"
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
 
       # 🔹 Construir a imagem Docker com Buildx
