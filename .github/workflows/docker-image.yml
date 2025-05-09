@@ -23,15 +23,15 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 🔹 Configurar autenticação do Docker para Artifact Registry
+      # 🔹 Configurar autenticação do Docker
       - name: Configurar autenticação do Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      # 🔹 Construir e enviar a imagem Docker
+      # 🔹 Construir e enviar imagem Docker
       - name: Construir e enviar imagem Docker
         run: |
           echo "Construindo a imagem Docker..."
-          docker build -t ${IMAGE_NAME} .
+          docker build -t ${IMAGE_NAME} . 
 
           echo "Enviando a imagem para o Google Artifact Registry..."
           docker push ${IMAGE_NAME}
