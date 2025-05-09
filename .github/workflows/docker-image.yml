@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Trilha-Esporte
     env:
-      IMAGE_NAME: "us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}"
+      IMAGE_NAME: "us-central1-docker.pkg.dev/${{secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{github.sha }}"
 
     steps:
       # 🔹 Checkout do código
@@ -31,14 +31,7 @@ jobs:
       - name: Configurar Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 🔹 Debug: Verificar IMAGE_NAME
-      - name: Debug IMAGE_NAME
-        run: |
-          echo "IMAGE_NAME is: ${IMAGE_NAME}"
-          if [ -z "${IMAGE_NAME}" ]; then
-            echo "Error: IMAGE_NAME is not set!"
-            exit 1
-          fi
+      
 
       # 🔹 Construir a imagem Docker com Buildx
       - name: Construir e enviar imagem Docker
