@@ -9,39 +9,50 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Trilha-Esporte
+
     steps:
+      # 🔹 Checkout do código
       - name: Checkout do código
         uses: actions/checkout@v4
 
+      # 🔹 Autenticar no Google Cloud
       - name: Autenticar no Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # 🔹 Configurar Docker para Artifact Registry
       - name: Configurar Docker para Artifact Registry
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      - name: Definir variável IMAGE_NAME
-        run: |
-          echo "IMAGE_NAME=us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/dotnet-repo/trilha-esporte:${GITHUB_SHA}" >> $GITHUB_ENV
-        env:
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GITHUB_SHA: ${{ github.sha }}
+      # 🔹 Configurar QEMU para multi-arch (opcional)
+      - name: Configurar QEMU para multi-arch
+        uses: docker/setup-qemu-action@v3
 
+      # 🔹 Configurar Buildx
+      - name: Configurar Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build da imagem Docker
+      # 🔹 Construir a imagem Docker
+      - name: Construir a imagem Docker
         run: |
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
           echo "Construindo a imagem Docker..."
-          echo "Nome da imagem: $IMAGE_NAME"
-          docker build -t $IMAGE_NAME .
+          docker build -t $IMAGE_NAME --progress plain .
 
-      - name: Push da imagem para Artifact Registry
+      # 🔹 Enviar a imagem para o Artifact Registry
+      - name: Enviar a imagem para o Artifact Registry
         run: |
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
+          echo "Enviando imagem para Artifact Registry..."
           docker push $IMAGE_NAME
 
+      # 🔹 Realizar o deploy no Cloud Run
       - name: Deploy no Cloud Run
         run: |
+          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
+          echo "Realizando deploy no Cloud Run..."
           gcloud run deploy trilha-esporte \
             --image=$IMAGE_NAME \
             --region=us-central1 \
@@ -51,8 +62,7 @@ jobs:
             --timeout=2000s \
             --set-env-vars="DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_NAME=${{ secrets.DB_NAME }}"
 
-      - name: Mostrar URL do serviço
+      # 🔹 Exibir URL do serviço
+      - name: Exibir URL do serviço
         run: |
-          gcloud run services describe trilha-esporte \
-            --region=us-central1 \
-            --format='value(status.url)'
+          gcloud run services describe trilha-esporte --region=us-central1 --format 'value(status.url)'
