@@ -36,12 +36,8 @@ jobs:
       - name: Construir a imagem Docker
         run: |
           echo "Construindo a imagem Docker..."
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -t $IMAGE_NAME \
-            --progress plain \
-            --load \
-            .
+          docker build -t $IMAGE_NAME .
+
 
 
           echo "Enviando a imagem para o Google Artifact Registry..."
