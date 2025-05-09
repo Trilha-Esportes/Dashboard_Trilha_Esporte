@@ -37,35 +37,27 @@ jobs:
       # 🔹 Definir nome da imagem Docker com nome padrão
       - name: Definir nome da imagem
         run: |
-          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}"
-          echo "IMAGE_NAME<<EOF" >> $GITHUB_ENV
-          echo "$IMAGE_NAME" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "IMAGE_NAME=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}" >> $GITHUB_ENV
 
-      # 🔹 Construir a imagem Docker com Buildx
-      - name: Construir a imagem Docker com Buildx
+      # 🔹 Debug: Verificar IMAGE_NAME
+      - name: Debug IMAGE_NAME
         run: |
-          echo "Construindo a imagem Docker..."
+          echo "IMAGE_NAME is: ${{ env.IMAGE_NAME }}"
+          if [ -z "${{ env.IMAGE_NAME }}" ]; then
+            echo "Error: IMAGE_NAME is not set!"
+            exit 1
+          fi
+
+      # 🔹 Construir e enviar a imagem Docker com Buildx
+      - name: Construir e enviar a imagem Docker
+        run: |
+          echo "Construindo e enviando a imagem Docker..."
           docker buildx build \
             --tag ${{ env.IMAGE_NAME }} \
             --file Dockerfile \
             --progress plain \
             --push \
             .
-
-      # 🔹 Enviar a imagem para Artifact Registry
-      - name: Enviar a imagem para Artifact Registry
-        run: |
-          echo "Enviando imagem para Artifact Registry..."
-          docker push ${{ env.IMAGE_NAME }}
-
-      # � Chave SSH
-      - name: Configurar SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       # 🔹 Realizar o deploy no Cloud Run
       - name: Deploy no Cloud Run
