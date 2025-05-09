@@ -34,27 +34,30 @@ jobs:
       - name: Configurar Buildx
         uses: docker/setup-buildx-action@v3
 
+      # 🔹 Definir nome da imagem (variável)
+      - name: Definir nome da imagem
+        run: |
+          echo "IMAGE_NAME=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}" >> $GITHUB_ENV
+
       # 🔹 Construir a imagem Docker com Buildx
       - name: Construir a imagem Docker com Buildx
         run: |
-          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
-          echo "Construindo a imagem Docker com Buildx..."
+          echo "Construindo a imagem Docker..."
           docker buildx build \
             --tag $IMAGE_NAME \
+            --file Dockerfile \
             --progress plain \
-            --load .
+            .
 
       # 🔹 Enviar a imagem para o Artifact Registry
       - name: Enviar a imagem para o Artifact Registry
         run: |
-          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
           echo "Enviando imagem para Artifact Registry..."
           docker push $IMAGE_NAME
 
       # 🔹 Realizar o deploy no Cloud Run
       - name: Deploy no Cloud Run
         run: |
-          IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
           echo "Realizando deploy no Cloud Run..."
           gcloud run deploy trilha-esporte \
             --image=$IMAGE_NAME \
@@ -68,4 +71,5 @@ jobs:
       # 🔹 Exibir URL do serviço
       - name: Exibir URL do serviço
         run: |
+          echo "URL do serviço:"
           gcloud run services describe trilha-esporte --region=us-central1 --format 'value(status.url)'
