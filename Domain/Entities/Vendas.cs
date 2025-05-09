@@ -1,6 +1,6 @@
 using Npgsql;
 
-namespace DashboardTrilhasEsporte.Domain.Entities{
+namespace DashboardTrilhaEsporte.Domain.Entities{
     public class Vendas
     {
         public int vendaId { get; set; }

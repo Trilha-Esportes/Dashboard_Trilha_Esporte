@@ -1,7 +1,6 @@
-using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Domain.Entities;
-
-namespace DashboardTrilhasEsporte.Domain.Service
+using DashboardTrilhaEsporte.Enums;
+using DashboardTrilhaEsporte.Domain.Entities;
+namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class SkuMarketplaceValidator
     {

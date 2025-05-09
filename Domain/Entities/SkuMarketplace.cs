@@ -1,8 +1,8 @@
-using DashboardTrilhasEsporte.Enums;
+using DashboardTrilhaEsporte.Enums;
 using Npgsql;
 using System;
 
-namespace DashboardTrilhasEsporte.Domain.Entities{
+namespace DashboardTrilhaEsporte.Domain.Entities{
 
 public class SkuMarketplace : IEquatable<SkuMarketplace>
 {

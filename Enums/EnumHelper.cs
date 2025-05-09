@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace DashboardTrilhasEsporte.Enums
+namespace DashboardTrilhaEsporte.Enums
 {
     public static class EnumHelper
     {

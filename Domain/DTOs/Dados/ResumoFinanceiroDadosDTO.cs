@@ -1,6 +1,6 @@
 
 
-namespace DashboardTrilhasEsporte.Domain.DTOs
+namespace DashboardTrilhaEsporte.Domain.DTOs
 {
     public class ResumoFinanceiroDadosDTO
     {

@@ -1,9 +1,9 @@
 
-using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Domain.DTOs;
+using DashboardTrilhaEsporte.Enums;
+using DashboardTrilhaEsporte.Domain.DTOs;
 
 
-namespace DashboardTrilhasEsporte.Domain.Service
+namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class SkuMarketplaceFilterService
     {

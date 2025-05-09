@@ -1,26 +1,26 @@
 {
   "Version": 1,
-  "Hash": "StpJ80b9cfDNG0noNuZduVx3dLSnIqtLru46zLxNI/A=",
-  "Source": "DashboardTrilhasEsporte",
-  "BasePath": "_content/DashboardTrilhasEsporte",
+  "Hash": "z0sEMzFJHGIu5we9vim69OjsfPAoVmfa8/V1bADX5nM=",
+  "Source": "DashboardTrilhaEsporte",
+  "BasePath": "_content/DashboardTrilhaEsporte",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "DashboardTrilhasEsporte/wwwroot",
-      "Source": "DashboardTrilhasEsporte",
+      "Name": "DashboardTrilhaEsporte/wwwroot",
+      "Source": "DashboardTrilhaEsporte",
       "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/",
-      "BasePath": "_content/DashboardTrilhasEsporte",
+      "BasePath": "_content/DashboardTrilhaEsporte",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css",
+      "Identity": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/",
+      "ContentRoot": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.css",
       "AssetKind": "All",
@@ -31,17 +31,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "u34o0xbo4m",
-      "Integrity": "NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc=",
+      "Fingerprint": "qmvjbof2tn",
+      "Integrity": "Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css"
+      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css"
     },
     {
-      "Identity": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js",
+      "Identity": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/",
+      "ContentRoot": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.js",
       "AssetKind": "All",
@@ -52,14 +52,14 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "gtd3sm4n1q",
-      "Integrity": "TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg=",
+      "Fingerprint": "jrqzp895hu",
+      "Integrity": "weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js"
+      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js"
     },
     {
-      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-gtd3sm4n1q.gz",
+      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-jrqzp895hu.gz",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
       "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/",
@@ -70,42 +70,42 @@
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js",
+      "RelatedAsset": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "7kcewxq06f",
-      "Integrity": "FxtHRlhWsd4gbIn/h1RljeH//F5R5u8EwNPWMPbVlyI=",
+      "Fingerprint": "k0cf0w6qye",
+      "Integrity": "lErGed4gUGN+JLOmaD4V/+OqE9zuDn9KHdEv9gRU5jM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js"
+      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js"
     },
     {
-      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz",
-      "SourceId": "DashboardTrilhasEsporte",
-      "SourceType": "Discovered",
+      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-qmvjbof2tn.gz",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
       "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/DashboardTrilhasEsporte",
-      "RelativePath": "css/custom#[.{fingerprint=ye5fbx90zc}]?.css.gz",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css",
+      "RelatedAsset": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "3xsx31jzbh",
-      "Integrity": "WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8=",
+      "Fingerprint": "b891h43mq4",
+      "Integrity": "BSrAaFgqgBOltc2gLdNuKUP03Z+GaWigkg2AH/yUd6o=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css"
+      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css"
     },
     {
-      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz",
-      "SourceId": "DashboardTrilhasEsporte",
+      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/wjp00lsnco-2jeq8efc6q.gz",
+      "SourceId": "DashboardTrilhaEsporte",
       "SourceType": "Discovered",
       "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/DashboardTrilhasEsporte",
+      "BasePath": "_content/DashboardTrilhaEsporte",
       "RelativePath": "favicon#[.{fingerprint=2jeq8efc6q}]?.ico.gz",
       "AssetKind": "All",
       "AssetMode": "All",
@@ -122,53 +122,11 @@
       "OriginalItemSpec": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/favicon.ico"
     },
     {
-      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-u34o0xbo4m.gz",
-      "SourceId": "MudBlazor",
-      "SourceType": "Package",
-      "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/MudBlazor",
-      "RelativePath": "MudBlazor.min.css.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "ctrpheuzb3",
-      "Integrity": "EKJIlh0V4Jk3cgKawM9n4n3PZwHJeNIQ9Jd3hq3+9Sg=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css"
-    },
-    {
-      "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css",
-      "SourceId": "DashboardTrilhasEsporte",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/",
-      "BasePath": "_content/DashboardTrilhasEsporte",
-      "RelativePath": "css/custom#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "ye5fbx90zc",
-      "Integrity": "Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/css/custom.css"
-    },
-    {
       "Identity": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/favicon.ico",
-      "SourceId": "DashboardTrilhasEsporte",
+      "SourceId": "DashboardTrilhaEsporte",
       "SourceType": "Discovered",
       "ContentRoot": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/",
-      "BasePath": "_content/DashboardTrilhasEsporte",
+      "BasePath": "_content/DashboardTrilhaEsporte",
       "RelativePath": "favicon#[.{fingerprint}]?.ico",
       "AssetKind": "All",
       "AssetMode": "All",
@@ -188,7 +146,7 @@
   "Endpoints": [
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css",
-      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css",
+      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -201,7 +159,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "597813"
+          "Value": "599316"
         },
         {
           "Name": "Content-Type",
@@ -209,28 +167,28 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc=\""
+          "Value": "\"Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc="
+          "Value": "sha256-Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-u34o0xbo4m.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-qmvjbof2tn.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000015469818"
+          "Quality": "0.000015440200"
         }
       ],
       "ResponseHeaders": [
@@ -240,15 +198,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "64641"
+          "Value": "64765"
         },
         {
           "Name": "ETag",
-          "Value": "\"EKJIlh0V4Jk3cgKawM9n4n3PZwHJeNIQ9Jd3hq3+9Sg=\""
+          "Value": "\"BSrAaFgqgBOltc2gLdNuKUP03Z+GaWigkg2AH/yUd6o=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -268,19 +226,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc=\""
+          "Value": "W/\"Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc="
+          "Value": "sha256-Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-u34o0xbo4m.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-qmvjbof2tn.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -289,7 +247,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "64641"
+          "Value": "64765"
         },
         {
           "Name": "Content-Type",
@@ -297,11 +255,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"EKJIlh0V4Jk3cgKawM9n4n3PZwHJeNIQ9Jd3hq3+9Sg=\""
+          "Value": "\"BSrAaFgqgBOltc2gLdNuKUP03Z+GaWigkg2AH/yUd6o=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -319,13 +277,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-EKJIlh0V4Jk3cgKawM9n4n3PZwHJeNIQ9Jd3hq3+9Sg="
+          "Value": "sha256-BSrAaFgqgBOltc2gLdNuKUP03Z+GaWigkg2AH/yUd6o="
         }
       ]
     },
     {
-      "Route": "_content/MudBlazor/MudBlazor.min.gtd3sm4n1q.js",
-      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js",
+      "Route": "_content/MudBlazor/MudBlazor.min.jrqzp895hu.js",
+      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -338,7 +296,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "58284"
+          "Value": "67660"
         },
         {
           "Name": "Content-Type",
@@ -346,21 +304,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg=\""
+          "Value": "\"weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "gtd3sm4n1q"
+          "Value": "jrqzp895hu"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg="
+          "Value": "sha256-weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY="
         },
         {
           "Name": "label",
@@ -370,7 +328,7 @@
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js",
-      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.js",
+      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -383,7 +341,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "58284"
+          "Value": "67660"
         },
         {
           "Name": "Content-Type",
@@ -391,28 +349,28 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg=\""
+          "Value": "\"weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg="
+          "Value": "sha256-weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-gtd3sm4n1q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-jrqzp895hu.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000077489345"
+          "Quality": "0.000067990209"
         }
       ],
       "ResponseHeaders": [
@@ -422,15 +380,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12904"
+          "Value": "14707"
         },
         {
           "Name": "ETag",
-          "Value": "\"FxtHRlhWsd4gbIn/h1RljeH//F5R5u8EwNPWMPbVlyI=\""
+          "Value": "\"lErGed4gUGN+JLOmaD4V/+OqE9zuDn9KHdEv9gRU5jM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -450,19 +408,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg=\""
+          "Value": "W/\"weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-TOPYwKltorv5iM1JqqzJayZWZx7LFnfSq2AhkWFNwrg="
+          "Value": "sha256-weSY1+xC2IWsc4ncUHtQhWp3H5eek/LVHZEDlWdgryY="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-gtd3sm4n1q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-jrqzp895hu.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -471,7 +429,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12904"
+          "Value": "14707"
         },
         {
           "Name": "Content-Type",
@@ -479,11 +437,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"FxtHRlhWsd4gbIn/h1RljeH//F5R5u8EwNPWMPbVlyI=\""
+          "Value": "\"lErGed4gUGN+JLOmaD4V/+OqE9zuDn9KHdEv9gRU5jM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -501,13 +459,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-FxtHRlhWsd4gbIn/h1RljeH//F5R5u8EwNPWMPbVlyI="
+          "Value": "sha256-lErGed4gUGN+JLOmaD4V/+OqE9zuDn9KHdEv9gRU5jM="
         }
       ]
     },
     {
-      "Route": "_content/MudBlazor/MudBlazor.min.u34o0xbo4m.css",
-      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.5.1/staticwebassets/MudBlazor.min.css",
+      "Route": "_content/MudBlazor/MudBlazor.min.qmvjbof2tn.css",
+      "AssetFile": "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/staticwebassets/MudBlazor.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -520,7 +478,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "597813"
+          "Value": "599316"
         },
         {
           "Name": "Content-Type",
@@ -528,21 +486,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc=\""
+          "Value": "\"Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 31 Mar 2025 21:02:30 GMT"
+          "Value": "Tue, 29 Apr 2025 15:51:24 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "u34o0xbo4m"
+          "Value": "qmvjbof2tn"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-NgHobvE5wu6MFuX0QImF1lk8IP4UUN3UDirKa0WQVYc="
+          "Value": "sha256-Hh7BRmiYuRD1Lq8ZF9jVWOOJuN3tWPS5M2lLZzuayjw="
         },
         {
           "Name": "label",
@@ -551,306 +509,8 @@
       ]
     },
     {
-      "Route": "css/custom.css",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.008333333333"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "119"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U="
-        }
-      ]
-    },
-    {
-      "Route": "css/custom.css",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "132"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U="
-        }
-      ]
-    },
-    {
-      "Route": "css/custom.css.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "119"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8="
-        }
-      ]
-    },
-    {
-      "Route": "css/custom.ye5fbx90zc.css",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.008333333333"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "119"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ye5fbx90zc"
-        },
-        {
-          "Name": "label",
-          "Value": "css/custom.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U="
-        }
-      ]
-    },
-    {
-      "Route": "css/custom.ye5fbx90zc.css",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "132"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ye5fbx90zc"
-        },
-        {
-          "Name": "label",
-          "Value": "css/custom.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Kmg+hQJDOBkvS5BeRcNjngGNJ7DEY2vc9aJfQqT7w1U="
-        }
-      ]
-    },
-    {
-      "Route": "css/custom.ye5fbx90zc.css.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "119"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 08 May 2025 04:29:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ye5fbx90zc"
-        },
-        {
-          "Name": "label",
-          "Value": "css/custom.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-WXhAANporlCL6l5ziCcIebkGrVEO0MgCJmCSt+zb6P8="
-        }
-      ]
-    },
-    {
       "Route": "favicon.2jeq8efc6q.ico",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/wjp00lsnco-2jeq8efc6q.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -958,7 +618,7 @@
     },
     {
       "Route": "favicon.2jeq8efc6q.ico.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/wjp00lsnco-2jeq8efc6q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1011,7 +671,7 @@
     },
     {
       "Route": "favicon.ico",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/wjp00lsnco-2jeq8efc6q.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -1103,7 +763,7 @@
     },
     {
       "Route": "favicon.ico.gz",
-      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz",
+      "AssetFile": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/wjp00lsnco-2jeq8efc6q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {

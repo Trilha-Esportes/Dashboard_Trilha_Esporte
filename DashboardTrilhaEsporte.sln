@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardTrilhasEsporte", "DashboardTrilhasEsporte.csproj", "{91B552E8-A71F-85FC-6F24-9A97C58D7AE1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardTrilhaEsporte", "..\DashboardTrilhaEsporte\DashboardTrilhaEsporte.csproj", "{9EC81C15-70C5-49FC-9067-F48D12249C1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardTrilhaEsporte", "DashboardTrilhaEsporte.csproj", "{91B552E8-A71F-85FC-6F24-9A97C58D7AE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

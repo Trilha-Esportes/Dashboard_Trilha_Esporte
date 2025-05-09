@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace DashboardTrilhasEsporte.Domain.Service;
+namespace DashboardTrilhaEsporte.Domain.Service;
 
 public class BarChartService : ComponentBase
 {

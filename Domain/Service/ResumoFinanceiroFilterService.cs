@@ -1,8 +1,9 @@
 
-using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Domain.DTOs;
+using DashboardTrilhaEsporte.Domain.DTOs;
+using DashboardTrilhaEsporte.Enums;
 
-namespace DashboardTrilhasEsporte.Domain.Service
+
+namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class ResumoFinanceiroFilterService
     {

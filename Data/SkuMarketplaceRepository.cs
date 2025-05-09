@@ -1,13 +1,13 @@
 using Npgsql;
 
-using DashboardTrilhasEsporte.Domain.Entities;
-namespace DashboardTrilhasEsporte.Data
+using DashboardTrilhaEsporte.Domain.Entities;
+namespace DashboardTrilhaEsporte.Data
 {
     public class SkuMarketplaceRepository
     {
         private readonly DBContext _dbContext;
 
-        Task<List<SkuMarketplace>> _listaSkuMarketplace;
+        private Task<List<SkuMarketplace>>? _listaSkuMarketplace ;
 
         public SkuMarketplaceRepository(DBContext dbContext)
         {

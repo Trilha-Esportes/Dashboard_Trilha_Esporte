@@ -1,35 +1,41 @@
 using MudBlazor.Services;
 using Blazored;
-using DashboardTrilhasEsporte.Components;
-using DashboardTrilhasEsporte.Data;
-using DashboardTrilhasEsporte.Application;
-using DashboardTrilhasEsporte.Domain.Entities;
-using DashboardTrilhasEsporte.Domain.Service;
+using DashboardTrilhaEsporte.Components;
+using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Application;
+using DashboardTrilhaEsporte.Domain.Service;
+using System.Globalization;
+
+
+DotNetEnv.Env.Load();
+
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Montar a connection string a partir das variáveis de ambiente
+var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+
+var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
 
 
-string? conexao = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Usa string vazia apenas se 'conexao' for nula ou em branco
-string conexaoValida = string.IsNullOrWhiteSpace(conexao) ? "" : conexao;
-
-builder.Services.AddSingleton<DBContext>(new DBContext(conexaoValida));
-
+builder.Services.AddSingleton<DBContext>(new DBContext(connectionString));
 builder.Services.AddScoped<SkuMarketplaceRepository>();
-
 builder.Services.AddScoped<VendasRepository>();
-
-
-
-// Registra o Manager, também com escopo
 builder.Services.AddScoped<SkuMarketplaceManager>();
 builder.Services.AddScoped<AnymarketManager>();
 builder.Services.AddScoped<ResumoFinanceiroManager>();
-builder.Services.AddSingleton<FiltroStateService>();
+builder.Services.AddScoped<FiltroStateService>();
 
 
 

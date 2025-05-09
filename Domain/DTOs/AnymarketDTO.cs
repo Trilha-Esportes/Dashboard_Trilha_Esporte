@@ -1,8 +1,8 @@
 
-using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Enums;
+using DashboardTrilhaEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Domain.DTOs
+namespace DashboardTrilhaEsporte.Domain.DTOs
 {
     public class AnymarketDTO
     {

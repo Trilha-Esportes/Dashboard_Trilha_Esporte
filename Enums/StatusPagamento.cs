@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace DashboardTrilhasEsporte.Enums
+namespace DashboardTrilhaEsporte.Enums
 {
     public enum StatusPagamento
     {

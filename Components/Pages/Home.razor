@@ -1,15 +1,15 @@
 ﻿@page "/"
 
 
-@using DashboardTrilhasEsporte.Application;
-@using DashboardTrilhasEsporte.Enums;
-@using DashboardTrilhasEsporte.Domain.DTOs;
-@using DashboardTrilhasEsporte.Domain.Service;
+@using DashboardTrilhaEsporte.Application;
+@using DashboardTrilhaEsporte.Enums;
+@using DashboardTrilhaEsporte.Domain.DTOs;
+@using DashboardTrilhaEsporte.Domain.Service;
 
-@using DashboardTrilhasEsporte.Data;
-@using DashboardTrilhasEsporte.Components.Layout;
+@using DashboardTrilhaEsporte.Data;
+@using DashboardTrilhaEsporte.Components.Layout;
 
-@inject DashboardTrilhasEsporte.Domain.Service.FiltroStateService FiltroService
+@inject DashboardTrilhaEsporte.Domain.Service.FiltroStateService FiltroService
 
 @inject ISnackbar Snackbar
 
@@ -21,15 +21,13 @@
 
 
 
-@if (skuMarketplaceListaCorrente == null || AnymarketDadosListaCorrente == null || financeiroDadosDTOListaCorrente ==
+@if (skuMarketplaceListaCorrente == null || anymarketDadosListaCorrente == null || financeiroDadosDTOListaCorrente ==
 null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    
-
     <MudCollapse Expanded="@mostrarFiltro">
 
         <MudCard Class="mx-auto my-4" Style="max-width: 100%;" Elevation="4">
@@ -134,8 +132,14 @@ else
         <MudTabPanel Text="Visão Geral SkuMarkeplace">
             <div class="container-main">
 
+
                 <div class="card-container">
-                    <MudGrid GutterSize="20px" Class="pa-4">
+                    <div class="d-flex justify-content-center mb-5 mt-4" style="max-width: 100%;justify-content: center;">
+                        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 ">Resumo dos Dados
+                        </MudText>
+                    </div>
+
+                    <MudGrid GutterSize="20px" Class="pa-2">
                         <MudItem xs="12" sm="6" md="4">
                             <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
                                 <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
@@ -185,9 +189,9 @@ else
                         </MudItem>
                     </MudGrid>
                 </div>
-<MudPaper Class="p-6 mt-10 mb-10" Elevation="6" Style="border-radius: 12px;">
-                    
 
+
+                <MudPaper Class="p-6 mt-10 mb-10" Elevation="6" Style="border-radius: 12px;">
                     <MudGrid>
                         <MudItem xs="12" md="6" Class="d-flex justify-center">
                             <DonutChartComponent Data="@dadosTiposErros" Labels="@labelsTiposErros" Title="Total de Erros"
@@ -201,10 +205,15 @@ else
                     </MudGrid>
                 </MudPaper>
 
+
+
                 <div class="table-container">
 
-                    <MudText Typo="Typo.h6" GutterBottom="true">Lista de Marketplace </MudText>
-                    <!-- filtrar por numeros do Pedido-->
+                    <div class="d-flex justify-content-center mb-5 mt-4" style="max-width: 100%;justify-content: center;">
+                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros do
+                            SkuMarkeplace
+                        </MudText>
+                    </div>
 
                     <div style="max-width: 100%; overflow-x: auto;">
                         <MudTable Items="skuMarketplaceListaCorrente.skuMarketplaceDTOs" Hover="true"
@@ -267,23 +276,31 @@ else
                             </HeaderContent>
 
                             <RowTemplate>
-                                <MudTd DataLabel="Número Pedido">@context.skuMarketplace.skuMarketplaceId</MudTd>
-                                <MudTd DataLabel="Número Pedido">@context.skuMarketplace.numeroPedido</MudTd>
-                                <MudTd DataLabel="Valor Pedido">@context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
-                                <MudTd DataLabel="Valor Final">@context.skuMarketplace.valorFinal.ToString("C")</MudTd>
-                                <MudTd DataLabel="Tipo Evento">
+                                <MudTd DataLabel="Número Pedido" Style="text-align: center;">
+                                    @context.skuMarketplace.skuMarketplaceId</MudTd>
+                                <MudTd DataLabel="Número Pedido" Style="text-align: center;">
+                                    @context.skuMarketplace.numeroPedido</MudTd>
+                                <MudTd DataLabel="Valor Pedido" Style="text-align: center;">
+                                    @context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
+                                <MudTd DataLabel="Valor Final" Style="text-align: center;">
+                                    @context.skuMarketplace.valorFinal.ToString("C")</MudTd>
+                                <MudTd DataLabel="Tipo Evento" Style="text-align: center;">
                                     @context.skuMarketplace.tipoEventoNormalizado.GetDescription()
                                 </MudTd>
-                                <MudTd DataLabel="Data do Pedido">@context.skuMarketplace.dataEvento?.ToShortDateString()
+                                <MudTd DataLabel="Data do Pedido" Style="text-align: center;">
+                                    @context.skuMarketplace.dataEvento?.ToShortDateString()
                                 </MudTd>
-                                <MudTd DataLabel="Porcentagem">@($"{context.skuMarketplace.porcentagem:P}")</MudTd>
-                                <MudTd DataLabel="Comissão">@context.skuMarketplace.comissao.ToString("C")</MudTd>
-                                <MudTd DataLabel="Data do Ciclo">@context.skuMarketplace.dataCiclo?.ToShortDateString()
+                                <MudTd DataLabel="Porcentagem" Style="text-align: center;">
+                                    @($"{context.skuMarketplace.porcentagem:P}")</MudTd>
+                                <MudTd DataLabel="Comissão" Style="text-align: center;">
+                                    @context.skuMarketplace.comissao.ToString("C")</MudTd>
+                                <MudTd DataLabel="Data do Ciclo" Style="text-align: center;">
+                                    @context.skuMarketplace.dataCiclo?.ToShortDateString()
                                 </MudTd>
-                                <MudTd DataLabel="Lista de Erros">
+                                <MudTd DataLabel="Lista de Erros" Style="text-align: center;">
                                     @if (context.listaErros != null && context.listaErros.Any())
                                     {
-                                        <ul style="margin: 0; padding-left: 16px; list-style-type: disc;">
+                                        <ul style="margin: 0; padding-left: 16px; list-style: none;">
                                             @foreach (var erro in context.listaErros)
                                             {
                                                 <li>@erro.GetDescription().ToString()</li>
@@ -309,7 +326,15 @@ else
         <MudTabPanel Text="Anymarket">
             <div class="container-main">
                 <div class="card-container">
-                    <MudGrid GutterSize="20px" Class="pa-4">
+
+                    <div class="d-flex justify-content-center mb-5 mt-4"
+                        style="max-width: 100%;justify-content: space-around;">
+                        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 ">Resumo dos Dados
+                        </MudText>
+                    </div>
+
+
+                    <MudGrid GutterSize="20px" Class="d-flex justify-space-around align-center mb-6" Style="padding: 16px;">
                         <MudItem xs="12" sm="6" md="4">
                             <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
                                 <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
@@ -317,7 +342,7 @@ else
                                         Style="font-size:40px; color:red; margin-bottom:15px;" />
 
                                     <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
-                                        @AnymarketDadosListaCorrente.totalVendasNaoEncontada
+                                        @anymarketDadosListaCorrente.totalVendasNaoEncontada
 
                                     </MudText>
                                     <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
@@ -334,10 +359,10 @@ else
                                         Style="font-size:40px; color:red; margin-bottom:15px;" />
 
                                     <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
-                                        @AnymarketDadosListaCorrente.totalVendasValorDivergente
+                                        @anymarketDadosListaCorrente.totalVendasValorDivergente
                                     </MudText>
                                     <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
-                                        Quantidade de Registros
+                                        Quantidade Total de Venda com Valor DiVergente
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -346,10 +371,30 @@ else
                     </MudGrid>
                 </div>
                 <div class="table-container">
-                    <MudText Typo="Typo.h6" GutterBottom="true">Lista de Vendas (Anymarket)</MudText>
+
+
+                    <div class="d-flex justify-content-center mb-5 mt-6" style="max-width: 100%;justify-content: center;">
+                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros do
+                            Anymarket
+                        </MudText>
+                    </div>
+
+                    <MudText Typo="Typo.h6">Selecione um Tipo de Erro</MudText>
+
+                    <MudCard Class="mx-auto my-5 " Style="max-width: 100%;" Elevation="4">
+                        <MudSelect T="AnymarketErros" MultiSelection="true" SelectedValuesChanged="OnSelectedValuesChanged"
+                            Style="width: 100%;  border-radius: 8px;">
+                            @foreach (var erro in Enum.GetValues<AnymarketErros>())
+                            {
+                                <MudSelectItem Value="@erro">@erro.GetDescription()</MudSelectItem>
+                            }
+                        </MudSelect>
+
+                    </MudCard>
+
 
                     <div style="max-width: 100%; overflow-x: auto;">
-                        <MudTable Items="AnymarketDadosListaCorrente.anymarketDTOs" Hover="true" SortLabel="Ordenar por"
+                        <MudTable Items="anymarketDadosListaCorrente.anymarketDTOs" Hover="true" SortLabel="Ordenar por"
                             Elevation="0" Bordered="true" Striped="true" FixedHeader="true">
 
                             <HeaderContent>
@@ -386,12 +431,15 @@ else
                             </HeaderContent>
 
                             <RowTemplate>
-                                <MudTd DataLabel="SKU ID">@context.skuId</MudTd>
-                                <MudTd DataLabel="Número Pedido">@context.numeroPedido</MudTd>
-                                <MudTd DataLabel="Valor Marketplace">@context.valorSkumarketplace.ToString("C")</MudTd>
-                                <MudTd DataLabel="Valor Venda">@context.valorVenda.ToString("C")</MudTd>
-                                <MudTd DataLabel="Tipo Evento">@context.tipoEventoNormalizado.GetDescription()</MudTd>
-                                <MudTd DataLabel="Erros">
+                                <MudTd DataLabel="SKU ID" Style="text-align: center;">@context.skuId</MudTd>
+                                <MudTd DataLabel="Número Pedido" Style="text-align: center;">@context.numeroPedido</MudTd>
+                                <MudTd DataLabel="Valor Marketplace" Style="text-align: center;">
+                                    @context.valorSkumarketplace.ToString("C")</MudTd>
+                                <MudTd DataLabel="Valor Venda" Style="text-align: center;">@context.valorVenda.ToString("C")
+                                </MudTd>
+                                <MudTd DataLabel="Tipo Evento" Style="text-align: center;">
+                                    @context.tipoEventoNormalizado.GetDescription()</MudTd>
+                                <MudTd DataLabel="Erros" Style="text-align: center;">
 
 
                                     <span>@context.Erros.GetDescription()</span>
@@ -412,6 +460,13 @@ else
         <MudTabPanel Text="Resumo Financeiro">
             <div class="container-main">
                 <div class="container-VG">
+
+                    <div class="d-flex justify-content-center mb-5 mt-4"
+                        style="max-width: 100%;justify-content: space-around;">
+                        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 ">Resumo dos Dados
+                        </MudText>
+                    </div>
+
 
                     <div class="card-container">
                         <MudGrid GutterSize="20px" Class="pa-4">
@@ -469,7 +524,14 @@ else
                         </MudGrid>
                     </div>
                     <div class="table-container">
-                        <MudText Typo="Typo.h6" GutterBottom="true">Resumo Financeiro</MudText>
+
+                        <div class="d-flex justify-content-center mb-5 mt-4"
+                            style="max-width: 100%;justify-content: center;">
+                            <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros
+                                do
+                                Resumo Financeiro
+                            </MudText>
+                        </div>
 
                         <div style="max-width: 100%; overflow-x: auto;">
                             <MudTable Items="financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs" Hover="true"
@@ -522,9 +584,7 @@ else
                                         </MudTableSortLabel>
                                     </MudTh>
 
-                                    <MudTh Style="min-width: 160px; text-align: center;">
-                                        Situação pagamento
-                                    </MudTh>
+
 
                                     <MudTh Style="min-width: 160px; text-align: center;">
                                         Situação Final
@@ -532,19 +592,27 @@ else
                                 </HeaderContent>
 
                                 <RowTemplate>
-                                    <MudTd DataLabel="Marketplace">@context.marketplace</MudTd>
-                                    <MudTd DataLabel="Código Pedido">@context.codigoPedido</MudTd>
-                                    <MudTd DataLabel="Data Pedido">@context.dataPedido?.ToString("dd/MM/yyyy")</MudTd>
-                                    <MudTd DataLabel="Valor Total Produtos">@context.valorTotalProdutos.ToString("C")
+                                    <MudTd DataLabel="Marketplace" Style="text-align: center;">@context.marketplace</MudTd>
+                                    <MudTd DataLabel="Código Pedido" Style="text-align: center;">@context.codigoPedido
                                     </MudTd>
-                                    <MudTd DataLabel="Comissão Esperada">@context.comissaoEsperada?.ToString("C")</MudTd>
-                                    <MudTd DataLabel="Valor Recebido">@context.valorRecebido.ToString("C")</MudTd>
-                                    <MudTd DataLabel="Valor a Receber">@context.valorAReceber.ToString("C")</MudTd>
-                                    <MudTd DataLabel="Valor Descontado">@context.valorDescontado.ToString("C")</MudTd>
-                                    <MudTd DataLabel="Desconto Frete">@context.descontoFrete.ToString("C")</MudTd>
-                                    <MudTd DataLabel="Situação">@context.situacaoPagamento.GetDescription()</MudTd>
+                                    <MudTd DataLabel="Data Pedido" Style="text-align: center;">
+                                        @context.dataPedido?.ToString("dd/MM/yyyy")</MudTd>
+                                    <MudTd DataLabel="Valor Total Produtos" Style="text-align: center;">
+                                        @context.valorTotalProdutos.ToString("C")
+                                    </MudTd>
+                                    <MudTd DataLabel="Comissão Esperada" Style="text-align: center;">
+                                        @context.comissaoEsperada?.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor Recebido" Style="text-align: center;">
+                                        @context.valorRecebido.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor a Receber" Style="text-align: center;">
+                                        @context.valorAReceber.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Valor Descontado" Style="text-align: center;">
+                                        @context.valorDescontado.ToString("C")</MudTd>
+                                    <MudTd DataLabel="Desconto Frete" Style="text-align: center;">
+                                        @context.descontoFrete.ToString("C")</MudTd>
 
-                                    <MudTd DataLabel="Situação Final">@context.situacaoFinal.GetDescription()</MudTd>
+                                    <MudTd DataLabel="Situação Final" Style="text-align: center;">
+                                        @context.situacaoFinal.GetDescription()</MudTd>
                                 </RowTemplate>
 
                                 <PagerContent>
@@ -570,7 +638,10 @@ else
 
     private SkuMarketplaceDadosDTO? skuMarketplaceListaCorrente = null;
 
-    private AnymarketDadosDTO? AnymarketDadosListaCorrente = null;
+    private AnymarketDadosDTO? anymarketDadosListaCorrente = null;
+
+    private AnymarketDadosDTO? anymarketDadosListaTemporaria = new AnymarketDadosDTO();
+
 
     private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaCorrente;
 
@@ -584,6 +655,8 @@ else
     public SkuMarketplaceFilterService _filtro = new();
 
     private bool mostrarFiltro;
+
+    private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
 
 
 
@@ -603,7 +676,10 @@ else
 
                 await AnymarketManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
-                AnymarketDadosListaCorrente = AnymarketManager.anymarketDadosDTO;
+                anymarketDadosListaCorrente = AnymarketManager.anymarketDadosDTO;
+
+                anymarketDadosListaTemporaria.anymarketDTOs = anymarketDadosListaCorrente.anymarketDTOs.ToList();
+
 
                 await FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
@@ -615,7 +691,7 @@ else
                 ExtrairResultadosListaCorrente();
 
             }
-        FiltroService.OnFiltroToggled += async () =>
+            FiltroService.OnFiltroToggled += async () =>
             {
                 mostrarFiltro = FiltroService.MostrarFiltro;
                 await InvokeAsync(StateHasChanged);
@@ -662,6 +738,9 @@ else
             skuMarketplaceListaCorrente = new SkuMarketplaceDadosDTO(ListaFiltada);
 
 
+            tipoErroSelecionado = new List<AnymarketErros>();
+            FiltrarAnymarkert();
+
             // Lista de AnymarketDTOs filtrados
             List<AnymarketDTO> anymarketFiltrados = AnymarketManager.SubtrairPorId(
             skuMarketplaceListaCorrente.skuMarketplaceDTOs,
@@ -676,8 +755,11 @@ else
             x => x.skuMarketplace.skuMarketplaceId,
             y => y.skuId);
 
+
+
             // Recriação do objeto com lista filtrada
-            AnymarketDadosListaCorrente = new AnymarketDadosDTO(anymarketFiltrados);
+            anymarketDadosListaCorrente = new AnymarketDadosDTO(anymarketFiltrados);
+            anymarketDadosListaTemporaria.anymarketDTOs = anymarketDadosListaCorrente.anymarketDTOs.ToList();
 
 
             // Recriação do objeto com lista filtrada
@@ -686,13 +768,28 @@ else
 
             ExtrairResultadosListaCorrente();
 
+            StateHasChanged();
+
 
             Snackbar.Add("Filtro aplicado!", Severity.Success);
+
         }
         else
-            Snackbar.Add("Não foi possivel aplicar o filtro", Severity.Error);
+            Snackbar.Add("Não existe nenhum registro na base com essa características", Severity.Error);
 
     }
+
+    private void FiltrarAnymarkert()
+    {
+        var listaOriginal = anymarketDadosListaTemporaria.anymarketDTOs;
+
+        anymarketDadosListaCorrente.anymarketDTOs = (tipoErroSelecionado == null || !tipoErroSelecionado.Any())
+        ? listaOriginal.ToList() // nova instância
+        : listaOriginal
+        .Where(dto => tipoErroSelecionado.Contains(dto.Erros))
+        .ToList();
+    }
+
 
     private void OnErrosChanged(IEnumerable<Erros> errosSelecionados)
     {
@@ -704,6 +801,10 @@ else
         _filtro.TipoEventos = eventosSelecionados.ToList();
     }
 
-   
+    private void OnSelectedValuesChanged(IEnumerable<AnymarketErros> selectedValues)
+    {
+        tipoErroSelecionado = selectedValues.ToList();
+        FiltrarAnymarkert();
+    }
 
 }

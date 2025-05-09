@@ -1,8 +1,8 @@
-using DashboardTrilhasEsporte.Data;
-using DashboardTrilhasEsporte.Domain.DTOs;
-using DashboardTrilhasEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Domain.DTOs;
+using DashboardTrilhaEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Application
+namespace DashboardTrilhaEsporte.Application
 {
     public class AnymarketManager
     {

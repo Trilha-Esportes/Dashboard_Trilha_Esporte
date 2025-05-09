@@ -1,13 +1,13 @@
 using Npgsql;
-using DashboardTrilhasEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Domain.Entities;
 
-namespace DashboardTrilhasEsporte.Data
+namespace DashboardTrilhaEsporte.Data
 {
     public class VendasRepository
     {
         private readonly DBContext _dbContext;
 
-        public Task<List<Vendas>> _listaVendas;
+        public Task<List<Vendas>>? _listaVendas;
 
         public VendasRepository(DBContext dbContext)
         {

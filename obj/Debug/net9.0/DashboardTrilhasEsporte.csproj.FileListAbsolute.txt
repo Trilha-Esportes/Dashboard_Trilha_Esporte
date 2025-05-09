@@ -130,8 +130,6 @@ C:/Users/Guilbert/Documents/DashboardTrilhasEsporte/bin/Debug/net9.0/Blazored.Lo
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.MvcApplicationPartsAssemblyInfo.cache
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.sourcelink.json
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/scopedcss/bundle/DashboardTrilhasEsporte.styles.css
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-u34o0xbo4m.gz
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-gtd3sm4n1q.gz
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/mpf2qgdrcy-2jeq8efc6q.gz
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/staticwebassets.build.json
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/staticwebassets.development.json
@@ -148,4 +146,7 @@ C:/Users/Guilbert/Documents/DashboardTrilhasEsporte/bin/Debug/net9.0/Blazored.Lo
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.pdb
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhasEsporte.genruntimeconfig.cache
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/ref/DashboardTrilhasEsporte.dll
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/l2emnjn2et-ye5fbx90zc.gz
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/DotNetEnv.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/Sprache.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-qmvjbof2tn.gz
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-jrqzp895hu.gz

@@ -1,7 +1,7 @@
 using Npgsql;
 using System.Data;
 
-namespace DashboardTrilhasEsporte.Data
+namespace DashboardTrilhaEsporte.Data
 {
     public class DBContext
     {

@@ -1,9 +1,9 @@
-using DashboardTrilhasEsporte.Data;
-using DashboardTrilhasEsporte.Enums;
-using DashboardTrilhasEsporte.Domain.DTOs;
-using DashboardTrilhasEsporte.Domain.Service;
+using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Enums;
+using DashboardTrilhaEsporte.Domain.DTOs;
+using DashboardTrilhaEsporte.Domain.Service;
 
-namespace DashboardTrilhasEsporte.Application
+namespace DashboardTrilhaEsporte.Application
 {
     class SkuMarketplaceManager
     {

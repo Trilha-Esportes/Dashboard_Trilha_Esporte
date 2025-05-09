@@ -1,32 +1,28 @@
 {
   "Files": [
     {
-      "Id": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/css/custom.css",
-      "PackagePath": "staticwebassets/css/custom.css"
-    },
-    {
       "Id": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.DashboardTrilhasEsporte.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.DashboardTrilhaEsporte.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.DashboardTrilhasEsporte.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.DashboardTrilhaEsporte.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.DashboardTrilhasEsporte.props",
-      "PackagePath": "build\\DashboardTrilhasEsporte.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.DashboardTrilhaEsporte.props",
+      "PackagePath": "build\\DashboardTrilhaEsporte.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.DashboardTrilhasEsporte.props",
-      "PackagePath": "buildMultiTargeting\\DashboardTrilhasEsporte.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.DashboardTrilhaEsporte.props",
+      "PackagePath": "buildMultiTargeting\\DashboardTrilhaEsporte.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.DashboardTrilhasEsporte.props",
-      "PackagePath": "buildTransitive\\DashboardTrilhasEsporte.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.DashboardTrilhaEsporte.props",
+      "PackagePath": "buildTransitive\\DashboardTrilhaEsporte.props"
     }
   ],
   "ElementsToRemove": []
