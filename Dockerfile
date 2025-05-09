@@ -1,8 +1,6 @@
-# Etapa 1: build
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Copia o arquivo de solução e os arquivos necessários para o build
 COPY . ./
 
 # Restaura as dependências do projeto
