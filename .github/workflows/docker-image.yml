@@ -1,4 +1,4 @@
-name: Deploy .NET no Google Cloud Run
+name: Deploy .NET to Google Cloud Run
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment: Trilha-Esporte
     env:
@@ -17,41 +17,33 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # 🔹 Autenticar no Google Cloud
-      - name: Autenticar no Google Cloud
+      # 🔹 Autenticação no Google Cloud
+      - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 🔹 Configurar autenticação do Docker para o Artifact Registry
-      - name: Configurar autenticação do Docker
-        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
-
-      # 🔹 Desabilitar buildx (usando somente docker tradicional)
-      - name: Desabilitar Docker Buildx
+      # 🔹 Configurar Docker para o Artifact Registry
+      - name: Configure Docker for Google Artifact Registry
         run: |
-          docker buildx disable || echo "docker buildx não foi encontrado"
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      # 🔹 Verificar versão do Docker
-      - name: Verificar a versão do Docker
-        run: docker --version
-
-      # 🔹 Construir a imagem Docker com o comando tradicional
-      - name: Construir a imagem Docker
+      # 🔹 Construção da Imagem Docker
+      - name: Build Docker image
         run: |
-          echo "Construindo a imagem Docker..."
+          echo "Building Docker image..."
           docker build -t ${IMAGE_NAME} .
-
-      # 🔹 Enviar a imagem para o Google Artifact Registry
-      - name: Enviar imagem para o Google Artifact Registry
+        
+      # 🔹 Push da imagem para o Artifact Registry
+      - name: Push Docker image to Artifact Registry
         run: |
-          echo "Enviando a imagem para o Google Artifact Registry..."
+          echo "Pushing Docker image to Artifact Registry..."
           docker push ${IMAGE_NAME}
 
-      # 🔹 Fazer o deploy no Cloud Run
-      - name: Deploy no Cloud Run
+      # 🔹 Deploy para o Google Cloud Run
+      - name: Deploy to Google Cloud Run
         run: |
-          echo "Realizando deploy no Cloud Run..."
+          echo "Deploying to Google Cloud Run..."
           gcloud run deploy trilha-esporte \
             --image=${IMAGE_NAME} \
             --region=us-central1 \
@@ -61,8 +53,10 @@ jobs:
             --timeout=2000s \
             --set-env-vars="DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_NAME=${{ secrets.DB_NAME }}"
 
-      # 🔹 Mostrar URL do serviço
-      - name: Exibir URL do serviço
+      # 🔹 Exibir URL do Serviço
+      - name: Get URL of the Cloud Run service
         run: |
-          echo "Obtendo a URL do serviço..."
-          gcloud run services describe trilha-esporte --region=us-central1 --format 'value(status.url)'
+          echo "Fetching the URL of the service..."
+          gcloud run services describe trilha-esporte \
+            --region=us-central1 \
+            --format 'value(status.url)'
