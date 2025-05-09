@@ -22,12 +22,13 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      - name: Definir variável de nome da imagem
-        id: vars
+      - name: Definir variável IMAGE_NAME
         run: |
           echo "IMAGE_NAME=us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/dotnet-repo/trilha-esporte:${GITHUB_SHA}" >> $GITHUB_ENV
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GITHUB_SHA: ${{ github.sha }}
+
 
       - name: Build da imagem Docker
         run: |
