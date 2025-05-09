@@ -9,9 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Trilha-Esporte
-    env:
-      IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}
-
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -25,18 +22,33 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
+      - name: Definir variável de nome da imagem
+        id: vars
+        run: echo "IMAGE_NAME=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}" >> $GITHUB_ENV
+
       - name: Build da imagem Docker
         run: |
           echo "Construindo a imagem Docker..."
           echo "Nome da imagem: $IMAGE_NAME"
-          docker build \
-            -t "$IMAGE_NAME" \
-            --progress plain \
-            .
+          docker build -t $IMAGE_NAME .
 
       - name: Push da imagem para Artifact Registry
         run: |
-          echo "Enviando imagem para Artifact Registry..."
-          docker push "$IMAGE_NAME"
+          docker push $IMAGE_NAME
 
-      # Restante do seu workflow...
+      - name: Deploy no Cloud Run
+        run: |
+          gcloud run deploy trilha-esporte \
+            --image=$IMAGE_NAME \
+            --region=us-central1 \
+            --platform=managed \
+            --port=8080 \
+            --allow-unauthenticated \
+            --timeout=2000s \
+            --set-env-vars="DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DB_PORT=${{ secrets.DB_PORT }},DB_NAME=${{ secrets.DB_NAME }}"
+
+      - name: Mostrar URL do serviço
+        run: |
+          gcloud run services describe trilha-esporte \
+            --region=us-central1 \
+            --format='value(status.url)'
