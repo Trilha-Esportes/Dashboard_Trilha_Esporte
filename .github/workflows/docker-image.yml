@@ -27,18 +27,16 @@ jobs:
       - name: Configurar autenticação do Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      # 🔹 Verificar a versão do Docker e se buildx está instalado
+      # 🔹 Desabilitar buildx (usando somente docker tradicional)
+      - name: Desabilitar Docker Buildx
+        run: |
+          docker buildx disable || echo "docker buildx não foi encontrado"
+
+      # 🔹 Verificar versão do Docker
       - name: Verificar a versão do Docker
-        run: |
-          docker --version
-          docker buildx version || echo "docker buildx não está instalado"
+        run: docker --version
 
-      # 🔹 Garantir que estamos usando o build tradicional (docker build)
-      - name: Forçar uso do docker build (sem buildx)
-        run: |
-          docker build --version || echo "docker build não está instalado"
-
-      # 🔹 Construir a imagem Docker
+      # 🔹 Construir a imagem Docker com o comando tradicional
       - name: Construir a imagem Docker
         run: |
           echo "Construindo a imagem Docker..."
@@ -66,4 +64,5 @@ jobs:
       # 🔹 Mostrar URL do serviço
       - name: Exibir URL do serviço
         run: |
-          echo "Obtendo
+          echo "Obtendo a URL do serviço..."
+          gcloud run services describe trilha-esporte --region=us-central1 --format 'value(status.url)'
