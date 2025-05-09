@@ -37,7 +37,7 @@ jobs:
       # 🔹 Definir nome da imagem Docker com nome padrão
       - name: Definir nome da imagem
         run: |
-          echo "IMAGE_NAME=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:v1.0-${{ github.sha }}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=trilhaEsporte" 
 
       # 🔹 Debug: Verificar IMAGE_NAME
       - name: Debug IMAGE_NAME
