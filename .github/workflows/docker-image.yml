@@ -34,12 +34,15 @@ jobs:
       - name: Configurar Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 🔹 Construir a imagem Docker
-      - name: Construir a imagem Docker
+      # 🔹 Construir a imagem Docker com Buildx
+      - name: Construir a imagem Docker com Buildx
         run: |
           IMAGE_NAME="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/dotnet-repo/trilha-esporte:${{ github.sha }}"
-          echo "Construindo a imagem Docker..."
-          docker build -t $IMAGE_NAME --progress plain .
+          echo "Construindo a imagem Docker com Buildx..."
+          docker buildx build \
+            --tag $IMAGE_NAME \
+            --progress plain \
+            --load .
 
       # 🔹 Enviar a imagem para o Artifact Registry
       - name: Enviar a imagem para o Artifact Registry
