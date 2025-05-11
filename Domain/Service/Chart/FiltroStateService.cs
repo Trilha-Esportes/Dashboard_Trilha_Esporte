@@ -12,6 +12,7 @@ public class FiltroStateService
         _mostrarFiltro = !_mostrarFiltro;
         OnFiltroToggled?.Invoke();
 
+
     }
 }
 

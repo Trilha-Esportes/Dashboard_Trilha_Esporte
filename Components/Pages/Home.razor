@@ -346,7 +346,7 @@ else
 
                                     </MudText>
                                     <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
-                                        Número de Vendas Encontradas
+                                       Quantidade Total de Vendas Encontradas
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -362,7 +362,7 @@ else
                                         @anymarketDadosListaCorrente.totalVendasValorDivergente
                                     </MudText>
                                     <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
-                                        Quantidade Total de Venda com Valor DiVergente
+                                        Quantidade Total de Vendas com Valor Divergente
                                     </MudText>
                                 </MudCardContent>
                             </MudCard>
@@ -767,9 +767,9 @@ else
 
 
             ExtrairResultadosListaCorrente();
-
             StateHasChanged();
-
+            mostrarFiltro = false;
+            FiltroService.ToggleFiltro();
 
             Snackbar.Add("Filtro aplicado!", Severity.Success);
 
