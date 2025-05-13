@@ -1,5 +1,8 @@
 using System.ComponentModel;
 
+// Class responsável por Padronizar os tipo Eventos retornados pelo DTO do SkuMarkerplace
+
+
 namespace DashboardTrilhaEsporte.Enums
 {
     public enum Eventos

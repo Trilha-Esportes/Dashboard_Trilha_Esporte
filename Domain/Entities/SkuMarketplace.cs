@@ -4,6 +4,10 @@ using System;
 
 namespace DashboardTrilhaEsporte.Domain.Entities{
 
+// Essa classe representa a entidade SkuMarketplace
+// Ela contém todos os parametros que vem da consulta SQL
+// Somados de parametro que representa erro de devolução
+
 public class SkuMarketplace : IEquatable<SkuMarketplace>
 {
     public String? marketplace { get; set; } 
@@ -20,6 +24,8 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
 
     public Boolean erroDevolucao { get; set; }
 
+    // Método responsável por normalizar o tipo de evento
+    // Ele recebe uma string e retorna um valor do enum Eventos
     public static Eventos normalizarTipoEvento(string evento)
     {
         if (string.IsNullOrWhiteSpace(evento))
@@ -59,6 +65,8 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
             : Eventos.Outros;
     }
 
+    // Método responsável por mapear o registro retornado do banco de dados 
+    // para um objeto SkuMarketplace
     public static SkuMarketplace MapearRegistro(NpgsqlDataReader reader)
     {
         SkuMarketplace marketplace = new SkuMarketplace
@@ -81,6 +89,9 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
         return marketplace;
     }
 
+
+    //Todos esse métosdos abaixo são usados pelo distinct para comparar os objetos
+
     public bool Equals(SkuMarketplace? other)
     {
         if (other is null) return false;
@@ -97,9 +108,9 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
             && dataEvento == other.dataEvento
             && dataCiclo == other.dataCiclo;
     }
-
     public override bool Equals(object? obj) => Equals(obj as SkuMarketplace);
-
+ 
+    // Método responsável por comparar dois objetos SkuMarketplace (coleções)
     public override int GetHashCode()
    {
         var hash1 = HashCode.Combine(skuMarketplaceId, marketplace, numeroPedido, valorLiquido);

@@ -734,33 +734,42 @@ else
 }
 @code {
 
+    // Lista corrente de dados do SkuMarketplace
     private SkuMarketplaceDadosDTO? skuMarketplaceListaCorrente;
 
+    // Lista corrente de dados do Anymarket
     private AnymarketDadosDTO? anymarketDadosListaCorrente;
 
+    // Lista corrente de dados do SkuMarketplace com erro de devolução
     private SkuMarketplaceDadosDTO? skuMarketplaceDescontarListaCorrente;
 
+    // Copia da lista corrente de dados do Anymarket (para o filtro interno da seção)
     private AnymarketDadosDTO? anymarketDadosListaTemporaria = new AnymarketDadosDTO();
 
-
+    // Lista corrente de dados do Financeiro
     private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaCorrente;
 
 
+    // Dados para os gráficos
     private double[] dadosTiposErros = [];
     private string[] labelsTiposErros = [];
     private double[] dadosTiposEventos = [];
     private string[] labelsTiposEventos = [];
 
+    // Formulario para filtro avançado
     public MudForm form;
+
+    // instancia um objeto do SkuMarketplaceFilterService para filtragem de dados
     public SkuMarketplaceFilterService _filtro = new();
 
+
+    // Controla a exibição do filtro avançado
     private bool mostrarFiltro;
 
+    // Lista de Erros selecionado na seção do anymarket
     private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
 
-
-
-
+    // Metodo princial (inicia e renderiza os dados)
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -772,24 +781,30 @@ else
             // Verifica se os dados estão prontos
             if (SkuManager.resultDTO != null && SkuManager.resultDTO.skuMarketplaceDTOs != null)
             {
+                // Cria uma nova instância de SkuMarketplaceDadosDTO com os dados carregados
                 skuMarketplaceListaCorrente = SkuManager.resultDTO;
 
+                // Aguarda os dados do AnymarketManager
                 await AnymarketManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
+                // cria uma nova instância de AnymarketDadosDTO com os dados carregados
                 anymarketDadosListaCorrente = AnymarketManager.anymarketDadosDTO;
 
+                // Mantem uma cópia temporária dos dados do Anymarket ( para o filtro interno dessa secção)
                 anymarketDadosListaTemporaria.anymarketDTOs = anymarketDadosListaCorrente.anymarketDTOs.ToList();
 
-
+                // Aguarda os dados do FinanceiroManager
                 await FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
+                // cria uma nova instância de ResumoFinanceiroDadosDTO com os dados carregados
                 financeiroDadosDTOListaCorrente = FinanceiroManager.FinanceiroDadosDTO;
 
-
+                // Cria uma nova instância de SkuMarketplaceDadosDTO com os dados com erro de devolução
+                
                 SkuMarketplaceFilterService filtroDescontar = new SkuMarketplaceFilterService();
                 filtroDescontar.TipoEventos.Add(Eventos.DescontarHoveHouve);
 
-                 skuMarketplaceDescontarListaCorrente = new SkuMarketplaceDadosDTO(
+                skuMarketplaceDescontarListaCorrente = new SkuMarketplaceDadosDTO(
                     SkuMarketplaceFilterService.AplicarFiltros(skuMarketplaceListaCorrente.skuMarketplaceDTOs, filtroDescontar));
 
 
@@ -797,16 +812,20 @@ else
                 ExtrairResultadosListaCorrente();
 
             }
+
+            // Registra o evento de mudança de filtro  (Filtro do Anymarket) / observer
             FiltroService.OnFiltroToggled += async () =>
-            {
-                mostrarFiltro = FiltroService.MostrarFiltro;
-                await InvokeAsync(StateHasChanged);
-            };
+                {
+                    mostrarFiltro = FiltroService.MostrarFiltro;
+                    await InvokeAsync(StateHasChanged);
+                };
+           
             // Força a re-renderização do componente
             StateHasChanged();
         }
     }
 
+    // Extrai os dados para os gráficos de rosca
     private void ExtrairResultadosListaCorrente()
     {
 
@@ -828,12 +847,14 @@ else
 
     }
 
+    // Metodo para controla a janela do filtro avançado
     public void ResetarFiltro()
     {
         _filtro = new SkuMarketplaceFilterService();
         AplicarFiltro();
     }
 
+    // Metodo que aplica o filtro avançado e atualiza as lista corrente
     private void AplicarFiltro()
     {
         // Aqui você pode aplicar o filtro em sua tabela, API, etc.
@@ -876,6 +897,7 @@ else
 
     }
 
+    // Metodo que filtra os dados do Anymarket
     private void FiltrarAnymarkert()
     {
         var listaOriginal = anymarketDadosListaTemporaria.anymarketDTOs;
@@ -887,16 +909,19 @@ else
         .ToList();
     }
 
-
+    // Metodo que gerencia a lista de erros do filtro avançado
     private void OnErrosChanged(IEnumerable<Erros> errosSelecionados)
     {
         _filtro.listaErros = errosSelecionados.ToList();
     }
 
+    // Metodo que gerencia a lista de Eventos do filtro avançado
     private void OnEventosChanged(IEnumerable<Eventos> eventosSelecionados)
     {
         _filtro.TipoEventos = eventosSelecionados.ToList();
     }
+
+    // Metodo que gerencia a lista de erros do filtro anymarket
 
     private void OnSelectedValuesChanged(IEnumerable<AnymarketErros> selectedValues)
     {

@@ -1,5 +1,11 @@
 using Npgsql;
 
+
+// Class responsável por carregar os dados das tabelas SkuMarketplace,Marketplace, Vendas, ComissoesPedido e EventoCentauro
+// Aplica leftJoins e retornar uma lista de objetos SkuMarketplace.
+
+
+
 using DashboardTrilhaEsporte.Domain.Entities;
 namespace DashboardTrilhaEsporte.Data
 {
@@ -7,6 +13,7 @@ namespace DashboardTrilhaEsporte.Data
     {
         private readonly DBContext _dbContext;
 
+        // Variável privada para armazenar a lista de SkuMarketplace (Mantendo em memória)
         private Task<List<SkuMarketplace>>? _listaSkuMarketplace ;
 
         public SkuMarketplaceRepository(DBContext dbContext)
@@ -14,10 +21,12 @@ namespace DashboardTrilhaEsporte.Data
             _dbContext = dbContext;
         }
 
+        // Usa a conexão do DBContext para criar um comando SQL e executar a consulta.
+        // O resultado é mapeado para uma lista de objetos SkuMarketplace (Busca Asincrona).
         public Task<List<SkuMarketplace>> ObterlistaMarketplace()
 
         {
-
+            // Verifica se a lista já foi carregada. Se não, carrega os dados do banco.
             if (_listaSkuMarketplace== null)
             {
                 List<SkuMarketplace> listaMarketplace = new List<SkuMarketplace>();
@@ -63,6 +72,7 @@ namespace DashboardTrilhaEsporte.Data
                     {
                         while (reader.Read())
                         {
+                            // Mapeia os dados retornados para um objeto SkuMarketplace
                             var registro = SkuMarketplace.MapearRegistro((NpgsqlDataReader)reader);
                             listaMarketplace.Add(registro);
                         }

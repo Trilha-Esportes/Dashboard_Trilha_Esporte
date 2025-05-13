@@ -2,6 +2,7 @@
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.DTOs;
 
+// class Responsável por constrolar o filtro avançado de SkuMarketplaceDTO
 
 namespace DashboardTrilhaEsporte.Domain.Service
 {
@@ -18,6 +19,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
         public List<Eventos> TipoEventos { get; set; }= new List<Eventos>();
 
 
+        // Construtor vazio para inicializar a lista de skuMarketplaceDTOs
         public SkuMarketplaceFilterService (){
 
         }
@@ -38,7 +40,8 @@ namespace DashboardTrilhaEsporte.Domain.Service
         }
 
 
-
+        // Método responsável por aplicar um filtro sequencial na lista de SkuMarketplaceDTO
+        // O filtro é aplicado de acordo com os parâmetros do SkuMarketplaceFilterService
         public static List<SkuMarketplaceDTO> AplicarFiltros(List<SkuMarketplaceDTO> lista, SkuMarketplaceFilterService filtros)
         {
             var query = lista.AsQueryable();

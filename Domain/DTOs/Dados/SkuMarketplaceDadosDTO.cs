@@ -5,6 +5,10 @@ using DashboardTrilhaEsporte.Domain.Entities;
 using Microsoft.VisualBasic;
 
 
+
+// Essa classe amazena as informaçoes estatisticas de lista de ResumoFinanceiroDTO
+// Essa informação é usada para construir o dashboard
+
 namespace DashboardTrilhaEsporte.Domain.DTOs
 {
         public class SkuMarketplaceDadosDTO
@@ -39,8 +43,22 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         this.ObterIntervalosDatas();
                         this.ContarTipoEvento();
                 }
+                
 
+                // Construtor vazio para inicializar a lista de skuMarketplaceDTOs
+                public SkuMarketplaceDadosDTO()
+                {
+                        this.skuMarketplaceDTOs = new List<SkuMarketplaceDTO>();
+                        this.quantidadeTotalRegistro = 0;
+                        this.somatorioValorFinal = 0;
+                        this.quantidadeTotalErros = 0;
+                        this.dataComissaoInicial = null;
+                        this.dataComissaoFinal = null;
+                        this.dateTimesCiclos = new List<DateTime>();
+                }
 
+                // Construtor que recebe uma lista de SkuMarketplaceDTO
+                // Extrair as informações estatísticas 
                 public SkuMarketplaceDadosDTO(List<SkuMarketplaceDTO> skuMarketplacesDto)
                 {
                         this.skuMarketplaceDTOs = skuMarketplacesDto;
@@ -48,16 +66,17 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         this.SomarValorFinal();
                         this.ContarErros();
                         this.ContarTipoEvento();
-
                         this.ObterIntervalosDatas();
                 }
 
+                // Metodo responsável por calcular o somatório dos valor final
                 private void SomarValorFinal()
                 {
                         this.somatorioValorFinal = this.skuMarketplaceDTOs
                             .Sum(v => v.skuMarketplace.valorFinal);
                 }
 
+                // Método responsável por contar os erros
                 private void ContarErros()
                 {
                         if (skuMarketplaceDTOs == null)
@@ -86,7 +105,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         quantidadeTotalErros = (int)quantidadeErrosPorTipo.Values.Sum();
                 }
 
-
+                // Metodo responsável por obter os intervalos de datas
                 public void ObterIntervalosDatas()
                 {
                         var comissoes = this.skuMarketplaceDTOs
@@ -107,12 +126,10 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                        
                 }
 
-
+                // Método responsável por contar o tipo de evento
                 public void ContarTipoEvento()
                 {
                         this.quantidadeTotalRegistrosPorEvento = new Dictionary<Eventos, double>();
-
-
 
                         foreach (var item in this.skuMarketplaceDTOs)
                         {
@@ -126,6 +143,8 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         }
                 }
 
+                // Método responsável por obter a distribuição de Erros 
+                // Essa informação é para cosntrir graficos
                 public Dictionary<string, double> ObterErros()
                 {
                         Erros[] erros = new[]
@@ -155,6 +174,9 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         return resultado;
                 }
 
+
+                // Método responsável por obter a distribuição de eventos 
+                // Essa informação é para cosntrir graficos
                 public Dictionary<string, double> ObterDistribuicaoEventosEmPorcentagem()
                 {
                         var resultado = new Dictionary<string, double>();
@@ -169,10 +191,10 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         if (total == 0)
                                 return resultado;
 
-                        foreach (var kvp in quantidadeTotalRegistrosPorEvento)
+                        foreach (var sku in quantidadeTotalRegistrosPorEvento)
                         {
-                                string chave = kvp.Key.GetDescription();
-                                double porcentagem = (kvp.Value);
+                                string chave = sku.Key.GetDescription();
+                                double porcentagem = (sku.Value);
                                 resultado[chave] = porcentagem;
                         }
 

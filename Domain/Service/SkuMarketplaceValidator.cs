@@ -1,9 +1,15 @@
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.Entities;
+
+// Essa classe é responsável por validar os dados do SkuMarketplace
+// Ela verifica se os dados estão corretos e se não há erros
+
+
 namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class SkuMarketplaceValidator
     {
+        // Esse médoto é responsável por verificar se há erros nos dados do SkuMarketplace
         public static List<Erros> BuscaErros(SkuMarketplace marketplace)
         {
             List<Erros> listaErros = new List<Erros>();
@@ -35,6 +41,8 @@ namespace DashboardTrilhaEsporte.Domain.Service
 
             return listaErros;
         }
+
+        // Método responsável por verificar  a consistencia do valor de comissão
         private static Erros? checarErroComissao(SkuMarketplace marketplace)
         {
             if ((marketplace.porcentagem != 0))
@@ -50,6 +58,9 @@ namespace DashboardTrilhaEsporte.Domain.Service
             return null;
         }
 
+
+
+        // Método responsável por verificar se o valor do repasse normal e o valor do descontar hove são iguais
         public static void ChecarDescontarHove(List<SkuMarketplace> skuMarketplaces)
         {
             var grupos = skuMarketplaces

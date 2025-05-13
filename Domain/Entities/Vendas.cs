@@ -1,12 +1,15 @@
 using Npgsql;
 
+// Class responsável por representar a entidade Vendas
+// Ela contém todos os parametros que vem da consulta SQL
 namespace DashboardTrilhaEsporte.Domain.Entities{
     public class Vendas
     {
         public int vendaId { get; set; }
-        public string skuMarketplaceId { get; set; }
-        public decimal valorVenda { get; set; }
+        public String skuMarketplaceId { get; set; } = String.Empty;
+        public Decimal valorVenda { get; set; }
 
+        // Método responsável por mapear o registro do banco de dados para um objeto Vendas
         public static Vendas MapearRegistro(NpgsqlDataReader reader)
         {
             Vendas vendas = new Vendas
@@ -18,6 +21,8 @@ namespace DashboardTrilhaEsporte.Domain.Entities{
             };
             return vendas;
         }
+
+        //Todos esse métosdos abaixo são usados pelo distinct para comparar os objetos
 
         public override bool Equals(object? obj)
         {

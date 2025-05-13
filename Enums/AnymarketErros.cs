@@ -1,5 +1,7 @@
 using System.ComponentModel;
 
+// Class responsável por Padronizar os erros retornados pelo DTO do Anymarket
+
 namespace DashboardTrilhaEsporte.Enums
 {
     public enum AnymarketErros

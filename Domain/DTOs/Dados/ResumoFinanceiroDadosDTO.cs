@@ -1,5 +1,8 @@
 
 
+// Essa classe amazena as informaçoes estatisticas de lista de ResumoFinanceiroDTO
+// Essa informação é usada para construir o dashboard
+
 namespace DashboardTrilhaEsporte.Domain.DTOs
 {
     public class ResumoFinanceiroDadosDTO
@@ -18,6 +21,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             CalcularEstatiticas();
         }
 
+        // Somatorio dos valores a receber e recebidos
         public void CalcularEstatiticas()
         {
             this.valorTotalReceber = resumoFinanceiroDTOs.Sum(r => r.valorAReceber);

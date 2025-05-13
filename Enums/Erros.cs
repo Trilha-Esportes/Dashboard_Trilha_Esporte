@@ -1,5 +1,8 @@
 using System.ComponentModel;
 
+// Class responsável por Padronizar os erros retornados pelo DTO do skuMarkerplace
+
+
 namespace DashboardTrilhaEsporte.Enums
 {
     public enum Erros

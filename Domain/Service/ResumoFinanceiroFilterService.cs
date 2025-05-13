@@ -2,7 +2,7 @@
 using DashboardTrilhaEsporte.Domain.DTOs;
 using DashboardTrilhaEsporte.Enums;
 
-
+ // Essa classe é responsável por aplicar os filtros na lista de ResumoFinanceiroDTO
 namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class ResumoFinanceiroFilterService
@@ -16,7 +16,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
         }
 
 
-
+        // Método responsável por aplicar  o filtro de acordo com o status de pagamento
         public static List<ResumoFinanceiroDTO> AplicarFiltros(List<ResumoFinanceiroDTO> lista, StatusPagamento statusPagamento)
         {
             var query = lista.AsQueryable();

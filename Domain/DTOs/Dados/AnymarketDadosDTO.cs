@@ -1,5 +1,8 @@
 using DashboardTrilhaEsporte.Enums;
 
+// Essa classe amazena as informaçoes estatisticas de lista de AnymarketDTO
+// Essa informação é usada para construir o dashboard
+
 namespace DashboardTrilhaEsporte.Domain.DTOs{
 
     public class AnymarketDadosDTO{
@@ -16,6 +19,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs{
             CalcularEstatiticas();
         }
 
+        // Calcula numero de vendas não encontradas e divergentes
         public void CalcularEstatiticas()
         {
             this.anymarketDTOs.ForEach(vendas =>
