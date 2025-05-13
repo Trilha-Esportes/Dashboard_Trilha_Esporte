@@ -17,7 +17,11 @@
     <!-- Filtros e data à direita -->
     <div class="d-flex align-center gap-6">
         <MudText Typo="Typo.body1" Style="font-size: 1rem; white-space: nowrap;">
-            <b>Última Atualização:</b> @DateTime.UtcNow.ToString("d MMM yyyy, HH:mm") GMT
+            @{
+                var brasilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"); // Horário de Brasília
+                var brasilDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, brasilTimeZone);
+            }
+            <b>Última Atualização:</b> @brasilDateTime.ToString("d MMM yyyy, HH:mm") GMT-3
         </MudText>
 
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@OnFiltroClick">
