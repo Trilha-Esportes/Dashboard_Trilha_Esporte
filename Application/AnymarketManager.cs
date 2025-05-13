@@ -32,21 +32,11 @@ namespace DashboardTrilhaEsporte.Application
             }
         }
 
-        public static List<AnymarketDTO> SubtrairPorId(
-        List<SkuMarketplaceDTO> origemSkuMarketplaces,
-        List<AnymarketDTO> destinoAnymarket,
-        Func<SkuMarketplaceDTO, String> seletorIdOrigem,
-        Func<AnymarketDTO, String> seletorIdDestino)
-    {
-        var idsOrigem = origemSkuMarketplaces
-            .Select(seletorIdOrigem)
-            .ToHashSet();
-
-
-        return destinoAnymarket
-            .Where(item => idsOrigem.Contains(seletorIdDestino(item)))
-            .ToList();
-    }
+         public async Task<List<AnymarketDTO>> AtualizarListaAsync(List<SkuMarketplaceDTO> skuMarketplaces)
+        {
+            List<Vendas> lista = await _repo._listaVendas!;
+            return AnymarketDTO.MontarAnymarketDTO(skuMarketplaces, lista);
+        }
 
 
     }

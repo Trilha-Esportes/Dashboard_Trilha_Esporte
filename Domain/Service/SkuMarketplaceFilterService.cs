@@ -9,8 +9,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
     {
         public DateTime? dataComissaoInicio { get; set; }
         public DateTime? dataComissaoFinal { get; set; }
-        public DateTime? dataCicloInicio { get; set; }
-        public DateTime? dataClicloFinal { get; set; }
+        public DateTime? dataCicloSelecionada { get; set; }
 
         public String? numeroPedido { get; set; }
 
@@ -25,16 +24,14 @@ namespace DashboardTrilhaEsporte.Domain.Service
         public SkuMarketplaceFilterService(
             DateTime? dataComissaoInicio = null,
             DateTime? dataComissaoFinal = null,
-            DateTime? dataCicloInicio = null,
-            DateTime? dataClicloFinal = null,
+            DateTime? dataCicloSelecionada = null,
             string? numeroPedido = null,
             List<Erros>? listaErros = null,
             List<Eventos>? tipoEventos = null)
         {
             this.dataComissaoInicio = dataComissaoInicio;
             this.dataComissaoFinal = dataComissaoFinal;
-            this.dataCicloInicio = dataCicloInicio;
-            this.dataClicloFinal = dataClicloFinal;
+            this.dataCicloSelecionada = dataCicloSelecionada;
             this.numeroPedido = numeroPedido;
             this.listaErros = listaErros ?? new List<Erros>();
             this.TipoEventos = tipoEventos ?? new List<Eventos>();
@@ -57,13 +54,15 @@ namespace DashboardTrilhaEsporte.Domain.Service
                 query = query.Where(x => x.skuMarketplace.dataComissao.HasValue &&
                                          x.skuMarketplace.dataComissao.Value <= filtros.dataComissaoFinal.Value);
 
-            if (filtros.dataCicloInicio.HasValue)
-                query = query.Where(x => x.skuMarketplace.dataCiclo.HasValue &&
-                                         x.skuMarketplace.dataCiclo.Value >= filtros.dataCicloInicio.Value);
+           if (filtros.dataCicloSelecionada.HasValue)
+            {
+                var dataSelecionada = filtros.dataCicloSelecionada.Value.Date;
 
-            if (filtros.dataClicloFinal.HasValue)
-                query = query.Where(x => x.skuMarketplace.dataCiclo.HasValue &&
-                                         x.skuMarketplace.dataCiclo.Value <= filtros.dataClicloFinal.Value);
+                query = query.Where(x =>
+                    x.skuMarketplace != null &&
+                    x.skuMarketplace.dataCiclo.HasValue &&
+                    x.skuMarketplace.dataCiclo.Value.Date == dataSelecionada);
+            }
 
             if (filtros.listaErros != null && filtros.listaErros.Any())
                 query = query.Where(x => x.listaErros != null &&

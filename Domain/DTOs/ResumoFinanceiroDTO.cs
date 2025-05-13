@@ -24,23 +24,23 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         public StatusPagamento situacaoFinal { get; set; }
 
 
-        public static List<ResumoFinanceiroDTO> MontarAnymarketDTO(List<SkuMarketplaceDTO> skuMarketplaces, List<Vendas> vendas)
+        public static List<ResumoFinanceiroDTO> MontarResumoFinanceiro(List<SkuMarketplaceDTO> skuMarketplaces, List<Vendas> vendas)
         {
 
             vendas = vendas.ToList();
 
             var vendaDict = vendas
-     .GroupBy(v => v.skuMarketplaceId)
-     .ToDictionary(g => g.Key, g => g.First().valorVenda);
+            .GroupBy(v => v.skuMarketplaceId)
+            .ToDictionary(g => g.Key, g => g.First().valorVenda);
 
 
 
 
             var agrupados = skuMarketplaces
-        .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.marketplace })
-        .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
-        .Where(resumo => resumo.valorRecebido != 0m)
-        .ToList();
+                .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.marketplace })
+                .Select(grupo => CriarResumoFinanceiro(grupo, vendaDict))
+                .Where(resumo => resumo.valorTotalProdutos != 0m)
+                .ToList();
 
 
             return agrupados;

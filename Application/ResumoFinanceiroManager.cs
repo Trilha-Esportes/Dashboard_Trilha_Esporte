@@ -4,17 +4,19 @@ using DashboardTrilhaEsporte.Domain.Entities;
 
 namespace DashboardTrilhaEsporte.Application
 {
-    partial class ResumoFinanceiroManager{
+    partial class ResumoFinanceiroManager
+    {
 
         private readonly VendasRepository _repo;
 
         private Boolean _dadosCarregados = false;
 
-        public ResumoFinanceiroDadosDTO? FinanceiroDadosDTO{ get; set; } 
+        public ResumoFinanceiroDadosDTO? FinanceiroDadosDTO { get; set; }
 
 
 
-        public ResumoFinanceiroManager(VendasRepository repository){
+        public ResumoFinanceiroManager(VendasRepository repository)
+        {
             this._repo = repository;
         }
 
@@ -27,25 +29,16 @@ namespace DashboardTrilhaEsporte.Application
             else
             {
                 List<Vendas> listaVenda = await _repo.ObterlistaVendas();
-                List<ResumoFinanceiroDTO> resumoFinanceiroDTOs = ResumoFinanceiroDTO.MontarAnymarketDTO(skuMarketplaces, listaVenda);
+                List<ResumoFinanceiroDTO> resumoFinanceiroDTOs = ResumoFinanceiroDTO.MontarResumoFinanceiro(skuMarketplaces, listaVenda);
                 this.FinanceiroDadosDTO = new ResumoFinanceiroDadosDTO(resumoFinanceiroDTOs);
                 this._dadosCarregados = true;
             }
         }
 
-        public static List<ResumoFinanceiroDTO> SubtrairPorId(
-        List<SkuMarketplaceDTO> origemSkuMarketplaces,
-        List<ResumoFinanceiroDTO> destinoResumo,
-        Func<SkuMarketplaceDTO, string> seletorIdOrigem,
-        Func<ResumoFinanceiroDTO, string> seletorIdDestino)
+        public async Task<List<ResumoFinanceiroDTO>> AtualizarListaAsync(List<SkuMarketplaceDTO> skuMarketplaces)
         {
-            var idsOrigem = origemSkuMarketplaces
-                .Select(seletorIdOrigem)
-                .ToHashSet();
-
-            return destinoResumo
-                .Where(item => idsOrigem.Contains(seletorIdDestino(item)))
-                .ToList();
+            List<Vendas> lista = await _repo._listaVendas!;
+            return ResumoFinanceiroDTO.MontarResumoFinanceiro(skuMarketplaces, lista);
         }
 
     }

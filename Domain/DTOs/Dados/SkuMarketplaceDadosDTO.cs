@@ -24,10 +24,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
                 public DateTime? dataComissaoFinal { get; set; }
 
-                public DateTime? dataCicloInicial { get; set; }
-
-                public DateTime? dataCicloFinal { get; set; }
-
+                public List<DateTime> dateTimesCiclos { get; set; }
 
 
 
@@ -97,15 +94,17 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                             .Select(x => x.skuMarketplace.dataComissao.Value)
                             .ToList();
 
-                        var ciclos = this.skuMarketplaceDTOs
-                            .Where(x => x.skuMarketplace.dataCiclo.HasValue)
-                            .Select(x => x.skuMarketplace.dataCiclo.Value)
-                            .ToList();
+                        this.dateTimesCiclos = this.skuMarketplaceDTOs
+                        .Where(x => x.skuMarketplace.dataCiclo.HasValue)
+                        .Select(x => x.skuMarketplace.dataCiclo.Value.Date) 
+                        .Distinct()
+                        .OrderByDescending(d => d)
+                        .ToList();
+
 
                         this.dataComissaoInicial = comissoes.Any() ? comissoes.Min() : null;
                         this.dataComissaoFinal = comissoes.Any() ? comissoes.Max() : null;
-                        this.dataCicloInicial = ciclos.Any() ? ciclos.Min() : null;
-                        this.dataCicloFinal = ciclos.Any() ? ciclos.Max() : null;
+                       
                 }
 
 

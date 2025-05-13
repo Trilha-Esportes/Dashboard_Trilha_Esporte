@@ -37,8 +37,7 @@ namespace DashboardTrilhaEsporte.Application
         public SkuMarketplaceDadosDTO? ObterListaFiltrada(
             DateTime? dataComissaoInicio = null,
             DateTime? dataComissaoFinal = null,
-            DateTime? dataCicloInicio = null,
-            DateTime? dataClicloFinal = null,
+            DateTime? dataCicloSelecionada = null,
             string? numeroPedido = null,
             List<Erros>? listaErros = null,
             List<Eventos>? tipoEventos = null)
@@ -48,8 +47,7 @@ namespace DashboardTrilhaEsporte.Application
             {
                 dataComissaoInicio = dataComissaoInicio,
                 dataComissaoFinal = dataComissaoFinal,
-                dataCicloInicio = dataCicloInicio,
-                dataClicloFinal = dataClicloFinal,
+                dataCicloSelecionada = dataCicloSelecionada,
                 numeroPedido = numeroPedido,
                 listaErros = listaErros ?? new List<Erros>(),
                 TipoEventos = tipoEventos ?? new List<Eventos>()
