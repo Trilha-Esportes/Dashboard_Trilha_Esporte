@@ -1,6 +1,7 @@
 using DashboardTrilhaEsporte.Enums;
 using Npgsql;
 using System;
+using System.Globalization;
 
 namespace DashboardTrilhaEsporte.Domain.Entities{
 
@@ -120,6 +121,22 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
         return HashCode.Combine(hash1, hash2, hash3);
    }      
 
+    public override string ToString()
+    {
+    var culture = new CultureInfo("pt-BR");
+
+    return $"{skuMarketplaceId};" +
+           $"{marketplace};" +
+           $"{numeroPedido};" +
+           $"{tipoEventoNormalizado.GetDescription()};" +
+           $"{valorFinal.ToString("N2", culture)};" +
+           $"{valorLiquido.ToString("N2", culture)};" +
+           $"{porcentagem.ToString("N2", culture)};" +
+           $"{comissao.ToString("N2", culture)};" +
+           $"{(dataComissao.HasValue ? dataComissao.Value.ToString("dd/MM/yyyy") : "-")};" +
+           $"{(dataEvento.HasValue ? dataEvento.Value.ToString("dd/MM/yyyy") : "-")};" +
+           $"{(dataCiclo.HasValue ? dataCiclo.Value.ToString("dd/MM/yyyy") : "-")}";
+    }
 
 
 

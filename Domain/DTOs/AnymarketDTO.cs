@@ -1,6 +1,8 @@
 
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.Entities;
+using System.Globalization;
+
 
 
 // Essa classe é responsável por construir a estrutura representação (DTO) do AnymarketDTO
@@ -15,7 +17,6 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         public String? numeroPedido { get; set; }
         public Decimal valorSkumarketplace { get; set; }
         public Decimal valorVenda { get; set; }
-
         public Eventos tipoEventoNormalizado { get; set; }
         public AnymarketErros Erros { get; set; }
 
@@ -51,6 +52,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             var eventoNormalizado = primeiro.skuMarketplace.tipoEventoNormalizado;
             // Pega o primeiro valor de venda do dicionário, se não existir retorna 0
             var valorVendaAtual = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
+                        
             // Pega o primeiro valor de venda do dicionário, se não existir retorna 0
             var valorLiquido = grupo.Select(g => g.skuMarketplace.valorLiquido).DefaultIfEmpty(0m).Max();
 
@@ -82,5 +84,18 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
             return AnymarketErros.SemErros;
         }
+
+        public override string ToString()
+        {
+            var culture = new CultureInfo("pt-BR");
+
+            return $"{skuId};" +
+                $"{numeroPedido};" +
+                $"{valorSkumarketplace.ToString("N2", culture)};" +
+                $"{valorVenda.ToString("N2", culture)};" +
+                $"{tipoEventoNormalizado.GetDescription()};" +
+                $"{Erros.GetDescription()};";
+        }
+
     }
 }

@@ -51,3 +51,11 @@
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhaEsporte.pdb
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/DashboardTrilhaEsporte.genruntimeconfig.cache
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/ref/DashboardTrilhaEsporte.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/ClosedXML.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/ClosedXML.Parser.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/DocumentFormat.OpenXml.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/DocumentFormat.OpenXml.Framework.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/ExcelNumberFormat.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/RBush.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/SixLabors.Fonts.dll
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/bin/Debug/net9.0/System.IO.Packaging.dll

@@ -52,17 +52,30 @@
     private bool mostrarFiltro = false;
 
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+   protected override void OnInitialized()
+{
+    base.OnInitialized();
 
-        _theme = new()
+    _theme = new MudTheme()
+    {
+        PaletteLight = _lightPalette,
+        PaletteDark = _darkPalette,
+        LayoutProperties = new LayoutProperties(),
+
+         Typography = new Typography()
         {
-            PaletteLight = _lightPalette,
-            PaletteDark = _darkPalette,
-            LayoutProperties = new LayoutProperties()
-        };
-    }
+            Default = new DefaultTypography()
+            {
+                FontFamily = new[] { "Outfit" , "sans-serif" },
+                FontWeight = "500",
+
+            }
+        }
+        
+       
+    };
+}
+
 
     private void DrawerToggle()
     {
@@ -111,6 +124,8 @@
         TableLines = "#33323e",
         Divider = "#292838",
         OverlayLight = "#1e1e2d80",
+        
+
     };
 
     public string DarkLightModeButtonIcon => _isDarkMode switch

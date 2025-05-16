@@ -2,6 +2,8 @@
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.Service;
 using DashboardTrilhaEsporte.Domain.Entities;
+using System.Text;
+
 
 // Class responsável por construir a estrutura representação (DTO) do SkuMarketplace
 // O DTO é utilizado para transferir os dados do banco para interface depois de realizar o preprocessamento.
@@ -58,6 +60,18 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             return SkuMarketplaceDTOs;
         }
 
+
+        public override string ToString()
+        {
+            var strErros = new StringBuilder();
+
+            foreach (Erros erro in Enum.GetValues(typeof(Erros)))
+            {
+                strErros.Append(listaErros.Contains(erro) ? "Sim;" : "Não;");
+            }
+
+            return $"{skuMarketplace.ToString()};{strErros.ToString().TrimEnd(';')}";
+        }
 
     }
 }

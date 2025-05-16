@@ -12,11 +12,9 @@
 @inject DashboardTrilhaEsporte.Domain.Service.FiltroStateService FiltroService
 
 @inject ISnackbar Snackbar
-
+@inject IJSRuntime JS
 @inject SkuMarketplaceManager SkuManager
-
 @inject AnymarketManager AnymarketManager
-
 @inject ResumoFinanceiroManager FinanceiroManager
 
 
@@ -217,11 +215,15 @@ else
 
 
                 <div class="table-container">
-
-                    <div class="d-flex justify-content-center mb-5 mt-4" style="max-width: 100%;justify-content: center;">
-                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros do
-                            SkuMarkeplace
+                    
+                    <div class="mb-5 mt-4" style="max-width: 100%;">
+                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+                          Tabela: Dados dos Marketplaces
                         </MudText>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarSkuMarketplaceDTO">
+                            Baixar Tabela (Xlsx)
+                        </MudButton>
                     </div>
 
                     <div style="max-width: 100%; overflow-x: auto;">
@@ -382,11 +384,7 @@ else
                 <div class="table-container">
 
 
-                    <div class="d-flex justify-content-center mb-5 mt-6" style="max-width: 100%;justify-content: center;">
-                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros do
-                            Anymarket
-                        </MudText>
-                    </div>
+                  
 
                     <MudText Typo="Typo.h6">Selecione um Tipo de Erro</MudText>
 
@@ -400,6 +398,14 @@ else
                         </MudSelect>
 
                     </MudCard>
+                      <div class="mb-5 mt-4" style="max-width: 100%;">
+                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+                            Tabela: Dados dos Anymarkets
+                        </MudText>
+                         <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarAnymarketDTO">
+                            Baixar Tabela (Xlsx)
+                        </MudButton>
+                    </div>
 
 
                     <div style="max-width: 100%; overflow-x: auto;">
@@ -534,12 +540,13 @@ else
                     </div>
                     <div class="table-container">
 
-                        <div class="d-flex justify-content-center mb-5 mt-4"
-                            style="max-width: 100%;justify-content: center;">
-                            <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">Tabela com Registros
-                                do
-                                Resumo Financeiro
+                         <div class="mb-5 mt-4" style="max-width: 100%;">
+                            <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+                                Tabela: Dados do Resumo Financeiro
                             </MudText>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarResumoFinanceiroDTO">
+                                Baixar Tabela (Xlsx)
+                            </MudButton>
                         </div>
 
                         <div style="max-width: 100%; overflow-x: auto;">
@@ -638,7 +645,17 @@ else
 
         </MudTabPanel>
          <MudTabPanel Text="Descontar Houver">
-             <div style="max-width: 100%; overflow-x: auto;">
+
+            <div class="table-container"> 
+                   <div class="mb-5 mt-4" style="max-width: 100%;">
+                        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+                            Tabela : Eventos de Devolução
+                        </MudText>
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarSkuMarketplaceDescontarDTO">
+                            Baixar Tabela (Xlsx)
+                        </MudButton>
+                    </div>
+                    <div style="max-width: 100%; overflow-x: auto;">
                         <MudTable Items="skuMarketplaceDescontarListaCorrente.skuMarketplaceDTOs" Hover="true"
                             SortLabel="Ordenar por" Elevation="0" AllowUnsorted="false" Bordered="true" Striped="true"
                             FixedHeader="true">
@@ -723,7 +740,13 @@ else
                             </PagerContent>
                         </MudTable>
             </div>
+                
+            </div>
 
+
+         
+
+           
 
          </MudTabPanel>
 
@@ -928,5 +951,43 @@ else
         tipoErroSelecionado = selectedValues.ToList();
         FiltrarAnymarkert();
     }
+
+
+    private async Task BaixarSkuMarketplaceDTO()
+    {
+        var csv = CsvExportService.GerarCsvSkuMarketplaceDTO(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+
+        string fileName = $"SkuMarketplace_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+    }
+
+    private async Task BaixarAnymarketDTO()
+    {
+        var csv = CsvExportService.GerarCsvAnymarketDTO(anymarketDadosListaCorrente.anymarketDTOs);
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+
+        string fileName = $"Anymarket_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFile", fileName,xlsxBytes);
+    }
+
+     private async Task BaixarResumoFinanceiroDTO()
+    {
+        var csv = CsvExportService.GeraCsvResumoFinaceiroDTO(financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs);
+        
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+        string fileName = $"Resumo Finaceiro_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+    }
+
+    private async Task BaixarSkuMarketplaceDescontarDTO()
+    {
+        var csv = CsvExportService.GerarCsvSkuMarketplaceDescontarHouverDTO(skuMarketplaceDescontarListaCorrente.skuMarketplaceDTOs);
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+        string fileName = $"DescontarHouver_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+    }
+        
+  
 
 }

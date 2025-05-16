@@ -92,7 +92,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         Erros.FaltaDeComisao,
                         Erros.FaltaDataComissao,
                         Erros.ErroDevolucao
-                };
+                        };
 
                         foreach (var erro in errosParaContar)
                         {

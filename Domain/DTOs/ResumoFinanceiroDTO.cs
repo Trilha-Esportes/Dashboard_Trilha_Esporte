@@ -1,5 +1,8 @@
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.Entities;
+using System.Text;
+using System.Globalization;
+
 
 // Essa classe é responsável por construir a estrutura representação (DTO) do ResumoFinanceiro
 // É uma junção de dados que vem do SkuMarketplace e Vendas
@@ -9,8 +12,9 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
     public class ResumoFinanceiroDTO
     {
-        public String? marketplace { get; set; }
         public String? skuId { get; set; }
+
+        public String? marketplace { get; set; }
 
         // Numero do pedido
         public String? codigoPedido { get; set; }
@@ -35,7 +39,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             // Criar um dicionário para armazenar o valor de venda por skuMarketplaceId
             var vendaDict = vendas
             .GroupBy(v => v.skuMarketplaceId)
-             // trata as dublicações de skuMarketplaceId (pega o primeiro valor)
+            // trata as dublicações de skuMarketplaceId (pega o primeiro valor)
             .ToDictionary(g => g.Key, g => g.First().valorVenda);
 
             // Agrupar os skuMarketplaces por numeroPedido e marketplace
@@ -115,10 +119,10 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
 
         // Método responsável por calcular a situação do pagamento
-       
+
         private static StatusPagamento CalcularSituacaoPagamento(decimal valorRecebido, decimal valorAReceber)
         {
-             // Se o valor recebido for igual ao valor a receber, retorna Pago
+            // Se o valor recebido for igual ao valor a receber, retorna Pago
             // Se o valor recebido for maior que o valor a receber, retorna PagoAMais
             // Se o valor recebido for menor que o valor a receber, retorna PagoAMenos
             // Se o valor recebido for zero, retorna NãoPago
@@ -131,11 +135,11 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         }
 
         // Método responsável por calcular o valor descontado
-        
+
         private static decimal CalcularValorDescontado(IEnumerable<SkuMarketplaceDTO> grupo)
 
         {
-            
+
             //  Caso o evento seja "DescontarHoveHouve" ou "DescontarRetroativo",
             //  o valor descontado é o valor final do evento "DescontarHoveHouve" ou o valor final do evento "DescontarRetroativo"
 
@@ -168,7 +172,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         {
             // Caso o evento seja "DescontarHoveHouve", o erro de devolução é verdadeiro 
             // se o valor final do evento "DescontarHoveHouve" for diferente do valor total
-            
+
             var valorHove = grupo
                 .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.DescontarHoveHouve)
                 .Select(g => g.skuMarketplace.valorFinal)
@@ -189,6 +193,25 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                 return StatusPagamento.ErroDevolucao;
             return situacaoPagamento;
         }
+
+        public override string ToString()
+        {
+            var culture = new CultureInfo("pt-BR");
+
+          return $"{skuId};" +
+                $"{marketplace};" +
+                $"{codigoPedido};" +
+                $"{dataPedido?.ToString("dd/MM/yyyy")};" +
+                $"{valorTotalProdutos.ToString("N2", culture)};" +
+                $"{comissaoEsperada?.ToString("N2", culture)};" +
+                $"{valorRecebido.ToString("N2", culture)};" +
+                $"{valorAReceber.ToString("N2", culture)};" +
+                $"{valorDescontado.ToString("N2", culture)};" +
+                $"{descontoFrete.ToString("N2", culture)};" + 
+                $"{situacaoFinal.GetDescription()}";
+
+        }
+
     }
 
 }
