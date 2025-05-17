@@ -14,21 +14,24 @@
     <MudText Typo="Typo.h4" Class="font-weight-bold">
     </MudText>
 
-    <!-- Filtros e data à direita -->
-    <div class="d-flex align-center gap-6">
+   <MudGrid Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="2" Style="align-items: center;">
+    <MudItem>
         <MudText Typo="Typo.body1" Style="font-size: 1rem; white-space: nowrap;">
             @{
-                var brasilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"); // Horário de Brasília
+                var brasilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time");
                 var brasilDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, brasilTimeZone);
             }
             <b>Última Atualização:</b> @brasilDateTime.ToString("d MMM yyyy, HH:mm") GMT-3
         </MudText>
+    </MudItem>
 
+    <MudItem>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@OnFiltroClick">
             <MudIcon Icon="@Icons.Material.Filled.Search" Size="Size.Medium" Class="mr-1" />
             Filtros
         </MudButton>
-    </div>
+    </MudItem>
+</MudGrid>
 
 </MudPaper>
 
@@ -47,7 +50,7 @@
 
 @code {
     private bool _drawerOpen = true;
-    private bool _isDarkMode = true;
+    private bool _isDarkMode = false;
     private MudTheme? _theme = null;
     private bool mostrarFiltro = false;
 
@@ -58,7 +61,7 @@
 
     _theme = new MudTheme()
     {
-        PaletteLight = _lightPalette,
+        PaletteLight = _whitePalette,
         PaletteDark = _darkPalette,
         LayoutProperties = new LayoutProperties(),
 
@@ -100,7 +103,7 @@
     private readonly PaletteDark _darkPalette = new()
     {
         Primary = "#7e6fff",
-        Surface = "#1e1e2d",
+        Surface = "#f7f7f7",
         Background = "#1a1a27",
         BackgroundGray = "#151521",
         AppbarText = "#92929f",
@@ -124,9 +127,38 @@
         TableLines = "#33323e",
         Divider = "#292838",
         OverlayLight = "#1e1e2d80",
-        
 
     };
+
+   private readonly PaletteLight _whitePalette = new()
+{
+    Primary = "#ff6f00",               // Laranja vibrante como cor principal
+    Surface = "#ffffff",               // Superfície branca
+    Background = "#f5f5f5",            // Fundo levemente acinzentado
+    BackgroundGray = "#f0f0f0",        // Fundo cinza claro
+    AppbarText = "#000000",            // Texto preto para contraste
+    AppbarBackground = "rgba(255,255,255,0.95)", // Appbar translúcida branca
+    DrawerBackground = "#ffffff",      // Drawer branco
+    ActionDefault = "#333333",         // Preto suave para ações
+    ActionDisabled = "#cccccc80",      // Texto desabilitado com transparência
+    ActionDisabledBackground = "#e0e0e0", // Fundo desabilitado claro
+    TextPrimary = "#2e2a31",           // Texto primário preto
+    TextSecondary = "#4a4a4a",         // Texto secundário cinza escuro
+    TextDisabled = "#00000033",        // Texto desabilitado com transparência
+    DrawerIcon = "#ff6f00",            // Ícones em laranja
+    DrawerText = "#000000",            // Texto do drawer preto
+    GrayLight = "#e0e0e0",             // Cinza leve
+    GrayLighter = "#f5f5f5",           // Cinza mais leve
+    Info = "#2196f3",                  // Azul para informação
+    Success = "#43a047",               // Verde para sucesso
+    Warning = "#fb8c00",               // Laranja queimado para aviso
+    Error = "#e53935",                 // Vermelho para erro
+    LinesDefault = "#dddddd",          // Linhas padrão discretas
+    TableLines = "#e0e0e0",            // Linhas de tabela claras
+    Divider = "#e0e0e0",               // Divisores suaves
+    OverlayLight = "#ffffffcc",        // Overlay translúcido claro
+};
+
 
     public string DarkLightModeButtonIcon => _isDarkMode switch
     {
