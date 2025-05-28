@@ -10,21 +10,15 @@ namespace DashboardTrilhaEsporte.Enums
         [Description("Pago corretamente")]
         Pago,
 
-        [Description("Pago a maior")]
+        [Description("Pago a mais")]
         PagoAMais,
 
-        [Description("Pago a menor")]
+        [Description("Pago a menos")]
         PagoAMenos,
 
         [Description("Não pago")]
         NaoPago,
 
-
-        [Description("Pagamento Correto")]
-        Correto,
-
-        [Description("Erro de Devolução")]
-        ErroDevolucao
 
 
     }

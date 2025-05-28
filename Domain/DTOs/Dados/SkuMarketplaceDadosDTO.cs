@@ -177,7 +177,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
                 // Método responsável por obter a distribuição de eventos 
                 // Essa informação é para cosntrir graficos
-                public Dictionary<string, double> ObterDistribuicaoEventosEmPorcentagem()
+                public Dictionary<string, double> ObterDistribuicaoEventos()
                 {
                         var resultado = new Dictionary<string, double>();
 

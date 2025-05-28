@@ -13,7 +13,7 @@
     <MudText Typo="Typo.h4" Class="font-weight-bold">
     </MudText>
 
-   <MudGrid Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="2" Style="align-items: center;">
+   <MudGrid Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="10" Style="align-items: center;">
     <MudItem>
         <MudText Typo="Typo.body1" Style="font-size: 1rem; white-space: nowrap;">
             @{
@@ -26,8 +26,8 @@
 
     <MudItem>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@OnFiltroClick">
-            <MudIcon Icon="@Icons.Material.Filled.Search" Size="Size.Medium" Class="mr-1" />
-            Filtros
+            <MudIcon Icon="@Icons.Material.Filled.Search" Size="Size.Medium" Class="ml-5" />
+            Filtros Avançados
         </MudButton>
     </MudItem>
 </MudGrid>
@@ -51,7 +51,7 @@
     private bool _drawerOpen = true;
     private bool _isDarkMode = false;
     private MudTheme? _theme = null;
-    private bool mostrarFiltro = false;
+    private bool mostrarFiltro = true;
 
 
    protected override void OnInitialized()

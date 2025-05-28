@@ -389,7 +389,7 @@ else
                     <MudText Typo="Typo.h6">Selecione um Tipo de Erro</MudText>
 
                     <MudCard Class="mx-auto my-5 " Style="max-width: 100%;" Elevation="4">
-                        <MudSelect T="AnymarketErros" MultiSelection="true" SelectedValuesChanged="OnSelectedValuesChanged"
+                        <MudSelect T="AnymarketErros" MultiSelection="true" SelectedValuesChanged="OnSelectedValuesChangedAn"
                             Style="width: 100%;  border-radius: 8px;">
                             @foreach (var erro in Enum.GetValues<AnymarketErros>())
                             {
@@ -439,7 +439,7 @@ else
                                     </MudTableSortLabel>
                                 </MudTh>
                                 <MudTh Style="min-width: 180px; text-align: center;">
-                                    <MudTableSortLabel T="AnymarketDTO">
+                                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.Erros">
                                         Erros
                                     </MudTableSortLabel>
                                 </MudTh>
@@ -538,12 +538,41 @@ else
                             </MudItem>
                         </MudGrid>
                     </div>
+                    <div class="grafico-container">
+                        <MudPaper Class="p-6 mt-10 mb-10" Elevation="6" Style="border-radius: 12px;">
+                            <MudGrid>
+                                <MudItem xs="12" md="6" Class="d-flex justify-center">
+                                    <DonutChartComponent Data="@dadosStatusResumoFinanceiro" Labels="@labelsStatusResumoFinanceiro" Title="Total de Registros"
+                                        Width="350px" Height="350px" />
+                                </MudItem>
+                                <MudItem xs="12" md="6" Class="d-flex justify-center">
+                                    <DonutChartComponent Data="@dadosErrosResumoFinanceiro" Labels="@labelsErrosResumoFinanceiro"
+                                        Title="Total de Registros" Width="350px" Height="350px" />
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                  </div>
+
                     <div class="table-container">
 
                          <div class="mb-5 mt-4" style="max-width: 100%;">
                             <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
                                 Tabela: Dados do Resumo Financeiro
                             </MudText>
+
+                    <MudText Typo="Typo.h6">Filtrar Por Situação do Pagamento</MudText>
+
+                       <MudCard Class="mx-auto my-5 " Style="max-width: 100%;" Elevation="4">
+                        <MudSelect T="StatusPagamento" MultiSelection="true" SelectedValuesChanged="OnSelectedValuesChangedRF"
+                            Style="width: 100%;  border-radius: 8px;">
+                            @foreach (var status in Enum.GetValues<StatusPagamento>())
+                            {
+                                <MudSelectItem Value="@status">@status.GetDescription()</MudSelectItem>
+                            }
+                        </MudSelect>
+                        </MudCard>
+
+
                             <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarResumoFinanceiroDTO">
                                 Baixar Tabela (Xlsx)
                             </MudButton>
@@ -562,6 +591,12 @@ else
                                     <MudTh Style="min-width: 150px; text-align: center;">
                                         <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.codigoPedido">
                                             Código Pedido
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                     <MudTh Style="min-width: 160px; text-align: center;">
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.situacaoPagamento">
+                                        Situação do Pagamento
+
                                         </MudTableSortLabel>
                                     </MudTh>
                                     <MudTh Style="min-width: 150px; text-align: center;">
@@ -600,17 +635,23 @@ else
                                         </MudTableSortLabel>
                                     </MudTh>
 
-
-
                                     <MudTh Style="min-width: 160px; text-align: center;">
-                                        Situação Final
+                                        <MudTableSortLabel T="ResumoFinanceiroDTO" SortBy="x => x.situacaoFinal">
+                                        Situação Final do Pagamento
+                                        </MudTableSortLabel>
                                     </MudTh>
+
+                                   
                                 </HeaderContent>
 
                                 <RowTemplate>
                                     <MudTd DataLabel="Marketplace" Style="text-align: center;">@context.marketplace</MudTd>
                                     <MudTd DataLabel="Código Pedido" Style="text-align: center;">@context.codigoPedido
                                     </MudTd>
+
+                                    <MudTd DataLabel="Situação do Pagamento" Style="text-align: center;">
+                                        @context.situacaoPagamento.GetDescription()</MudTd>
+
                                     <MudTd DataLabel="Data Pedido" Style="text-align: center;">
                                         @context.dataPedido?.ToString("dd/MM/yyyy")</MudTd>
                                     <MudTd DataLabel="Valor Total Produtos" Style="text-align: center;">
@@ -626,9 +667,10 @@ else
                                         @context.valorDescontado.ToString("C")</MudTd>
                                     <MudTd DataLabel="Desconto Frete" Style="text-align: center;">
                                         @context.descontoFrete.ToString("C")</MudTd>
-
-                                    <MudTd DataLabel="Situação Final" Style="text-align: center;">
+                                    
+                                    <MudTd DataLabel="Desconto Frete" Style="text-align: center;">
                                         @context.situacaoFinal.GetDescription()</MudTd>
+
                                 </RowTemplate>
 
                                 <PagerContent>
@@ -743,11 +785,6 @@ else
                 
             </div>
 
-
-         
-
-           
-
          </MudTabPanel>
 
 
@@ -769,8 +806,13 @@ else
     // Copia da lista corrente de dados do Anymarket (para o filtro interno da seção)
     private AnymarketDadosDTO? anymarketDadosListaTemporaria = new AnymarketDadosDTO();
 
+     
     // Lista corrente de dados do Financeiro
     private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaCorrente;
+
+    // Copia da lista corrente de dados do Resumo Finaceiro (para o filtro interno da seção)
+    private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaTemporaria = new ResumoFinanceiroDadosDTO();
+
 
 
     // Dados para os gráficos
@@ -778,6 +820,13 @@ else
     private string[] labelsTiposErros = [];
     private double[] dadosTiposEventos = [];
     private string[] labelsTiposEventos = [];
+
+    private string[] labelsStatusResumoFinanceiro = [];
+    private double[] dadosStatusResumoFinanceiro = [];
+    private string[] labelsErrosResumoFinanceiro = [];
+    private double[] dadosErrosResumoFinanceiro = [];
+
+
 
     // Formulario para filtro avançado
     public MudForm form;
@@ -791,6 +840,9 @@ else
 
     // Lista de Erros selecionado na seção do anymarket
     private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
+
+    private List<StatusPagamento> resumoFinaceiroStatus { get; set; } = new();
+
 
     // Metodo princial (inicia e renderiza os dados)
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -819,8 +871,12 @@ else
                 // Aguarda os dados do FinanceiroManager
                 await FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
+
                 // cria uma nova instância de ResumoFinanceiroDadosDTO com os dados carregados
                 financeiroDadosDTOListaCorrente = FinanceiroManager.FinanceiroDadosDTO;
+
+                // Mantem uma cópia temporária dos dados do Financeiro ( para o filtro interno dessa secção)
+                financeiroDadosDTOListaTemporaria.resumoFinanceiroDTOs =financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs.ToList();
 
                 // Cria uma nova instância de SkuMarketplaceDadosDTO com os dados com erro de devolução
                 
@@ -862,9 +918,25 @@ else
             //Grafico de rosca Eventos
 
             Dictionary<string, double> resultadosNumeroEventos =
-            skuMarketplaceListaCorrente.ObterDistribuicaoEventosEmPorcentagem();
+            skuMarketplaceListaCorrente.ObterDistribuicaoEventos();
             labelsTiposEventos = resultadosNumeroEventos.Keys.ToArray();
             dadosTiposEventos = resultadosNumeroEventos.Values.ToArray();
+
+
+            // Grafíco para Resumo Financeiro
+            Dictionary<string, double> statusPagamento =
+             financeiroDadosDTOListaCorrente.ObterDistribuicaoPagamento();
+           
+            labelsStatusResumoFinanceiro = statusPagamento.Keys.ToArray();
+            dadosStatusResumoFinanceiro = statusPagamento.Values.ToArray();
+
+
+
+            Dictionary<string, double> errosPagamentos =
+             financeiroDadosDTOListaCorrente.ObterDistribuicaoErrosPagamento();
+           
+            labelsErrosResumoFinanceiro = errosPagamentos.Keys.ToArray();
+            dadosErrosResumoFinanceiro = errosPagamentos.Values.ToArray();
 
         }
 
@@ -903,8 +975,11 @@ else
             anymarketDadosListaTemporaria.anymarketDTOs = anymarketDadosListaCorrente.anymarketDTOs.ToList();
 
 
+
             // Recriação do objeto com lista filtrada
             financeiroDadosDTOListaCorrente = new ResumoFinanceiroDadosDTO(financeiroFiltrados);
+            financeiroDadosDTOListaTemporaria.resumoFinanceiroDTOs =financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs.ToList();
+
 
 
             ExtrairResultadosListaCorrente();
@@ -926,9 +1001,23 @@ else
         var listaOriginal = anymarketDadosListaTemporaria.anymarketDTOs;
 
         anymarketDadosListaCorrente.anymarketDTOs = (tipoErroSelecionado == null || !tipoErroSelecionado.Any())
-        ? listaOriginal.ToList() // nova instância
+        ? listaOriginal.ToList() 
         : listaOriginal
         .Where(dto => tipoErroSelecionado.Contains(dto.Erros))
+        .ToList();
+    }
+
+
+     // Metodo que filtra os dados do Anymarket
+    private void FiltrarResumoFinaceiro()
+    {
+        var listaOriginal = financeiroDadosDTOListaTemporaria.resumoFinanceiroDTOs.ToList();
+
+
+        financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs = (resumoFinaceiroStatus == null || !resumoFinaceiroStatus.Any())
+        ? listaOriginal.ToList() 
+        : listaOriginal
+        .Where(dto => resumoFinaceiroStatus.Contains(dto.situacaoPagamento))
         .ToList();
     }
 
@@ -946,10 +1035,18 @@ else
 
     // Metodo que gerencia a lista de erros do filtro anymarket
 
-    private void OnSelectedValuesChanged(IEnumerable<AnymarketErros> selectedValues)
+    private void OnSelectedValuesChangedAn(IEnumerable<AnymarketErros> selectedValues)
     {
         tipoErroSelecionado = selectedValues.ToList();
         FiltrarAnymarkert();
+    }
+
+     // Metodo que gerencia a lista de status do filtro resumo financeiro
+
+    private void OnSelectedValuesChangedRF(IEnumerable<StatusPagamento> selectedValues)
+    {
+        resumoFinaceiroStatus = selectedValues.ToList();
+        FiltrarResumoFinaceiro();
     }
 
 

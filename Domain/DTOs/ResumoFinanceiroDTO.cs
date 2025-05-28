@@ -28,7 +28,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
         public StatusPagamento situacaoPagamento { get; set; }
 
-        public StatusPagamento situacaoFinal { get; set; }
+        public ErrosPagamento situacaoFinal { get; set; }
 
 
         // Método responsável por montar o resumo financeiro
@@ -184,14 +184,16 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
 
         // Método responsável por calcular a situação final do pagamento
-        private static StatusPagamento CalcularSituacaoFinal(StatusPagamento situacaoPagamento, decimal diferenca, bool erroDevolucao)
+        private static ErrosPagamento CalcularSituacaoFinal(StatusPagamento situacaoPagamento, decimal diferenca, bool erroDevolucao)
         {
             // Se a diferença for menor que 0.01 e não houver erro de devolução, retorna Correto
             if (Math.Abs(diferenca) < 0.01m && !erroDevolucao)
-                return StatusPagamento.Correto;
+                return ErrosPagamento.PagamentoCorreto;
             if (erroDevolucao)
-                return StatusPagamento.ErroDevolucao;
-            return situacaoPagamento;
+                return ErrosPagamento.ErroDevolucao;
+
+            return ErrosPagamento.ErroNoPagamento;
+
         }
 
         public override string ToString()

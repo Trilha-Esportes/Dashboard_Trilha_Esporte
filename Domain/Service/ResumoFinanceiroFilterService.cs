@@ -21,7 +21,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
         {
             var query = lista.AsQueryable();
 
-            query = query.Where(x => x.situacaoFinal == statusPagamento);
+            query = query.Where(x => x.situacaoPagamento == statusPagamento);
 
             return query.ToList();
         }
