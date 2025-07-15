@@ -84,6 +84,21 @@ namespace DashboardTrilhaEsporte.Domain.Service{
            $"{(item.dataCiclo.HasValue ? item.dataCiclo.Value.ToString("dd/MM/yyyy") : "-")}";
         }
 
+
+         public static string GerarCsvScraping(List<Scraping> lista)
+        {
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Id;Marketplace;SKU;Nome de Venda;Nome Oficial;Link Ativo;Sem Estoque;Preço;Descrição de Erro;Data de Criação");
+
+                foreach (var item in lista)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+
+                return sb.ToString();
+        }
+
         // Método responsável por converter o CSV para XLSX
         public static byte[] CsvToXlsx(string csvContent, char separator = ';')
         {
@@ -106,7 +121,7 @@ namespace DashboardTrilhaEsporte.Domain.Service{
 
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
-            return stream.ToArray(); 
+            return stream.ToArray();
         }
         
 

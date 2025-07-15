@@ -12,7 +12,7 @@ namespace DashboardTrilhaEsporte.Domain.Entities{
 public class SkuMarketplace : IEquatable<SkuMarketplace>
 {
     public String? marketplace { get; set; } 
-    public string? skuMarketplaceId { get; set; }
+    public String? skuMarketplaceId { get; set; }
     public String? numeroPedido { get; set; }
     public Decimal valorLiquido { get; set; }
     public DateTime? dataComissao { get; set; }

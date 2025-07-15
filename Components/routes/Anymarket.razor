@@ -1,0 +1,176 @@
+@namespace DashboardTrilhaEsporte.Components.routes
+
+@using DashboardTrilhaEsporte.Components.Layout;
+
+@using DashboardTrilhaEsporte.Domain.DTOs
+@using DashboardTrilhaEsporte.Enums
+@using DashboardTrilhaEsporte.Domain.Service;
+@inject IJSRuntime JS
+
+@code{
+
+    [Parameter]
+    public AnymarketDadosDTO? anymarketDadosListaCorrente {get; set;}
+
+    [Parameter]
+    public  Action< List<AnymarketErros>>? OnFiltrarAction { get; set; }
+
+
+    private async Task BaixarAnymarketDTO()
+    {
+        if (anymarketDadosListaCorrente != null){
+            var csv = CsvExportService.GerarCsvAnymarketDTO(anymarketDadosListaCorrente.anymarketDTOs);
+            var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+
+            string fileName = $"Anymarket_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+            await JS.InvokeVoidAsync("downloadFile", fileName,xlsxBytes);
+        }
+    }
+
+    private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
+
+      private void AcionarFiltro(IEnumerable<AnymarketErros> selectedValues)
+    {
+        tipoErroSelecionado = selectedValues.ToList();
+        OnFiltrarAction?.Invoke(tipoErroSelecionado);
+
+    }
+
+}
+
+@if (anymarketDadosListaCorrente != null){
+    <div class="card-container">
+
+    <div class="d-flex justify-content-center mb-5 mt-4" style="max-width: 100%;justify-content: space-around;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 ">Resumo dos Dados
+        </MudText>
+    </div>
+
+
+    <MudGrid GutterSize="20px" Class="d-flex justify-space-around align-center mb-6" Style="padding: 16px;">
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                    <MudIcon Icon="fas fa-exclamation-triangle" Size="Size.Large"
+                        Style="font-size:40px; color:red; margin-bottom:15px;" />
+
+                    <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
+                        @anymarketDadosListaCorrente.totalVendasNaoEncontada
+
+                    </MudText>
+                    <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                        Quantidade Total de Vendas Encontradas
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                    <MudIcon Icon="fas fa-exclamation-triangle" Size="Size.Large"
+                        Style="font-size:40px; color:red; margin-bottom:15px;" />
+
+                    <MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:bold; font-size:24px;">
+                        @anymarketDadosListaCorrente.totalVendasValorDivergente
+                    </MudText>
+                    <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                        Quantidade Total de Vendas com Valor Divergente
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
+
+        </MudItem>
+    </MudGrid>
+</div>
+
+ <MudText Class="ml-2" Typo="Typo.h5">Selecione um Tipo de Erro</MudText>
+
+    <MudCard Class="mx-auto my-5 " Style="max-width: 100%;" Elevation="4">
+        <MudSelect T="AnymarketErros" MultiSelection="true" SelectedValuesChanged="AcionarFiltro"
+            Style="width: 100%;  border-radius: 8px;">
+            @foreach (var erro in Enum.GetValues<AnymarketErros>())
+                {
+                <MudSelectItem Value="@erro">@erro.GetDescription()</MudSelectItem>
+                }
+        </MudSelect>
+
+    </MudCard>
+<div class="table-container " style="background:rgba(255, 255, 255, 0.329)">
+    
+
+     <div style="max-width: 100%; overflow-x: auto; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); border-radius: 2%;">
+
+    <div class="mb-5 mt-4" style="max-width: 100%;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 mt-2 mb-5 ">
+            Tabela: Dados dos Anymarkets
+        </MudText>
+        <MudButton  Class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarAnymarketDTO">
+            Baixar Tabela (Xlsx)
+        </MudButton>
+    </div>
+
+        <MudTable Items="anymarketDadosListaCorrente.anymarketDTOs" Hover="true" SortLabel="Ordenar por" Elevation="0"
+            Bordered="true" Striped="true" FixedHeader="true">
+
+            <HeaderContent>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.skuId">
+                        SKU ID
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.numeroPedido">
+                        Número Pedido
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorSkumarketplace">
+                        Valor Marketplace
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.valorVenda">
+                        Valor Venda
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.tipoEventoNormalizado">
+                        Tipo Evento
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 180px; text-align: center;">
+                    <MudTableSortLabel T="AnymarketDTO" SortBy="x => x.Erros">
+                        Erros
+                    </MudTableSortLabel>
+                </MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd DataLabel="SKU ID" Style="text-align: center;">@context.skuId</MudTd>
+                <MudTd DataLabel="Número Pedido" Style="text-align: center;">@context.numeroPedido</MudTd>
+                <MudTd DataLabel="Valor Marketplace" Style="text-align: center;">
+                    @context.valorSkumarketplace.ToString("C")</MudTd>
+                <MudTd DataLabel="Valor Venda" Style="text-align: center;">@context.valorVenda.ToString("C")
+                </MudTd>
+                <MudTd DataLabel="Tipo Evento" Style="text-align: center;">
+                    @context.tipoEventoNormalizado.GetDescription()</MudTd>
+                <MudTd DataLabel="Erros" Style="text-align: center;">
+
+
+                    <span>@context.Erros.GetDescription()</span>
+
+                </MudTd>
+            </RowTemplate>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+            </PagerContent>
+        </MudTable>
+    </div>
+
+</div>
+
+}else{
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}

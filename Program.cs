@@ -32,9 +32,12 @@ builder.Services.AddMudServices();
 builder.Services.AddSingleton<DBContext>(new DBContext(connectionString));
 builder.Services.AddScoped<SkuMarketplaceRepository>();
 builder.Services.AddScoped<VendasRepository>();
+builder.Services.AddScoped<ScrapingRepository>();
 builder.Services.AddScoped<SkuMarketplaceManager>();
 builder.Services.AddScoped<AnymarketManager>();
 builder.Services.AddScoped<ResumoFinanceiroManager>();
+builder.Services.AddScoped<ScrapingManager>();
+
 builder.Services.AddScoped<FiltroStateService>();
 
 

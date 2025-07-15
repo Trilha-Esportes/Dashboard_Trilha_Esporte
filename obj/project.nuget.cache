@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "VE84Ksa6umo=",
+  "dgSpecHash": "Ztgcbz8w2gw=",
   "success": true,
   "projectFilePath": "/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/DashboardTrilhaEsporte.csproj",
   "expectedPackageFiles": [
@@ -30,7 +30,7 @@
     "/home/wilkerson/.nuget/packages/microsoft.netcore.platforms/1.1.1/microsoft.netcore.platforms.1.1.1.nupkg.sha512",
     "/home/wilkerson/.nuget/packages/microsoft.netcore.targets/1.1.3/microsoft.netcore.targets.1.1.3.nupkg.sha512",
     "/home/wilkerson/.nuget/packages/microsoft.win32.primitives/4.3.0/microsoft.win32.primitives.4.3.0.nupkg.sha512",
-    "/home/wilkerson/.nuget/packages/mudblazor/8.6.0/mudblazor.8.6.0.nupkg.sha512",
+    "/home/wilkerson/.nuget/packages/mudblazor/8.8.0/mudblazor.8.8.0.nupkg.sha512",
     "/home/wilkerson/.nuget/packages/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
     "/home/wilkerson/.nuget/packages/npgsql/9.0.3/npgsql.9.0.3.nupkg.sha512",
     "/home/wilkerson/.nuget/packages/rbush.signed/4.0.0/rbush.signed.4.0.0.nupkg.sha512",

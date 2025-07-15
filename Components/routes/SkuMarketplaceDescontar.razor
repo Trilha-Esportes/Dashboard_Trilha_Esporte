@@ -1,0 +1,125 @@
+@namespace DashboardTrilhaEsporte.Components.routes
+
+@using DashboardTrilhaEsporte.Components.Layout;
+
+@using DashboardTrilhaEsporte.Domain.DTOs
+@using DashboardTrilhaEsporte.Enums
+@using DashboardTrilhaEsporte.Domain.Service;
+
+@inject IJSRuntime JS
+
+@code{
+
+    [Parameter]
+    public SkuMarketplaceDadosDTO? skuMarketplaceDescontarListaCorrente {get; set;}
+
+    private async Task BaixarSkuMarketplaceDescontarDTO()
+    {
+        var csv = CsvExportService.GerarCsvSkuMarketplaceDescontarHouverDTO(skuMarketplaceDescontarListaCorrente.skuMarketplaceDTOs);
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+        string fileName = $"DescontarHouver_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+    }
+    
+
+}
+@if(skuMarketplaceDescontarListaCorrente !=null){
+<div class="table-container">
+    
+    <div class="mt-16" style="max-width: 100%; overflow-x: auto; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); border-radius: 2%">
+       <div class="mt-6 mb-5 mt-4" style="max-width: 100%;">
+        <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+            Tabela : Eventos de Devolução
+        </MudText>
+        <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarSkuMarketplaceDescontarDTO">
+            Baixar Tabela (Xlsx)
+        </MudButton>
+        </div>
+       
+        <MudTable Items="skuMarketplaceDescontarListaCorrente.skuMarketplaceDTOs" Hover="true" SortLabel="Ordenar por"
+            Elevation="0" AllowUnsorted="false" Bordered="true" Striped="true" FixedHeader="true">
+
+            <HeaderContent>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.skuMarketplaceId">
+                        id
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.numeroPedido">
+                        Número Pedido
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 120px;  text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.valorLiquido">
+                        Valor Pedido
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 120px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.valorFinal">
+                        Valor Final
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 150px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.tipoEventoNormalizado">
+                        Tipo Evento
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 140px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO"
+                        SortBy="x => (x.skuMarketplace.valorFinal + x.skuMarketplace.valorLiquido)">
+                        Diferença entre os valores
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="min-width: 140px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.dataEvento">
+                        Data do Pedido
+                    </MudTableSortLabel>
+                </MudTh>
+
+
+                <MudTh Style="min-width: 140px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.dataCiclo">
+                        Data do Ciclo
+                    </MudTableSortLabel>
+                </MudTh>
+
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd DataLabel="Número Pedido" Style="text-align: center;">
+                    @context.skuMarketplace.skuMarketplaceId</MudTd>
+                <MudTd DataLabel="Número Pedido" Style="text-align: center;">
+                    @context.skuMarketplace.numeroPedido</MudTd>
+                <MudTd DataLabel="Valor Pedido" Style="text-align: center;">
+                    @context.skuMarketplace.valorLiquido.ToString("C")</MudTd>
+                <MudTd DataLabel="Valor Final" Style="text-align: center;">
+                    @context.skuMarketplace.valorFinal.ToString("C")</MudTd>
+                <MudTd DataLabel="Tipo Evento" Style="text-align: center;">
+                    @context.skuMarketplace.tipoEventoNormalizado.GetDescription()
+                </MudTd>
+
+                <MudTd DataLabel="Diferença" Style=@($"text-align: center; color:{(context.skuMarketplace.valorFinal + context.skuMarketplace.valorLiquido>= 0 ? "green" : "red")};")>
+                    @((context.skuMarketplace.valorFinal + context.skuMarketplace.valorLiquido).ToString("C"))
+                </MudTd>
+                <MudTd DataLabel="Data do Pedido" Style="text-align: center;">
+                    @context.skuMarketplace.dataEvento?.ToShortDateString()
+                </MudTd>
+
+                <MudTd DataLabel="Data do Ciclo" Style="text-align: center;">
+                    @context.skuMarketplace.dataCiclo?.ToShortDateString()
+                </MudTd>
+
+            </RowTemplate>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+            </PagerContent>
+        </MudTable>
+    </div>
+
+</div>
+}else{
+     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+
+}

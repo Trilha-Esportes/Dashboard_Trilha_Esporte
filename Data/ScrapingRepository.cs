@@ -1,0 +1,88 @@
+using DashboardTrilhaEsporte.Domain.Entities;
+using Npgsql;
+
+namespace DashboardTrilhaEsporte.Data
+{
+    public class ScrapingRepository
+    {
+        private readonly DBContext _dbContext;
+
+        public ScrapingRepository(DBContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public List<Scraping> ObterTodos()
+        {
+            var lista = new List<Scraping>();
+
+            using (var connection = _dbContext.CreateConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+               WITH UltimoScraping AS (
+                    SELECT 
+                        s.*,
+                        ROW_NUMBER() OVER (PARTITION BY s.id_produto ORDER BY s.data_criacao DESC) AS rn
+                    FROM scraping s
+                )
+                SELECT 
+                    s.id,
+                    s.nome_produto AS nome_de_venda,
+                    p.nome AS nome_produto,
+                    m.nome AS nome_marketplace,
+                    s.link_ativo,
+                    s.tag_sem_estoque,
+                    s.preco_produto, 
+                    s.descricao_erro,
+                    p.sku_marketplace,
+                    s.id_scraping_historico,
+                    s.id_produto,
+                    s.data_criacao                 
+                FROM UltimoScraping s
+                LEFT JOIN produtos p ON p.id = s.id_produto
+                LEFT JOIN marketplaces m ON p.marketplace_id = m.id
+                WHERE s.rn = 1;
+
+                ";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
+                        lista.Add(scraping);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public List<Scraping> BuscarPorIdScrapingHistorico(int idHistorico)
+        {
+            var lista = new List<Scraping>();
+
+            using (var connection = _dbContext.CreateConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT * FROM scraping WHERE id_scraping_historico = @id";
+                var parametro = command.CreateParameter();
+                parametro.ParameterName = "@id";
+                parametro.Value = idHistorico;
+                command.Parameters.Add(parametro);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
+                        lista.Add(scraping);
+                    }
+                }
+            }
+
+            return lista;
+        }
+    }
+}

@@ -11,7 +11,7 @@
           "Blazored.LocalStorage": "4.5.0",
           "ClosedXML": "0.105.0",
           "DotNetEnv": "3.1.1",
-          "MudBlazor": "8.6.0",
+          "MudBlazor": "8.8.0",
           "Npgsql": "9.0.3"
         },
         "runtime": {
@@ -259,7 +259,7 @@
           "System.Runtime": "4.3.1"
         }
       },
-      "MudBlazor/8.6.0": {
+      "MudBlazor/8.8.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Components": "9.0.1",
           "Microsoft.AspNetCore.Components.Web": "9.0.1",
@@ -267,8 +267,8 @@
         },
         "runtime": {
           "lib/net9.0/MudBlazor.dll": {
-            "assemblyVersion": "8.6.0.0",
-            "fileVersion": "8.6.0.0"
+            "assemblyVersion": "8.8.0.0",
+            "fileVersion": "8.8.0.0"
           }
         }
       },
@@ -1175,12 +1175,12 @@
       "path": "microsoft.win32.primitives/4.3.0",
       "hashPath": "microsoft.win32.primitives.4.3.0.nupkg.sha512"
     },
-    "MudBlazor/8.6.0": {
+    "MudBlazor/8.8.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vJROmWdTjiBmyiZBSbD8RcYVFfLbNMEQpKoCOMfY2628KbOLGVcnH1RBziHGyJH9pqc99UoCQS81XLm8X+49ug==",
-      "path": "mudblazor/8.6.0",
-      "hashPath": "mudblazor.8.6.0.nupkg.sha512"
+      "sha512": "sha512-9LTen4AUh+GjXqKcrBoUxCZEEgnKx3a+82k2F7K849rfpGs/fQ1pha0sw2upMzGFIsCRfI+w8bkgZZspJCxbpQ==",
+      "path": "mudblazor/8.8.0",
+      "hashPath": "mudblazor.8.8.0.nupkg.sha512"
     },
     "NETStandard.Library/1.6.1": {
       "type": "package",

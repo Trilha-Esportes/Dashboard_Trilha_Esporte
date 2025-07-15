@@ -1,0 +1,148 @@
+@namespace DashboardTrilhaEsporte.Components.routes
+@using DashboardTrilhaEsporte.Domain.DTOs
+@using DashboardTrilhaEsporte.Domain.Entities
+@using DashboardTrilhaEsporte.Domain.Service;
+@inject IJSRuntime JS
+
+@code {
+    [Parameter]
+    public ScrapingDadosDTO? scrapingDadosDTOListaCorrente { get; set; }
+
+    private async Task BaixarScrapingDTO()
+    {
+        if(scrapingDadosDTOListaCorrente !=null){
+            
+        var csv = CsvExportService.GerarCsvScraping(scrapingDadosDTOListaCorrente.scrapings);
+        var fileName = $"ResumoScraping_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        byte[] fakeBytes = System.Text.Encoding.UTF8.GetBytes("arquivo de teste");
+        await JS.InvokeVoidAsync("downloadFile", fileName, fakeBytes);
+        }
+    }
+}
+
+@if (scrapingDadosDTOListaCorrente != null)
+{
+    <div class="d-flex justify-content-center mb-5 mt-4" style="max-width: 100%;justify-content: center;">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 "> Resumo do Scraping
+        </MudText>
+    </div>
+
+    <div class="card-container">
+        <MudGrid GutterSize="20px" Class="pa-4">
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                        <MudIcon Icon="@Icons.Material.Filled.Link" Color="Color.Success" Class="me-2" />
+                        <MudText Typo="Typo.h5" Style="font-weight:bold; font-size:24px;">
+                            @scrapingDadosDTOListaCorrente.quantidadeLinksAtivos
+                        </MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                            Links Ativos
+                        </MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                        <MudIcon Icon="@Icons.Material.Filled.LinkOff" Color="Color.Error" Class="me-2" />
+                        <MudText Typo="Typo.h5" Style="font-weight:bold; font-size:24px;">
+                            @scrapingDadosDTOListaCorrente.quantidadeLinksDesativados
+                        </MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                            Links Desativados
+                        </MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="6" Style="border-radius:10px; text-align:center; padding:20px;">
+                    <MudCardContent Style="display:flex; flex-direction:column; align-items:center;">
+                        <MudIcon Icon="@Icons.Material.Filled.Inventory" Color="Color.Warning" Class="me-2" />
+                        <MudText Typo="Typo.h5" Style="font-weight:bold; font-size:24px;">
+                            @scrapingDadosDTOListaCorrente.quantidadeProdutosSemEstoque
+                        </MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size:16px;">
+                            Produtos Sem Estoque
+                        </MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </div>
+
+   
+    <div class="table-container">
+        <div class="mb-5 mt-4" style="max-width: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
+                Tabela: Dados do Scraping
+            </MudText>
+
+            <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarScrapingDTO">
+                Baixar Tabela (Xlsx)
+            </MudButton>
+        </div>
+
+        <div style="max-width: 100%; overflow-x: auto; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); border-radius: 2% ">
+            <MudTable Items="@scrapingDadosDTOListaCorrente.scrapings" Hover="true" Bordered="true" Striped="true" FixedHeader="true">
+                <HeaderContent>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.nomeProduto">
+                            Produto
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.nomeMarketplace">
+                            Marketplace
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.precoProduto">
+                            Preço
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.tagSemEstoque">
+                            Estoque
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.descricaoErro">
+                            Descrição do Erros
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.dataCriacao">
+                            Data de verificação
+                        </MudTableSortLabel>
+                    </MudTh>
+                </HeaderContent>
+
+               <RowTemplate>
+                    <MudTd DataLabel="Nome Produto">
+                        @(!string.IsNullOrWhiteSpace(context.nomeProduto) ? context.nomeProduto : "Produto Nao Encontrado")
+
+                    </MudTd>
+                    <MudTd DataLabel="Nome Marketplace" Style="text-align: center;">@context.nomeMarketplace</MudTd>
+                    <MudTd DataLabel="Preço do Produto" Style="text-align: center;">@context.precoProduto.ToString("C")</MudTd>
+                    <MudTd DataLabel="Estoque" Style="text-align: center;">
+                        @(context.tagSemEstoque ? "Sem Estoque" : "Disponível")
+                    </MudTd>
+                    <MudTd DataLabel="Descrição do Erros" Style="text-align: center;">
+                      @(!string.IsNullOrWhiteSpace(context.descricaoErro) ? context.descricaoErro : "Sem Erros")
+                    </MudTd>
+                    <MudTd DataLabel="Data criação" Style="text-align: center;">@context.dataCriacao.ToString("dd/MM/yyyy")</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+                </PagerContent>
+            </MudTable>
+        </div>
+    </div>
+}
+else
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
