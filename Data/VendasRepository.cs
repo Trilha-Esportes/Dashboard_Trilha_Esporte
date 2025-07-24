@@ -9,51 +9,63 @@ namespace DashboardTrilhaEsporte.Data
     {
         private readonly DBContext _dbContext;
 
-        // Variável privada para armazenar a lista de Vendas (Mantendo em memória)
-        public Task<List<Vendas>>? _listaVendas;
+        // Armazena a lista de vendas em cache
+        private Task<List<Vendas>>? _listaVendasTask;
 
         public VendasRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
-        // Usa a conexão do DBContext para criar um comando SQL e executar a consulta.
-        // O resultado é mapeado para uma lista de objetos Vendas (Busca Asincrona).
-        public Task<List<Vendas>> ObterlistaVendas()
+
+        // Busca assíncrona da lista de vendas
+        public async Task<List<Vendas>> ObterListaVendasAsync()
         {
-            // Verifica se a lista já foi carregada. Se não, carrega os dados do banco.
-            if (_listaVendas == null)
+            DateTime inicio = DateTime.Now;
+
+            // Se já foi carregado antes, retorna diretamente
+            if (_listaVendasTask != null)
+                return await _listaVendasTask;
+
+            _listaVendasTask = CarregarVendasDoBancoAsync();
+
+            DateTime fim = DateTime.Now;
+            TimeSpan duracao = fim - inicio;
+
+            Console.WriteLine($"Duração vendas: {duracao.TotalMilliseconds} ms");
+
+            return await _listaVendasTask;
+        }
+
+        private async Task<List<Vendas>> CarregarVendasDoBancoAsync()
+        {
+            var listaVendas = new List<Vendas>();
+
+            using var connection = _dbContext.CreateConnection(); // usando normal
+            await ((System.Data.Common.DbConnection)connection).OpenAsync();
+
+            using var command = connection.CreateCommand(); // usando normal
+            command.CommandText = @"
+            
+            SELECT
+                v.id AS venda_id,
+                v.sku_marketplace_id,
+                v.valor_liquido AS valor_vendas,
+                cp.porcentagem,
+                cp.porcentagem_especiais              
+                FROM vendas v
+                LEFT JOIN  comissoes_periodo cp  ON v.data  BETWEEN cp.data_inicio AND cp.data_fim;
+            ";
+
+            await using var reader = await ((System.Data.Common.DbCommand)command).ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
-
-                List<Vendas> listaVendas = new List<Vendas>();
-
-                using (var connection = _dbContext.CreateConnection())
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = @"
-                        SELECT
-                        id AS venda_id,
-                        sku_marketplace_id,
-                        valor_liquido AS valor_vendas
-                        FROM vendas
-                    ";
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            // Mapeia cada linha do resultado para um objeto Vendas
-                            var registro = Vendas.MapearRegistro((NpgsqlDataReader)reader);
-                            listaVendas.Add(registro);
-                        }
-                    }
-                }
-                this._listaVendas = Task.FromResult(listaVendas);
-
+                var registro = Vendas.MapearRegistro((NpgsqlDataReader)reader);
+                listaVendas.Add(registro);
             }
 
-            return this._listaVendas;
-
+            return listaVendas;
         }
+
 
     }
 }

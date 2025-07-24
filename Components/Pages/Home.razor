@@ -19,16 +19,29 @@
 @inject SkuMarketplaceManager SkuManager
 @inject AnymarketManager AnymarketManager
 @inject ResumoFinanceiroManager FinanceiroManager
-
 @inject ScrapingManager scrapingManager
 
+@inject VendasRepository vendasRepository
 
 
 
-@if (skuMarketplaceListaCorrente == null || anymarketDadosListaCorrente == null || financeiroDadosDTOListaCorrente ==
-null)
+
+@if (!skuMarketplaceListaCorrente.skuMarketplaceDTOs.Any() ||
+     !anymarketDadosListaCorrente.anymarketDTOs.Any() ||
+     !financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs.Any())
 {
-    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+<MudGrid Justify="Justify.Center"AlignItems="AlignItems.Center" Style="height: 100vh;">
+    <MudItem xs="12" class="d-flex flex-column justify-center align-center">
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-6 text-primary font-weight-bold">
+            Bem-vindo ao Dashboard da Trilha 
+            <br>  Carregando informações ...
+        </MudText>
+
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    </MudItem>
+</MudGrid>
+
+
 }
 else
 {
@@ -74,14 +87,14 @@ else
 
                         <MudItem xs="12" md="6">
                             <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
-                                @bind-Date="_filtro.dataComissaoInicio" MinDate="@SkuManager.resultDTO.dataComissaoInicial"
-                                MaxDate="@SkuManager.resultDTO.dataComissaoFinal" />
+                                @bind-Date="_filtro.dataComissaoInicio" MinDate="@SkuManager.resultDTO?.dataComissaoInicial"
+                                MaxDate="@SkuManager.resultDTO?.dataComissaoFinal" />
                         </MudItem>
 
                         <MudItem xs="12" md="6">
                             <MudDatePicker Style="width: 100%;" Label="Data Comissão Final"
-                                @bind-Date="_filtro.dataComissaoFinal" MinDate="@SkuManager.resultDTO.dataComissaoInicial"
-                                MaxDate="@SkuManager.resultDTO.dataComissaoFinal" />
+                                @bind-Date="_filtro.dataComissaoFinal" MinDate="@SkuManager.resultDTO?.dataComissaoInicial"
+                                MaxDate="@SkuManager.resultDTO?.dataComissaoFinal" />
                         </MudItem>
 
 
@@ -209,25 +222,28 @@ else
 @code {
 
     // Lista corrente de dados do SkuMarketplace
-    private SkuMarketplaceDadosDTO? skuMarketplaceListaCorrente;
+    private SkuMarketplaceDadosDTO skuMarketplaceListaCorrente {get; set;} = new SkuMarketplaceDadosDTO();
 
-    // Lista corrente de dados do Anymarket
-    private AnymarketDadosDTO? anymarketDadosListaCorrente;
-
+    
     // Lista corrente de dados do SkuMarketplace com erro de devolução
-    private SkuMarketplaceDadosDTO? skuMarketplaceDescontarListaCorrente;
+    private SkuMarketplaceDadosDTO skuMarketplaceDescontarListaCorrente {get; set;} = new SkuMarketplaceDadosDTO();
+
+    
+    // Lista corrente de dados do Anymarket
+    private AnymarketDadosDTO anymarketDadosListaCorrente  {get; set;} = new AnymarketDadosDTO();
 
     // Copia da lista corrente de dados do Anymarket (para o filtro interno da seção)
-    private AnymarketDadosDTO? anymarketDadosListaTemporaria = new AnymarketDadosDTO();
+    private AnymarketDadosDTO anymarketDadosListaTemporaria = new AnymarketDadosDTO();
 
 
     // Lista corrente de dados do Financeiro
-    private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaCorrente;
+    private ResumoFinanceiroDadosDTO financeiroDadosDTOListaCorrente {get; set;} = new  ResumoFinanceiroDadosDTO();
 
     // Copia da lista corrente de dados do Resumo Finaceiro (para o filtro interno da seção)
-    private ResumoFinanceiroDadosDTO? financeiroDadosDTOListaTemporaria = new ResumoFinanceiroDadosDTO();
+    private ResumoFinanceiroDadosDTO financeiroDadosDTOListaTemporaria = new ResumoFinanceiroDadosDTO();
 
-    private ScrapingDadosDTO? scrapingDadosDTOListaCorrente;
+    private ScrapingDadosDTO? scrapingDadosDTOListaCorrente =  new ScrapingDadosDTO();
+
 
     // Dados para os gráficos
     private double[] dadosTiposErros = [];
@@ -243,7 +259,7 @@ else
 
 
     // Formulario para filtro avançado
-    public MudForm form;
+    public MudForm? form;
 
     // instancia um objeto do SkuMarketplaceFilterService para filtragem de dados
     public SkuMarketplaceFilterService _filtro = new();
@@ -266,19 +282,32 @@ else
         if (firstRender)
         {
 
-            // Aguarda os dados do SkuManager
-            await SkuManager.CarregarDadosAsync();
 
-            scrapingManager.CarregarDadosAsync();
+            
+            // Aguarda os dados do SkuManager
+            var taskSku = SkuManager.CarregarDadosAsync();
+            var taskScraping = scrapingManager.CarregarDadosAsync();
+            var taskVendas = vendasRepository.ObterListaVendasAsync();
+
+            await Task.WhenAll(taskSku, taskScraping, taskVendas);
+
+
+            
 
             // Verifica se os dados estão prontos
-            if (SkuManager.resultDTO != null && SkuManager.resultDTO.skuMarketplaceDTOs != null)
+            if (SkuManager.resultDTO.skuMarketplaceDTOs != null 
+                && FinanceiroManager.FinanceiroDadosDTO != null
+                && AnymarketManager.anymarketDadosDTO != null
+                && scrapingManager.scrapingDadosDTO !=null)
             {
-                // Cria uma nova instância de SkuMarketplaceDadosDTO com os dados carregados
+                
                 skuMarketplaceListaCorrente = SkuManager.resultDTO;
 
-                // Aguarda os dados do AnymarketManager
-                await AnymarketManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+                var taskAnymarket = AnymarketManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+                var taskFinanceiro = FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+
+                await Task.WhenAll(taskAnymarket, taskFinanceiro);
+
 
                 // cria uma nova instância de AnymarketDadosDTO com os dados carregados
                 anymarketDadosListaCorrente = AnymarketManager.anymarketDadosDTO;
@@ -287,10 +316,10 @@ else
                 anymarketDadosListaTemporaria.anymarketDTOs = anymarketDadosListaCorrente.anymarketDTOs.ToList();
 
                 // Aguarda os dados do FinanceiroManager
-                await FinanceiroManager.CarregarDadosAsync(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
 
 
                 // cria uma nova instância de ResumoFinanceiroDadosDTO com os dados carregados
+                
                 financeiroDadosDTOListaCorrente = FinanceiroManager.FinanceiroDadosDTO;
 
                 // Mantem uma cópia temporária dos dados do Financeiro ( para o filtro interno dessa secção)
@@ -470,12 +499,13 @@ else
         _drawerOpen = !_drawerOpen;
     }
 
-       private void OnFiltroClick()
+    private async Task OnFiltroClick()
     {
         mostrarFiltro = !mostrarFiltro;
         FiltroService.ToggleFiltro();
-        ScrollToTopAsync();
+        await ScrollToTopAsync();
     }
+
 
       private async Task ScrollToTopAsync()
     {

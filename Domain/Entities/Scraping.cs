@@ -1,7 +1,9 @@
 using Npgsql;
 using System.Globalization;
+using DashboardTrilhaEsporte.Enums;
 
 namespace DashboardTrilhaEsporte.Domain.Entities
+
 {
     public class Scraping
     {
@@ -9,10 +11,10 @@ namespace DashboardTrilhaEsporte.Domain.Entities
         public int idScrapingHistorico { get; set; }
         public int idProduto { get; set; }
 
-        public bool linkAtivo { get; set; }
+        public ScrapingStatus linkAtivo { get; set; }
         public string nomeProduto { get; set; } = string.Empty;
         public decimal precoProduto { get; set; }
-        public bool tagSemEstoque { get; set; }
+        public ScrapingStatus tagSemEstoque { get; set; }
         public string descricaoErro { get; set; } = string.Empty;
         public DateTime dataCriacao { get; set; }
 
@@ -27,10 +29,17 @@ namespace DashboardTrilhaEsporte.Domain.Entities
                 id = reader["id"] is DBNull ? 0 : Convert.ToInt32(reader["id"]),
                 idScrapingHistorico = reader["id_scraping_historico"] is DBNull ? 0 : Convert.ToInt32(reader["id_scraping_historico"]),
                 idProduto = reader["id_produto"] is DBNull ? 0 : Convert.ToInt32(reader["id_produto"]),
-                linkAtivo = reader["link_ativo"] is DBNull ? false : Convert.ToBoolean(reader["link_ativo"]),
+                linkAtivo = reader["link_ativo"] is DBNull || !Convert.ToBoolean(reader["link_ativo"])
+                    ? ScrapingStatus.DESATIVADO
+                    : ScrapingStatus.Ativo,
+               
                 nomeProduto = reader["nome_de_venda"]?.ToString() ?? string.Empty,
                 precoProduto = reader["preco_produto"] is DBNull ? 0 : Convert.ToDecimal(reader["preco_produto"]),
-                tagSemEstoque = reader["tag_sem_estoque"] is DBNull ? false : Convert.ToBoolean(reader["tag_sem_estoque"]),
+               
+                tagSemEstoque = reader["tag_sem_estoque"] is DBNull || !Convert.ToBoolean(reader["tag_sem_estoque"])
+                    ? ScrapingStatus.DISPONIVEL
+                    : ScrapingStatus.SEMESTOQUE,
+
                 descricaoErro = reader["descricao_erro"]?.ToString() ?? "Sem Erros",
                 dataCriacao = reader["data_criacao"] is DBNull ? DateTime.MinValue : Convert.ToDateTime(reader["data_criacao"]),
                 nomeProdutoOficial = reader["nome_produto"]?.ToString() ?? string.Empty,
@@ -75,8 +84,8 @@ namespace DashboardTrilhaEsporte.Domain.Entities
                 $"{skuID};" +
                 $"{nomeProduto};" +
                 $"{nomeProdutoOficial};" +
-                $"{(linkAtivo ? "Ativo" : "Inativo")};" +
-                $"{(tagSemEstoque ? "Sem Estoque" : "Disponível")};" +
+                $"{(linkAtivo.GetDescription())};" +
+                $"{(tagSemEstoque.GetDescription())};" +
                 $"{precoProduto.ToString("N2", culture)};" +
                 $"{(string.IsNullOrWhiteSpace(descricaoErro) ? "-" : descricaoErro)};" +
                 $"{dataCriacao.ToString("dd/MM/yyyy")}";

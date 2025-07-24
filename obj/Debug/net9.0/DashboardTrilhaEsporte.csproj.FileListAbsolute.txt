@@ -55,6 +55,6 @@
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/rjimswa.dswa.cache.json
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/rjsmrazor.dswa.cache.json
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-au1zu6ifz9.gz
-/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-b8x8f7e52z.gz
 /home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/staticwebassets.build.json.cache
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/tzxjg6is5z-vu9q1asft2.gz
+/home/wilkerson/Documentos/Dashboard-Trilha-Esportes-/obj/Debug/net9.0/compressed/0wz98yz2xy-i93b8idyg2.gz

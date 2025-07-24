@@ -2,7 +2,9 @@
 @using DashboardTrilhaEsporte.Domain.DTOs
 @using DashboardTrilhaEsporte.Domain.Entities
 @using DashboardTrilhaEsporte.Domain.Service;
+@using DashboardTrilhaEsporte.Enums;
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code {
     [Parameter]
@@ -10,13 +12,17 @@
 
     private async Task BaixarScrapingDTO()
     {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
         if(scrapingDadosDTOListaCorrente !=null){
-            
+
         var csv = CsvExportService.GerarCsvScraping(scrapingDadosDTOListaCorrente.scrapings);
         var fileName = $"ResumoScraping_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
         byte[] fakeBytes = System.Text.Encoding.UTF8.GetBytes("arquivo de teste");
         await JS.InvokeVoidAsync("downloadFile", fileName, fakeBytes);
-        }
+        }else
+          Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
     }
 }
 
@@ -98,6 +104,11 @@
                             Marketplace
                         </MudTableSortLabel>
                     </MudTh>
+                     <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.linkAtivo">
+                            Situação do Link 
+                        </MudTableSortLabel>
+                    </MudTh>
                     <MudTh Style="text-align: center;">
                         <MudTableSortLabel T="Scraping" SortBy="x => x.precoProduto">
                             Preço
@@ -123,12 +134,12 @@
                <RowTemplate>
                     <MudTd DataLabel="Nome Produto">
                         @(!string.IsNullOrWhiteSpace(context.nomeProduto) ? context.nomeProduto : "Produto Nao Encontrado")
-
                     </MudTd>
                     <MudTd DataLabel="Nome Marketplace" Style="text-align: center;">@context.nomeMarketplace</MudTd>
+                    <MudTd DataLabel="Situação do Link" Style="text-align: center;">@context.linkAtivo.GetDescription()</MudTd>
                     <MudTd DataLabel="Preço do Produto" Style="text-align: center;">@context.precoProduto.ToString("C")</MudTd>
                     <MudTd DataLabel="Estoque" Style="text-align: center;">
-                        @(context.tagSemEstoque ? "Sem Estoque" : "Disponível")
+                        @(context.tagSemEstoque.GetDescription())
                     </MudTd>
                     <MudTd DataLabel="Descrição do Erros" Style="text-align: center;">
                       @(!string.IsNullOrWhiteSpace(context.descricaoErro) ? context.descricaoErro : "Sem Erros")

@@ -6,6 +6,7 @@
 @using DashboardTrilhaEsporte.Enums
 @using DashboardTrilhaEsporte.Domain.Service;
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code{
 
@@ -18,13 +19,17 @@
 
     private async Task BaixarAnymarketDTO()
     {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
         if (anymarketDadosListaCorrente != null){
             var csv = CsvExportService.GerarCsvAnymarketDTO(anymarketDadosListaCorrente.anymarketDTOs);
             var xlsxBytes = CsvExportService.CsvToXlsx(csv);
 
             string fileName = $"Anymarket_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
             await JS.InvokeVoidAsync("downloadFile", fileName,xlsxBytes);
-        }
+        }else
+        Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
+
     }
 
     private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();

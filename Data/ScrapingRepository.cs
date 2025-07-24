@@ -1,5 +1,6 @@
 using DashboardTrilhaEsporte.Domain.Entities;
 using Npgsql;
+using System.Data.Common;
 
 namespace DashboardTrilhaEsporte.Data
 {
@@ -12,15 +13,16 @@ namespace DashboardTrilhaEsporte.Data
             _dbContext = dbContext;
         }
 
-        public List<Scraping> ObterTodos()
+        public async Task<List<Scraping>> ObterTodosAsync()
         {
             var lista = new List<Scraping>();
 
-            using (var connection = _dbContext.CreateConnection())
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = @"
-               WITH UltimoScraping AS (
+            using var connection = _dbContext.CreateConnection();
+            await ((DbConnection)connection).OpenAsync();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = @"
+                WITH UltimoScraping AS (
                     SELECT 
                         s.*,
                         ROW_NUMBER() OVER (PARTITION BY s.id_produto ORDER BY s.data_criacao DESC) AS rn
@@ -43,43 +45,38 @@ namespace DashboardTrilhaEsporte.Data
                 LEFT JOIN produtos p ON p.id = s.id_produto
                 LEFT JOIN marketplaces m ON p.marketplace_id = m.id
                 WHERE s.rn = 1;
+            ";
 
-                ";
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
-                        lista.Add(scraping);
-                    }
-                }
+            await using var reader = await ((DbCommand)command).ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
+                lista.Add(scraping);
             }
 
             return lista;
         }
 
-        public List<Scraping> BuscarPorIdScrapingHistorico(int idHistorico)
+        public async Task<List<Scraping>> BuscarPorIdScrapingHistoricoAsync(int idHistorico)
         {
             var lista = new List<Scraping>();
 
-            using (var connection = _dbContext.CreateConnection())
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "SELECT * FROM scraping WHERE id_scraping_historico = @id";
-                var parametro = command.CreateParameter();
-                parametro.ParameterName = "@id";
-                parametro.Value = idHistorico;
-                command.Parameters.Add(parametro);
+            using var connection = _dbContext.CreateConnection();
+            await ((DbConnection)connection).OpenAsync();
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
-                        lista.Add(scraping);
-                    }
-                }
+            using var command = connection.CreateCommand();
+            command.CommandText = "SELECT * FROM scraping WHERE id_scraping_historico = @id";
+
+            var parametro = command.CreateParameter();
+            parametro.ParameterName = "@id";
+            parametro.Value = idHistorico;
+            command.Parameters.Add(parametro);
+
+            await using var reader = await ((DbCommand)command).ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var scraping = Scraping.MapearRegistro((NpgsqlDataReader)reader);
+                lista.Add(scraping);
             }
 
             return lista;

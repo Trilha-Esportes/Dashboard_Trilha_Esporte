@@ -7,6 +7,7 @@
 @using DashboardTrilhaEsporte.Domain.Service;
 
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code{
 
@@ -15,10 +16,16 @@
 
     private async Task BaixarSkuMarketplaceDescontarDTO()
     {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+        if(skuMarketplaceDescontarListaCorrente != null){
         var csv = CsvExportService.GerarCsvSkuMarketplaceDescontarHouverDTO(skuMarketplaceDescontarListaCorrente.skuMarketplaceDTOs);
         var xlsxBytes = CsvExportService.CsvToXlsx(csv);
         string fileName = $"DescontarHouver_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
         await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+        }else
+         Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
+
+
     }
     
 

@@ -31,12 +31,19 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         public ErrosPagamento situacaoFinal { get; set; }
 
 
+        public ResumoFinanceiroDTO()
+        {
+            
+        }
+
+
         // Método responsável por montar o resumo financeiro
         public static List<ResumoFinanceiroDTO> MontarResumoFinanceiro(List<SkuMarketplaceDTO> skuMarketplaces, List<Vendas> vendas)
         {
             // Remover duplicatas da lista de vendas
             vendas = vendas.Distinct().ToList();
             // Criar um dicionário para armazenar o valor de venda por skuMarketplaceId
+           
             var vendaDict = vendas
             .GroupBy(v => v.skuMarketplaceId)
             // trata as dublicações de skuMarketplaceId (pega o primeiro valor)

@@ -4,7 +4,6 @@ using DashboardTrilhaEsporte.Domain.Entities;
 // Essa classe é responsável por validar os dados do SkuMarketplace
 // Ela verifica se os dados estão corretos e se não há erros
 
-
 namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class SkuMarketplaceValidator
@@ -43,20 +42,39 @@ namespace DashboardTrilhaEsporte.Domain.Service
         }
 
         // Método responsável por verificar  a consistencia do valor de comissão
-        private static Erros? checarErroComissao(SkuMarketplace marketplace)
+     private static Erros? checarErroComissao(SkuMarketplace marketplace)
         {
-            if ((marketplace.porcentagem != 0))
+            if (marketplace.porcentagem != 0)
             {
-
-                Decimal valorCalculado = (marketplace.valorLiquido - (marketplace.valorLiquido * marketplace.porcentagem));
+                decimal valorCalculado = marketplace.valorLiquido - (marketplace.valorLiquido * marketplace.porcentagem);
 
                 if (Math.Abs(valorCalculado - marketplace.valorFinal) > 0.05m)
                 {
+                    // Tenta validar com as porcentagens especiais
+                    if (marketplace.porcentagemPeriodoEspecial != null && marketplace.porcentagemPeriodoEspecial.Count > 0)
+                    {
+                        foreach (var p in marketplace.porcentagemPeriodoEspecial)
+                        {
+                            decimal valorAlternativo = marketplace.valorLiquido - (marketplace.valorLiquido * (p/100));
+
+                            if (Math.Abs(valorAlternativo - marketplace.valorFinal) <= 0.05m)
+                            {
+                                // Encontrou uma porcentagem especial compatível, atualiza e retorna sucesso
+                                marketplace.porcentagem = p/100;
+                                return null;
+                            }
+                        }
+                    }
+
+                    // Nenhuma porcentagem especial bateu com o valor final
                     return Erros.ErroComissao;
                 }
             }
+
             return null;
         }
+
+
 
 
 
@@ -83,7 +101,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
                     }
                 }
             }
-    }
+        }
 
     }
 }

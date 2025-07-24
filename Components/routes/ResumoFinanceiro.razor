@@ -6,6 +6,7 @@
 @using DashboardTrilhaEsporte.Enums
 @using DashboardTrilhaEsporte.Domain.Service;
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code{
 
@@ -14,13 +15,13 @@
 
 
     [Parameter]
-    public string[] labelsStatusResumoFinanceiro  {get; set;}
+    public string[] labelsStatusResumoFinanceiro  {get; set;} = [];
     [Parameter]
-    public double[] dadosStatusResumoFinanceiro  {get; set;}
+    public double[] dadosStatusResumoFinanceiro  {get; set;} = [];
     [Parameter]
-    public string[] labelsErrosResumoFinanceiro  {get; set;}
+    public string[] labelsErrosResumoFinanceiro  {get; set;} = [];
     [Parameter]
-    public double[] dadosErrosResumoFinanceiro  {get; set;}
+    public double[] dadosErrosResumoFinanceiro  {get; set;} = [];
 
     private List<StatusPagamento> resumoFinaceiroStatus { get; set; } = new();
 
@@ -36,11 +37,19 @@
 
     private async Task BaixarResumoFinanceiroDTO()
     {
-        var csv = CsvExportService.GeraCsvResumoFinaceiroDTO(financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs);
-        
-        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
-        string fileName = $"Resumo Finaceiro_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
-        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
+        if(financeiroDadosDTOListaCorrente != null){
+
+            var csv = CsvExportService.GeraCsvResumoFinaceiroDTO(financeiroDadosDTOListaCorrente.resumoFinanceiroDTOs);
+            
+            var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+            string fileName = $"Resumo Finaceiro_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+            await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+
+        }else
+        Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
+
     }
 
 

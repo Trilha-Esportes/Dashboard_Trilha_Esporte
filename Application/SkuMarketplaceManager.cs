@@ -10,7 +10,7 @@ namespace DashboardTrilhaEsporte.Application
         private readonly SkuMarketplaceRepository _repo;
 
 
-        public SkuMarketplaceDadosDTO? resultDTO { get; private set; }
+        public SkuMarketplaceDadosDTO resultDTO { get; private set; } = new SkuMarketplaceDadosDTO();
         private bool _dadosCarregados = false;
 
 
@@ -27,7 +27,7 @@ namespace DashboardTrilhaEsporte.Application
                     return; 
             } else
             {
-                var listaSku = await _repo.ObterlistaMarketplace();
+                var listaSku = await _repo.ObterListaMarketplaceAsync();
                 this.resultDTO = new SkuMarketplaceDadosDTO(listaSku);
                 this._dadosCarregados=true;
             }

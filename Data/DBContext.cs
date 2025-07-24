@@ -19,9 +19,7 @@ namespace DashboardTrilhaEsporte.Data
         //Cria e retorna uma conexão com banco 
         public IDbConnection CreateConnection()
         {
-            var connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
-            return connection;
+               return new NpgsqlConnection(_connectionString); 
         }
 
         // Método simples para verificar a conexão
