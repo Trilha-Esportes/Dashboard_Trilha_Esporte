@@ -1,9 +1,9 @@
 using Npgsql;
-using DashboardTrilhaEsporte.Domain.Entities;
 
+using DashboardTrilhaEsporte.Data.Entities;
 // Class responsável por carregar os dados das tabelas Vendas
 
-namespace DashboardTrilhaEsporte.Data
+namespace DashboardTrilhaEsporte.Data.Repository
 {
     public class VendasRepository
     {
@@ -28,10 +28,6 @@ namespace DashboardTrilhaEsporte.Data
 
             _listaVendasTask = CarregarVendasDoBancoAsync();
 
-            DateTime fim = DateTime.Now;
-            TimeSpan duracao = fim - inicio;
-
-            Console.WriteLine($"Duração vendas: {duracao.TotalMilliseconds} ms");
 
             return await _listaVendasTask;
         }

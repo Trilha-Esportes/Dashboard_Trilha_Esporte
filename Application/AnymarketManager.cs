@@ -1,6 +1,6 @@
-using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Data.Repository;
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -26,18 +26,14 @@ namespace DashboardTrilhaEsporte.Application
             }
             else
             {
-                DateTime inicio = DateTime.Now;
 
 
                 List<Vendas> listaVenda = await _repo.ObterListaVendasAsync();
                 List<AnymarketDTO> anymarketDTOs = AnymarketDTO.MontarAnymarketDTO(skuMarketplaces, listaVenda);
                 this.anymarketDadosDTO = new AnymarketDadosDTO(anymarketDTOs);
                 this._dadosCarregados = true;
-                DateTime fim = DateTime.Now;
 
-                TimeSpan duracao = fim - inicio;
-
-                Console.WriteLine($"Duração montagem anymarket: {duracao.TotalMilliseconds} ms");
+               
          }
         }
 

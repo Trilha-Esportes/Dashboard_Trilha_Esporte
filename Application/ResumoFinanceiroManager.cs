@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
-using DashboardTrilhaEsporte.Data;
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
+
+using DashboardTrilhaEsporte.Data.Repository;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -21,7 +21,7 @@ namespace DashboardTrilhaEsporte.Application
             this._repo = repository;
         }
 
-        public async Task  CarregarDadosAsync(List<SkuMarketplaceDTO> skuMarketplaces)
+        public async Task CarregarDadosAsync(List<SkuMarketplaceDTO> skuMarketplaces)
         {
             if (this._dadosCarregados)
             {
@@ -29,18 +29,13 @@ namespace DashboardTrilhaEsporte.Application
             }
             else
             {
-                 DateTime inicio = DateTime.Now;
 
                 List<Vendas> listaVenda = await _repo.ObterListaVendasAsync();
                 List<ResumoFinanceiroDTO> resumoFinanceiroDTOs = ResumoFinanceiroDTO.MontarResumoFinanceiro(skuMarketplaces, listaVenda);
                 this.FinanceiroDadosDTO = new ResumoFinanceiroDadosDTO(resumoFinanceiroDTOs);
                 this._dadosCarregados = true;
 
-                DateTime fim = DateTime.Now;
 
-                TimeSpan duracao = fim - inicio;
-
-                Console.WriteLine($"Duração montagem resumo: {duracao.TotalMilliseconds} ms");
             }
         }
 

@@ -4,7 +4,7 @@ using System.Data;
 // Class responsável por gerenciar a conexão com o banco de dados.
 // Ele utiliza a biblioteca Npgsql para se conectar a um banco de dados PostgreSQL.
 
-namespace DashboardTrilhaEsporte.Data
+namespace DashboardTrilhaEsporte.Data.Repository
 {
     public class DBContext
     {

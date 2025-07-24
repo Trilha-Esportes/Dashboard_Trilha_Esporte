@@ -2,7 +2,7 @@ using Npgsql;
 using System.Globalization;
 using DashboardTrilhaEsporte.Enums;
 
-namespace DashboardTrilhaEsporte.Domain.Entities
+namespace DashboardTrilhaEsporte.Data.Entities
 
 {
     public class Scraping

@@ -17,6 +17,17 @@
     public  Action< List<AnymarketErros>>? OnFiltrarAction { get; set; }
 
 
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarAnymarketDTO();
+    }
+
+
     private async Task BaixarAnymarketDTO()
     {
         Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
@@ -110,7 +121,7 @@
         <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 mt-2 mb-5 ">
             Tabela: Dados dos Anymarkets
         </MudText>
-        <MudButton  Class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarAnymarketDTO">
+        <MudButton  Class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
             Baixar Tabela (Xlsx)
         </MudButton>
     </div>

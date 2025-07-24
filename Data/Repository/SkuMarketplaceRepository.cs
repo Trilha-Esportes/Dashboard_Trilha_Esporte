@@ -1,8 +1,8 @@
 using Npgsql;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using System.Data.Common;
 
-namespace DashboardTrilhaEsporte.Data
+namespace DashboardTrilhaEsporte.Data.Repository
 {
     public class SkuMarketplaceRepository
     {
@@ -24,11 +24,7 @@ namespace DashboardTrilhaEsporte.Data
                 return await _listaSkuMarketplace;
 
             _listaSkuMarketplace = CarregarMarketplaceDoBancoAsync();
-            DateTime fim = DateTime.Now;
-            TimeSpan duracao = fim - inicio;
-
-            Console.WriteLine($"Duração skumarketplace data: {duracao.TotalMilliseconds} ms");
-
+          
             return await _listaSkuMarketplace;
         }
 

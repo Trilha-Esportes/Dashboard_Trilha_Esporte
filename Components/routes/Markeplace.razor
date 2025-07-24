@@ -25,7 +25,15 @@
     [Parameter]
     public string[]? labelsTiposEventos {get;set;}
 
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
 
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarSkuMarketplaceDTO();
+    }
     private async Task BaixarSkuMarketplaceDTO()
     {
         Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
@@ -131,7 +139,7 @@
             Tabela: Dados dos Marketplaces
         </MudText>
 
-        <MudButton class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarSkuMarketplaceDTO">
+        <MudButton class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
             Baixar Tabela (Xlsx)
         </MudButton>
         </div>

@@ -1,8 +1,8 @@
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using Npgsql;
 using System.Data.Common;
 
-namespace DashboardTrilhaEsporte.Data
+namespace DashboardTrilhaEsporte.Data.Repository
 {
     public class ScrapingRepository
     {

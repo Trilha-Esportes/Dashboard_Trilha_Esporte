@@ -1,7 +1,8 @@
 using Npgsql;
 
-using DashboardTrilhaEsporte.Domain.Entities;
-namespace DashboardTrilhaEsporte.Data
+using DashboardTrilhaEsporte.Data.Entities;
+
+namespace DashboardTrilhaEsporte.Data.Repository
 {
     public class ProdutoRepository
     {

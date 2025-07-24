@@ -2,7 +2,7 @@ using Npgsql;
 
 // Class responsável por representar a entidade Vendas
 // Ela contém todos os parametros que vem da consulta SQL
-namespace DashboardTrilhaEsporte.Domain.Entities{
+namespace DashboardTrilhaEsporte.Data.Entities{
     public class Vendas
     {
         public int vendaId { get; set; }

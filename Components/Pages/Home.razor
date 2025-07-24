@@ -6,7 +6,9 @@
 @using DashboardTrilhaEsporte.Domain.DTOs;
 @using DashboardTrilhaEsporte.Domain.Service;
 
-@using DashboardTrilhaEsporte.Data;
+@using DashboardTrilhaEsporte.Data.Entities;
+@using DashboardTrilhaEsporte.Data.Repository;
+
 @using DashboardTrilhaEsporte.Components.Layout;
 
 @inject DashboardTrilhaEsporte.Domain.Service.FiltroStateService FiltroService
@@ -211,7 +213,7 @@ else
         </MudTabPanel>
 
         <MudTabPanel Text="Scraping">
-            <ScrapingPage scrapingDadosDTOListaCorrente="@scrapingDadosDTOListaCorrente">
+            <ScrapingPage scrapingDadosDTOListaCorrente="@scrapingDadosDTOListaCorrente"  OnFiltrarAction="@AtualizarListaStatusScraping">
                 
             </ScrapingPage>
         </MudTabPanel>
@@ -242,7 +244,9 @@ else
     // Copia da lista corrente de dados do Resumo Finaceiro (para o filtro interno da seção)
     private ResumoFinanceiroDadosDTO financeiroDadosDTOListaTemporaria = new ResumoFinanceiroDadosDTO();
 
-    private ScrapingDadosDTO? scrapingDadosDTOListaCorrente =  new ScrapingDadosDTO();
+    private ScrapingDadosDTO scrapingDadosDTOListaCorrente =  new ScrapingDadosDTO();
+
+    private ScrapingDadosDTO scrapingDadosDTOListaTemporaria =  new ScrapingDadosDTO();
 
 
     // Dados para os gráficos
@@ -266,7 +270,7 @@ else
 
 
     // Controla a exibição do filtro avançado
-    private bool mostrarFiltro;
+    private bool mostrarFiltro = false ;
     private bool _drawerOpen = true;
 
 
@@ -274,6 +278,9 @@ else
     private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
 
     private List<StatusPagamento> resumoFinaceiroStatus { get; set; } = new();
+
+    private List<ScrapingStatus> statusScrapinglista { get; set; } = new();
+
 
 
     // Metodo princial (inicia e renderiza os dados)
@@ -347,6 +354,8 @@ else
             };
 
             scrapingDadosDTOListaCorrente = scrapingManager.scrapingDadosDTO;
+            scrapingDadosDTOListaTemporaria.scrapings = scrapingDadosDTOListaCorrente.scrapings.ToList();
+
             // Força a re-renderização do componente
             StateHasChanged();
         }
@@ -443,6 +452,30 @@ else
             Snackbar.Add("Não existe nenhum registro na base com essa características", Severity.Error);
 
     }
+
+
+     public void AtualizarListaStatusScraping(List<ScrapingStatus> listaErros)
+    {
+        statusScrapinglista = listaErros.ToList();
+        FiltrarScraping();
+
+    }
+
+        private void FiltrarScraping()
+        {
+            var listaOriginal = scrapingDadosDTOListaTemporaria.scrapings;
+
+            if (statusScrapinglista == null || !statusScrapinglista.Any())
+            {
+                scrapingDadosDTOListaCorrente.scrapings = listaOriginal.ToList();
+                return;
+            }
+
+            scrapingDadosDTOListaCorrente.scrapings = listaOriginal
+                .Where(dto => statusScrapinglista.Any(status =>
+                    status == dto.linkAtivo || status == dto.tagSemEstoque))
+                .ToList();
+        }
 
 
     public void AtualizarListaAnymarket(List<AnymarketErros> listaErros)

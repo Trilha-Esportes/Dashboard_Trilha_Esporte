@@ -1,4 +1,4 @@
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using DashboardTrilhaEsporte.Enums;
 namespace DashboardTrilhaEsporte.Domain.DTOs
 {

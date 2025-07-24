@@ -15,7 +15,7 @@ class Produto(Base):
 
 using Npgsql;
 
-namespace DashboardTrilhaEsporte.Domain.Entities
+namespace DashboardTrilhaEsporte.Data.Entities
 {
     public class Produto
     {

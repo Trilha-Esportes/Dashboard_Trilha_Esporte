@@ -3,7 +3,7 @@ using Npgsql;
 using System;
 using System.Globalization;
 
-namespace DashboardTrilhaEsporte.Domain.Entities{
+namespace DashboardTrilhaEsporte.Data.Entities{
 
 // Essa classe representa a entidade SkuMarketplace
 // Ela contém todos os parametros que vem da consulta SQL

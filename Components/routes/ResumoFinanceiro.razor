@@ -35,6 +35,16 @@
         OnFiltrarAction?.Invoke(resumoFinaceiroStatus);
     }
 
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarResumoFinanceiroDTO();
+    }
+
     private async Task BaixarResumoFinanceiroDTO()
     {
         Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
@@ -151,7 +161,7 @@
             Tabela: Dados do Resumo Financeiro
         </MudText>
 
-        <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarResumoFinanceiroDTO">
+        <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
                 Baixar Tabela (Xlsx)
         </MudButton>
     </div>

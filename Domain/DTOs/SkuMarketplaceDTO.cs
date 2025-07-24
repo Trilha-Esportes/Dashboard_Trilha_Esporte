@@ -1,7 +1,7 @@
 
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.Service;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using System.Text;
 
 

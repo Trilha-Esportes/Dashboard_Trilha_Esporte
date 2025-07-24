@@ -1,5 +1,5 @@
 using DashboardTrilhaEsporte.Enums;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using System.Text;
 using System.Globalization;
 
@@ -67,6 +67,11 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
             // Extrair Informações Gerais do Grupo 
             var primeiro = grupo.First();
+
+            var descontoFrete = CalcularDescontoFrete(grupo);
+            var valorDescontado = CalcularValorDescontado(grupo);
+
+
             var skuId = primeiro.skuMarketplace.skuMarketplaceId;
 
             // dataPedido é a data do primeiro evento do grupo
@@ -79,7 +84,35 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             var comissaoEsperada = grupo.Select(g => g.skuMarketplace.comissao).Max();
 
             // valor a Receber é o valor total menos a comissão esperada
-            var AReceber = valorTotal - comissaoEsperada;
+            DateTime inicioMesEspecial = new DateTime(2021, 8, 1);
+            DateTime fimMesEspecial = new DateTime(2021, 9, 30); // setembro tem 30 dias
+
+            var AReceber = 5m;
+
+            var dataRepasse =  grupo.Min(g => g.skuMarketplace.dataCiclo);
+
+            if (dataRepasse >= inicioMesEspecial && dataRepasse <= fimMesEspecial)
+            {
+                DateTime limiteMesAgosto = new DateTime(2021, 8, 31);
+
+                List<string> pedidosEspeciais = new List<string> { "93205770001", "93209860701" };
+
+                string? numeroPedido = primeiro.skuMarketplace.numeroPedido?.Trim();
+
+                if (dataRepasse <= limiteMesAgosto || (numeroPedido != null && pedidosEspeciais.Contains(numeroPedido)))
+                {
+                    AReceber = valorTotal + descontoFrete;
+                }
+                else
+                {
+                     AReceber = valorTotal - comissaoEsperada;
+                }
+            }
+
+            else
+               AReceber = valorTotal - comissaoEsperada;
+            
+
 
             // valor recebido é valor final para tipo evento "repasse normal" 
             // ou zero para os outros tipos de evento
@@ -88,8 +121,6 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             // Extria as informações do grupo
 
             var situacaoPagamento = CalcularSituacaoPagamento(Recebido, AReceber);
-            var valorDescontado = CalcularValorDescontado(grupo);
-            var descontoFrete = CalcularDescontoFrete(grupo);
             var erroDevolucao = VerificarErroDevolucao(grupo, valorTotal);
             var situacaoFinal = CalcularSituacaoFinal(situacaoPagamento, Recebido - AReceber, erroDevolucao);
 

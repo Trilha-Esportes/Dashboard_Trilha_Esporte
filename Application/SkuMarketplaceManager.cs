@@ -1,7 +1,8 @@
-using DashboardTrilhaEsporte.Data;
 using DashboardTrilhaEsporte.Enums;
 using DashboardTrilhaEsporte.Domain.DTOs;
 using DashboardTrilhaEsporte.Domain.Service;
+
+using DashboardTrilhaEsporte.Data.Repository;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -24,12 +25,13 @@ namespace DashboardTrilhaEsporte.Application
         {
             if (this._dadosCarregados)
             {
-                    return; 
-            } else
+                return;
+            }
+            else
             {
                 var listaSku = await _repo.ObterListaMarketplaceAsync();
                 this.resultDTO = new SkuMarketplaceDadosDTO(listaSku);
-                this._dadosCarregados=true;
+                this._dadosCarregados = true;
             }
         }
 
@@ -53,7 +55,8 @@ namespace DashboardTrilhaEsporte.Application
                 TipoEventos = tipoEventos ?? new List<Eventos>()
             };
 
-            if(this.resultDTO != null){
+            if (this.resultDTO != null)
+            {
                 // Aplica os filtros na lista completa
                 List<SkuMarketplaceDTO> listaFiltrada = SkuMarketplaceFilterService.
                                                 AplicarFiltros(this.resultDTO.skuMarketplaceDTOs, filtro);
@@ -61,7 +64,7 @@ namespace DashboardTrilhaEsporte.Application
                 // Cria o DTO de resultado
                 return new SkuMarketplaceDadosDTO(listaFiltrada);
             }
-           return null;
+            return null;
         }
     }
 }

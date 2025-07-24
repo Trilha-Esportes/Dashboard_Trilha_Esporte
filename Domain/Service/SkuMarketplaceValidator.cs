@@ -1,5 +1,7 @@
 using DashboardTrilhaEsporte.Enums;
-using DashboardTrilhaEsporte.Domain.Entities;
+
+
+using DashboardTrilhaEsporte.Data.Entities;
 
 // Essa classe é responsável por validar os dados do SkuMarketplace
 // Ela verifica se os dados estão corretos e se não há erros
@@ -42,7 +44,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
         }
 
         // Método responsável por verificar  a consistencia do valor de comissão
-     private static Erros? checarErroComissao(SkuMarketplace marketplace)
+        private static Erros? checarErroComissao(SkuMarketplace marketplace)
         {
             if (marketplace.porcentagem != 0)
             {
@@ -55,12 +57,12 @@ namespace DashboardTrilhaEsporte.Domain.Service
                     {
                         foreach (var p in marketplace.porcentagemPeriodoEspecial)
                         {
-                            decimal valorAlternativo = marketplace.valorLiquido - (marketplace.valorLiquido * (p/100));
+                            decimal valorAlternativo = marketplace.valorLiquido - (marketplace.valorLiquido * (p / 100));
 
                             if (Math.Abs(valorAlternativo - marketplace.valorFinal) <= 0.05m)
                             {
                                 // Encontrou uma porcentagem especial compatível, atualiza e retorna sucesso
-                                marketplace.porcentagem = p/100;
+                                marketplace.porcentagem = p / 100;
                                 return null;
                             }
                         }
