@@ -5,6 +5,7 @@
 @using DashboardTrilhaEsporte.Domain.DTOs
 @using DashboardTrilhaEsporte.Enums
 @using DashboardTrilhaEsporte.Domain.Service;
+@inject ISnackbar Snackbar
 
 @inject IJSRuntime JS
 
@@ -24,18 +25,30 @@
     [Parameter]
     public string[]? labelsTiposEventos {get;set;}
 
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
 
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarSkuMarketplaceDTO();
+    }
     private async Task BaixarSkuMarketplaceDTO()
     {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
         if (skuMarketplaceListaCorrente != null){
 
-        var csv = CsvExportService.GerarCsvSkuMarketplaceDTO(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
-        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+            var csv = CsvExportService.GerarCsvSkuMarketplaceDTO(skuMarketplaceListaCorrente.skuMarketplaceDTOs);
+            var xlsxBytes = CsvExportService.CsvToXlsx(csv);
 
-        string fileName = $"SkuMarketplace_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
-        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+            string fileName = $"SkuMarketplace_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+            await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
 
-        }
+        }else
+          Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
+
     }
 
 }
@@ -126,7 +139,7 @@
             Tabela: Dados dos Marketplaces
         </MudText>
 
-        <MudButton class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarSkuMarketplaceDTO">
+        <MudButton class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
             Baixar Tabela (Xlsx)
         </MudButton>
         </div>
@@ -204,7 +217,7 @@
                     @context.skuMarketplace.dataEvento?.ToShortDateString()
                 </MudTd>
                 <MudTd DataLabel="Porcentagem" Style="text-align: center;">
-                    @($"{context.skuMarketplace.porcentagem:P}")</MudTd>
+                 @(context.skuMarketplace.porcentagem.ToString("P2"))</MudTd>
                 <MudTd DataLabel="Comissão" Style="text-align: center;">
                     @context.skuMarketplace.comissao.ToString("C")</MudTd>
                 <MudTd DataLabel="Data do Ciclo" Style="text-align: center;">

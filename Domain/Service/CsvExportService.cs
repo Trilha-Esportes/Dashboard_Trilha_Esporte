@@ -1,5 +1,5 @@
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using System.Text;
 using System.Globalization;
 using ClosedXML.Excel;

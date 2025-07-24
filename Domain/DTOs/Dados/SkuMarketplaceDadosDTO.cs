@@ -1,7 +1,7 @@
 
 
 using DashboardTrilhaEsporte.Enums;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 using Microsoft.VisualBasic;
 
 
@@ -31,7 +31,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                 public List<DateTime> dateTimesCiclos { get; set; }
 
 
-        
+
                 public SkuMarketplaceDadosDTO(List<SkuMarketplace> skuMarketplaces)
                 {
                         this.skuMarketplaceDTOs = SkuMarketplaceDTO.MapearDTOs(skuMarketplaces);
@@ -42,6 +42,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
                         this.ContarErros();
                         this.ObterIntervalosDatas();
                         this.ContarTipoEvento();
+                        
                 }
                 
 

@@ -6,6 +6,7 @@
 @using DashboardTrilhaEsporte.Enums
 @using DashboardTrilhaEsporte.Domain.Service;
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code{
 
@@ -16,15 +17,30 @@
     public  Action< List<AnymarketErros>>? OnFiltrarAction { get; set; }
 
 
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarAnymarketDTO();
+    }
+
+
     private async Task BaixarAnymarketDTO()
     {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
         if (anymarketDadosListaCorrente != null){
             var csv = CsvExportService.GerarCsvAnymarketDTO(anymarketDadosListaCorrente.anymarketDTOs);
             var xlsxBytes = CsvExportService.CsvToXlsx(csv);
 
             string fileName = $"Anymarket_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
             await JS.InvokeVoidAsync("downloadFile", fileName,xlsxBytes);
-        }
+        }else
+        Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
+
     }
 
     private List<AnymarketErros> tipoErroSelecionado { get; set; } = new();
@@ -105,7 +121,7 @@
         <MudText Typo="Typo.h4" Align="Align.Center" Class="font-weight-bold mr-3 mt-2 mb-5 ">
             Tabela: Dados dos Anymarkets
         </MudText>
-        <MudButton  Class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarAnymarketDTO">
+        <MudButton  Class= "ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
             Baixar Tabela (Xlsx)
         </MudButton>
     </div>

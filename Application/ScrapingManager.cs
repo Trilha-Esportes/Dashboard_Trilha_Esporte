@@ -1,6 +1,7 @@
-using DashboardTrilhaEsporte.Data;
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
+
+using DashboardTrilhaEsporte.Data.Repository;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -11,23 +12,25 @@ namespace DashboardTrilhaEsporte.Application
 
         public Boolean _dadosCarregados = false;
 
-        public ScrapingDadosDTO? scrapingDadosDTO;
+        public ScrapingDadosDTO scrapingDadosDTO = new ScrapingDadosDTO();
+
 
         public ScrapingManager(ScrapingRepository repository)
         {
             this._repo = repository;
 
         }
-         public void  CarregarDadosAsync()
+        public async Task CarregarDadosAsync()
         {
             if (this._dadosCarregados)
             {
-                    return; 
-            } else
+                return;
+            }
+            else
             {
-                List<Scraping> listaOriginal = _repo.ObterTodos();
+                List<Scraping> listaOriginal = await _repo.ObterTodosAsync();
                 this.scrapingDadosDTO = new ScrapingDadosDTO(listaOriginal);
-                this._dadosCarregados=true;
+                this._dadosCarregados = true;
             }
         }
 

@@ -1,23 +1,56 @@
 @namespace DashboardTrilhaEsporte.Components.routes
-@using DashboardTrilhaEsporte.Domain.DTOs
-@using DashboardTrilhaEsporte.Domain.Entities
+@using DashboardTrilhaEsporte.Domain.DTOs;
+@using DashboardTrilhaEsporte.Data.Entities;
 @using DashboardTrilhaEsporte.Domain.Service;
+@using DashboardTrilhaEsporte.Enums;
 @inject IJSRuntime JS
+@inject ISnackbar Snackbar
 
 @code {
     [Parameter]
     public ScrapingDadosDTO? scrapingDadosDTOListaCorrente { get; set; }
 
+    
+    
+    [Parameter]
+    public  Action< List<ScrapingStatus>>? OnFiltrarAction { get; set; }
+
+
+    private List<ScrapingStatus> statuslista { get; set; } = new();
+
+
+    private async Task MostrarMensagemEIniciarDownload()
+    {
+        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
+
+        // Dá tempo do UI atualizar
+        await Task.Delay(1000); // pequeno atraso para a mensagem aparecer
+
+        await BaixarScrapingDTO();
+    }
+
     private async Task BaixarScrapingDTO()
     {
-        if(scrapingDadosDTOListaCorrente !=null){
-            
+    if (scrapingDadosDTOListaCorrente != null)
+    {
         var csv = CsvExportService.GerarCsvScraping(scrapingDadosDTOListaCorrente.scrapings);
         var fileName = $"ResumoScraping_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
         byte[] fakeBytes = System.Text.Encoding.UTF8.GetBytes("arquivo de teste");
+
         await JS.InvokeVoidAsync("downloadFile", fileName, fakeBytes);
-        }
     }
+    else
+    {
+        Snackbar.Add("Não há dados para exportar.", Severity.Warning);
+    }
+    }
+     private void AcionarFiltro(IEnumerable<ScrapingStatus> selectedValues)
+    {
+        statuslista = selectedValues.ToList();
+        OnFiltrarAction?.Invoke(statuslista);
+
+    }
+
 }
 
 @if (scrapingDadosDTOListaCorrente != null)
@@ -27,6 +60,7 @@
         </MudText>
     </div>
 
+   
     <div class="card-container">
         <MudGrid GutterSize="20px" Class="pa-4">
             <MudItem xs="12" sm="6" md="4">
@@ -73,14 +107,26 @@
         </MudGrid>
     </div>
 
-   
+    <MudText Class="ml-5" Typo="Typo.h5">Filtrar por Situação do Produto</MudText>
+
+    <MudCard Class="mx-auto my-5 " Style="max-width: 100%;" Elevation="4">
+     <MudSelect T="ScrapingStatus" MultiSelection="true" SelectedValuesChanged="AcionarFiltro"
+                Style="width: 100%;  border-radius: 8px;">
+                @foreach (var status in Enum.GetValues<ScrapingStatus>())
+                        {
+                        <MudSelectItem Value="@status">@status.GetDescription()</MudSelectItem>
+                        }
+    </MudSelect>
+    </MudCard>
+
+
     <div class="table-container">
         <div class="mb-5 mt-4" style="max-width: 100%;">
             <MudText Typo="Typo.h6" Align="Align.Center" Class="font-weight-bold mr-3 ">
                 Tabela: Dados do Scraping
             </MudText>
 
-            <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="BaixarScrapingDTO">
+            <MudButton class="ml-2" Variant="Variant.Filled" Color="Color.Success" OnClick="MostrarMensagemEIniciarDownload">
                 Baixar Tabela (Xlsx)
             </MudButton>
         </div>
@@ -96,6 +142,11 @@
                     <MudTh Style="text-align: center;">
                         <MudTableSortLabel T="Scraping" SortBy="x => x.nomeMarketplace">
                             Marketplace
+                        </MudTableSortLabel>
+                    </MudTh>
+                     <MudTh Style="text-align: center;">
+                        <MudTableSortLabel T="Scraping" SortBy="x => x.linkAtivo">
+                            Situação do Link 
                         </MudTableSortLabel>
                     </MudTh>
                     <MudTh Style="text-align: center;">
@@ -123,12 +174,12 @@
                <RowTemplate>
                     <MudTd DataLabel="Nome Produto">
                         @(!string.IsNullOrWhiteSpace(context.nomeProduto) ? context.nomeProduto : "Produto Nao Encontrado")
-
                     </MudTd>
                     <MudTd DataLabel="Nome Marketplace" Style="text-align: center;">@context.nomeMarketplace</MudTd>
+                    <MudTd DataLabel="Situação do Link" Style="text-align: center;">@context.linkAtivo.GetDescription()</MudTd>
                     <MudTd DataLabel="Preço do Produto" Style="text-align: center;">@context.precoProduto.ToString("C")</MudTd>
                     <MudTd DataLabel="Estoque" Style="text-align: center;">
-                        @(context.tagSemEstoque ? "Sem Estoque" : "Disponível")
+                        @(context.tagSemEstoque.GetDescription())
                     </MudTd>
                     <MudTd DataLabel="Descrição do Erros" Style="text-align: center;">
                       @(!string.IsNullOrWhiteSpace(context.descricaoErro) ? context.descricaoErro : "Sem Erros")

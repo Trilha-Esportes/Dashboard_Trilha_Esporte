@@ -1,6 +1,7 @@
-using DashboardTrilhaEsporte.Data;
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
+
+using DashboardTrilhaEsporte.Data.Repository;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -11,7 +12,7 @@ namespace DashboardTrilhaEsporte.Application
 
         private Boolean _dadosCarregados = false;
 
-        public ResumoFinanceiroDadosDTO? FinanceiroDadosDTO { get; set; }
+        public ResumoFinanceiroDadosDTO? FinanceiroDadosDTO { get; private set; } = new ResumoFinanceiroDadosDTO();
 
 
 
@@ -28,16 +29,19 @@ namespace DashboardTrilhaEsporte.Application
             }
             else
             {
-                List<Vendas> listaVenda = await _repo.ObterlistaVendas();
+
+                List<Vendas> listaVenda = await _repo.ObterListaVendasAsync();
                 List<ResumoFinanceiroDTO> resumoFinanceiroDTOs = ResumoFinanceiroDTO.MontarResumoFinanceiro(skuMarketplaces, listaVenda);
                 this.FinanceiroDadosDTO = new ResumoFinanceiroDadosDTO(resumoFinanceiroDTOs);
                 this._dadosCarregados = true;
+
+
             }
         }
 
         public async Task<List<ResumoFinanceiroDTO>> AtualizarListaAsync(List<SkuMarketplaceDTO> skuMarketplaces)
         {
-            List<Vendas> lista = await _repo._listaVendas!;
+            List<Vendas> lista = await _repo.ObterListaVendasAsync();
             return ResumoFinanceiroDTO.MontarResumoFinanceiro(skuMarketplaces, lista);
         }
 

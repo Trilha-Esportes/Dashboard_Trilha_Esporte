@@ -1,6 +1,6 @@
-using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Data.Repository;
 using DashboardTrilhaEsporte.Domain.DTOs;
-using DashboardTrilhaEsporte.Domain.Entities;
+using DashboardTrilhaEsporte.Data.Entities;
 
 namespace DashboardTrilhaEsporte.Application
 {
@@ -10,14 +10,15 @@ namespace DashboardTrilhaEsporte.Application
 
         private Boolean _dadosCarregados = false;
 
-        public AnymarketDadosDTO? anymarketDadosDTO { get; set; }
+        public AnymarketDadosDTO anymarketDadosDTO { get; private set; } = new AnymarketDadosDTO();
 
         public AnymarketManager(VendasRepository repository)
         {
             _repo = repository;
+
         }
 
-        public async Task CarregarDadosAsync(List<SkuMarketplaceDTO> skuMarketplaces)
+        public  async Task CarregarDadosAsync(List<SkuMarketplaceDTO> skuMarketplaces)
         {
             if (this._dadosCarregados)
             {
@@ -25,18 +26,23 @@ namespace DashboardTrilhaEsporte.Application
             }
             else
             {
-                List<Vendas> listaVenda = await _repo.ObterlistaVendas();
+
+
+                List<Vendas> listaVenda = await _repo.ObterListaVendasAsync();
                 List<AnymarketDTO> anymarketDTOs = AnymarketDTO.MontarAnymarketDTO(skuMarketplaces, listaVenda);
                 this.anymarketDadosDTO = new AnymarketDadosDTO(anymarketDTOs);
                 this._dadosCarregados = true;
-            }
+
+               
+         }
         }
 
-         public async Task<List<AnymarketDTO>> AtualizarListaAsync(List<SkuMarketplaceDTO> skuMarketplaces)
-        {
-            List<Vendas> lista = await _repo._listaVendas!;
+      public async Task<List<AnymarketDTO>> AtualizarListaAsync(List<SkuMarketplaceDTO> skuMarketplaces)
+      {
+            List<Vendas> lista = await _repo.ObterListaVendasAsync();
             return AnymarketDTO.MontarAnymarketDTO(skuMarketplaces, lista);
-        }
+      }
+
 
 
     }

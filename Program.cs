@@ -1,7 +1,7 @@
 using MudBlazor.Services;
 using Blazored;
 using DashboardTrilhaEsporte.Components;
-using DashboardTrilhaEsporte.Data;
+using DashboardTrilhaEsporte.Data.Repository;
 using DashboardTrilhaEsporte.Application;
 using DashboardTrilhaEsporte.Domain.Service;
 using System.Globalization;

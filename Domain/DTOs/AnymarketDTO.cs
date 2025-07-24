@@ -1,7 +1,8 @@
 
 using DashboardTrilhaEsporte.Enums;
-using DashboardTrilhaEsporte.Domain.Entities;
 using System.Globalization;
+
+using DashboardTrilhaEsporte.Data.Entities;
 
 
 
@@ -27,7 +28,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
             // Remover duplicatas da lista de vendas
             vendas = vendas.Distinct().ToList();
-    
+
             // Criar um dicionário para armazenar o valor de venda por skuMarketplaceId
             var vendaDict = vendas
             .GroupBy(v => v.skuMarketplaceId)
@@ -36,7 +37,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
             var agrupados = skuMarketplaces.Distinct()
              .GroupBy(x => new { x.skuMarketplace.numeroPedido, x.skuMarketplace.tipoEventoNormalizado })
-              // Usa função auxiliar para criar o AnymarketDTO  
+             // Usa função auxiliar para criar o AnymarketDTO  
              .Select(grupo => CriarAnymarketDTO(grupo, vendaDict))
              .ToList();
 
@@ -52,7 +53,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             var eventoNormalizado = primeiro.skuMarketplace.tipoEventoNormalizado;
             // Pega o primeiro valor de venda do dicionário, se não existir retorna 0
             var valorVendaAtual = vendaDict.ContainsKey(skuId) ? vendaDict[skuId] : 0m;
-                        
+
             // Pega o primeiro valor de venda do dicionário, se não existir retorna 0
             var valorLiquido = grupo.Select(g => g.skuMarketplace.valorLiquido).DefaultIfEmpty(0m).Max();
 
@@ -62,7 +63,7 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
             {
                 numeroPedido = primeiro.skuMarketplace.numeroPedido,
                 valorSkumarketplace = primeiro.skuMarketplace.valorLiquido,
-                valorVenda= valorVendaAtual,
+                valorVenda = valorVendaAtual,
                 tipoEventoNormalizado = eventoNormalizado,
                 Erros = erros,
                 skuId = skuId

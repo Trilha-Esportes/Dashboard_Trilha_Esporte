@@ -7,12 +7,12 @@ namespace DashboardTrilhaEsporte.Domain.DTOs{
 
     public class AnymarketDadosDTO{
 
-        public List<AnymarketDTO>? anymarketDTOs {get; set;}
+        public List<AnymarketDTO> anymarketDTOs {get; set;}
         public int totalVendasNaoEncontada {get; set;}
         public int totalVendasValorDivergente {get; set;}
 
         public AnymarketDadosDTO (){
-          
+            this.anymarketDTOs = new List<AnymarketDTO>();
         }
         public AnymarketDadosDTO (List<AnymarketDTO> anymarketDTOs){
             this.anymarketDTOs = anymarketDTOs;
