@@ -1,0 +1,76 @@
+@page "/scraping"
+
+@inject ScrapingManager scrapingManager
+
+@using DashboardTrilhaEsporte.Application;
+@using DashboardTrilhaEsporte.Enums;
+@using DashboardTrilhaEsporte.Domain.DTOs;
+@using DashboardTrilhaEsporte.Domain.Service;
+
+@using DashboardTrilhaEsporte.Data.Entities;
+@using DashboardTrilhaEsporte.Data.Repository;
+
+@using DashboardTrilhaEsporte.Components.Layout;
+
+@if(scrapingDadosDTOListaCorrente != null){
+<div>
+<ScrapingPage scrapingDadosDTOListaCorrente="@scrapingDadosDTOListaCorrente"  
+                                OnFiltrarAction="@AtualizarListaStatusScraping">             
+                                </ScrapingPage>
+
+</div>
+}else{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+
+
+@code{
+    private ScrapingDadosDTO scrapingDadosDTOListaCorrente =  new ScrapingDadosDTO();
+
+    private ScrapingDadosDTO scrapingDadosDTOListaTemporaria =  new ScrapingDadosDTO();
+    private List<ScrapingStatus> statusScrapinglista { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender){
+         if (firstRender)
+        {
+            var taskScraping = scrapingManager.CarregarDadosAsync();
+            await Task.WhenAll(taskScraping);
+
+            // Verifica se os dados estão prontos
+            if (scrapingManager.scrapingDadosDTO !=null)
+            {
+                scrapingDadosDTOListaCorrente = scrapingManager.scrapingDadosDTO;
+                scrapingDadosDTOListaTemporaria.scrapings = scrapingDadosDTOListaCorrente.scrapings.ToList();
+
+                StateHasChanged();
+            }
+            
+        }
+    }
+
+
+    public void AtualizarListaStatusScraping(List<ScrapingStatus> listaErros)
+    {
+        statusScrapinglista = listaErros.ToList();
+        FiltrarScraping();
+
+    }
+    private void FiltrarScraping()
+    {
+        var listaOriginal = scrapingDadosDTOListaTemporaria.scrapings;
+
+        if (statusScrapinglista == null || !statusScrapinglista.Any())
+        {
+             scrapingDadosDTOListaCorrente.scrapings = listaOriginal.ToList();
+            return;
+        }
+
+        scrapingDadosDTOListaCorrente.scrapings = listaOriginal
+            .Where(dto => statusScrapinglista.Any(status =>
+                 status == dto.linkAtivo || status == dto.tagSemEstoque))
+                .ToList();
+     }
+
+
+
+}

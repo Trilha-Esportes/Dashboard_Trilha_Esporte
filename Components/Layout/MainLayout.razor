@@ -9,14 +9,34 @@
 <MudLayout>
 
     <MudDrawerContainer>
+   
 
-     
+    <MudDrawer @bind-Open="_drawerOpen"
+               Elevation="1"
+               ClipMode="DrawerClipMode.Always"
+               Variant="DrawerVariant.Responsive"
+               style="max-width:12vw;"
+               Color="@Color.Dark">
+               
+                <NavMenu />
+               
+               <div >
+                 <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
+                               OnClick="@ToggleTheme"
+                               Color="Color.Primary"
+                              Style="border-radius: 10%; " /> 
+
+               </div>
+                              
+               
+    </MudDrawer>
+
 
         <MudMainContent>
 
-         
+
             <!-- Conteúdo principal -->
-            <MudContainer Class="pt-4 pa-4 mt-5" Style="max-width: 100vw;" >
+            <MudContainer Class="pt-4 pa-4" Style="max-width: 88vw;">
                 @Body
             </MudContainer>
 
@@ -88,8 +108,8 @@
 
     private readonly PaletteDark _darkPalette = new()
     {
-        Primary = "#7e6fff",
-        Surface = "#f7f7f7",
+        Primary = "#695ADF",
+        Surface = "#1E1E2D",
         Background = "#1a1a27",
         BackgroundGray = "#151521",
         AppbarText = "#92929f",
@@ -161,6 +181,11 @@
     private async Task ScrollToTopAsync()
     {
         await JS.InvokeVoidAsync("window.scrollTo", 0, 0);
+    }
+
+    private void ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
     }
 
     [Inject] IJSRuntime JS { get; set; }
