@@ -4,20 +4,24 @@
           Width="@Width"
           Height="@Height"
           InputData="@Data"
-          InputLabels="@Labels">
+          InputLabels="@Labels"
+          >
     <CustomGraphics>
         <text class="donut-inner-text"
               x="50%" y="35%"
               dominant-baseline="middle"
               text-anchor="middle"
               font-family="Helvetica"
-              font-size="20">@Title</text>
+              font-size="20"
+              >@Title</text>
+
 
         <text class="donut-inner-text"
               x="50%" y="50%"
               dominant-baseline="middle"
               text-anchor="middle"
               font-family="Helvetica"
-              font-size="50">@Data?.Sum().ToString()</text>
+              font-size="50"
+              >@Data?.Sum().ToString()</text>
     </CustomGraphics>
 </MudChart>

@@ -1,12 +1,23 @@
-﻿<MudNavMenu Class="mt-10 px-2">
+﻿<MudNavMenu Style="position: fixed; width: 12vw; top: 60px; overflow-y: auto;">
 
-    
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard" Class="mb-3">
-        Visão Geral
-    </MudNavLink>
-    
-    <MudNavLink Href="/scraping" Icon="@Icons.Material.Filled.Cloud" Class="mb-3">
-        Scraping
-    </MudNavLink>
+    <!-- Cabeçalho -->
+    <MudStack Direction="Row" AlignItems="AlignItems.Center" Spacing="1" Class="px-4 py-2 mb-8 flex-wrap">
+        <MudIcon Icon="@Icons.Material.Filled.Dashboard" Color="Color.Primary" Size="Size.Large" />
+        <MudText Typo="Typo.h6" Class="ms-2 hide-on-small">Trilha Esporte</MudText>
+        <MudText Typo="Typo.body2" Class="mt-2 w-100 hide-on-small">Dashboard</MudText>
+    </MudStack>
 
-</MudNavMenu>
+    <MudDivider Class="my-2 mb-10" />
+
+    <!-- Navegação -->
+    <div>
+        <MudNavLink  Style="margin-bottom: 25px;"Href="/" Icon="@Icons.Material.Filled.Store" DisableRipple="true">
+            <span class="hide-on-small">Vendas e Pedidos</span>
+        </MudNavLink>
+
+        <MudNavLink  Style="margin-bottom: 10px;" Href="/scraping" Icon="@Icons.Material.Filled.Cloud" DisableRipple="true">
+            <span class="hide-on-small">Scraping dos Produtos</span>
+        </MudNavLink>
+    </div>
+
+</MudNavMenu> 

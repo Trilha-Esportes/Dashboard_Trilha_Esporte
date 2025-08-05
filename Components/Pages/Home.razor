@@ -47,9 +47,10 @@
 }
 else
 {
-       <!-- Barra superior -->
+
+    <!-- Barra superior -->
     <MudPaper Class="d-flex justify-space-between align-center px-3 py-2"
-                Style="border-radius: 6px; background-color: transparent; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
+                Style="border-radius: 6px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
                 <MudGrid Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="10"
                     Style="align-items: center;">
                     <MudItem>
@@ -84,7 +85,7 @@ else
 
                         <!-- Grupo: Data Comissão -->
                         <MudItem xs="12">
-                            <MudText Typo="Typo.subtitle2">Filtrar por Data Comissão</MudText>
+                            <MudText Typo="Typo.subtitle1">Filtrar por Data Comissão</MudText>
                         </MudItem>
 
                         <MudItem xs="12" md="6">
@@ -102,7 +103,7 @@ else
 
                         <!-- Grupo: Tipo Evento / Erros -->
                         <MudItem xs="12">
-                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Tipo de Evento / Erro</MudText>
+                            <MudText Typo="Typo.subtitle1"  Class="mt-4">Filtrar Por Tipos de Eventos ou Tipos de Erros</MudText>
                         </MudItem>
 
                         <MudItem xs="12" md="6">
@@ -130,17 +131,12 @@ else
 
                         <!-- Grupo: Número do Pedido -->
                         <MudItem xs="12">
-                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Número do Pedido</MudText>
+                            <MudText Typo="Typo.subtitle1" Class="mt-4">Filtrar por Número do Pedido ou Filtrar Por Data do Ciclo</MudText>
                         </MudItem>
 
                         <MudItem xs="12" md="6">
                             <MudTextField Style="width: 100%;" Label="Número do Pedido"
                                 @bind-Value="_filtro.numeroPedido" />
-                        </MudItem>
-
-                        <!-- Grupo: Data Ciclo -->
-                        <MudItem xs="10">
-                            <MudText Typo="Typo.subtitle2" Class="mt-4">Filtrar por Data Ciclo</MudText>
                         </MudItem>
 
                         <MudItem xs="10" md="6">
@@ -181,7 +177,7 @@ else
 
     </MudCollapse>
 
-<MudTabs Rounded="true" TabPanelClass="px-4">
+    <MudTabs Rounded="true" TabPanelClass="px-2">
 
         <MudTabPanel Text="Visão Geral SkuMarkeplace">
             <Markeplace skuMarketplaceListaCorrente="@skuMarketplaceListaCorrente" dadosTiposErros="@dadosTiposErros"
@@ -212,12 +208,7 @@ else
 
         </MudTabPanel>
 
-        <MudTabPanel Text="Scraping">
-            <ScrapingPage scrapingDadosDTOListaCorrente="@scrapingDadosDTOListaCorrente"  OnFiltrarAction="@AtualizarListaStatusScraping">
-                
-            </ScrapingPage>
-        </MudTabPanel>
-
+      
 
     </MudTabs>
 }
@@ -244,9 +235,6 @@ else
     // Copia da lista corrente de dados do Resumo Finaceiro (para o filtro interno da seção)
     private ResumoFinanceiroDadosDTO financeiroDadosDTOListaTemporaria = new ResumoFinanceiroDadosDTO();
 
-    private ScrapingDadosDTO scrapingDadosDTOListaCorrente =  new ScrapingDadosDTO();
-
-    private ScrapingDadosDTO scrapingDadosDTOListaTemporaria =  new ScrapingDadosDTO();
 
 
     // Dados para os gráficos
@@ -279,7 +267,6 @@ else
 
     private List<StatusPagamento> resumoFinaceiroStatus { get; set; } = new();
 
-    private List<ScrapingStatus> statusScrapinglista { get; set; } = new();
 
 
 
@@ -288,8 +275,6 @@ else
     {
         if (firstRender)
         {
-
-
             
             // Aguarda os dados do SkuManager
             var taskSku = SkuManager.CarregarDadosAsync();
@@ -353,9 +338,6 @@ else
                 await InvokeAsync(StateHasChanged);
             };
 
-            scrapingDadosDTOListaCorrente = scrapingManager.scrapingDadosDTO;
-            scrapingDadosDTOListaTemporaria.scrapings = scrapingDadosDTOListaCorrente.scrapings.ToList();
-
             // Força a re-renderização do componente
             StateHasChanged();
         }
@@ -409,7 +391,6 @@ else
     // Metodo que aplica o filtro avançado e atualiza as lista corrente
     private void AplicarFiltro()
     {
-        // Aqui você pode aplicar o filtro em sua tabela, API, etc.
         List<SkuMarketplaceDTO> ListaFiltada =
         SkuMarketplaceFilterService.AplicarFiltros(SkuManager.resultDTO.skuMarketplaceDTOs, _filtro);
         if (ListaFiltada != null && ListaFiltada.Any())
@@ -454,29 +435,7 @@ else
     }
 
 
-     public void AtualizarListaStatusScraping(List<ScrapingStatus> listaErros)
-    {
-        statusScrapinglista = listaErros.ToList();
-        FiltrarScraping();
-
-    }
-
-        private void FiltrarScraping()
-        {
-            var listaOriginal = scrapingDadosDTOListaTemporaria.scrapings;
-
-            if (statusScrapinglista == null || !statusScrapinglista.Any())
-            {
-                scrapingDadosDTOListaCorrente.scrapings = listaOriginal.ToList();
-                return;
-            }
-
-            scrapingDadosDTOListaCorrente.scrapings = listaOriginal
-                .Where(dto => statusScrapinglista.Any(status =>
-                    status == dto.linkAtivo || status == dto.tagSemEstoque))
-                .ToList();
-        }
-
+   
 
     public void AtualizarListaAnymarket(List<AnymarketErros> listaErros)
     {
