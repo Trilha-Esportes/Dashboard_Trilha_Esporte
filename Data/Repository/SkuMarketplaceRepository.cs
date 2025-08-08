@@ -41,6 +41,8 @@ namespace DashboardTrilhaEsporte.Data.Repository
                     mk.nome AS marketplace,
                     sm.id AS sku_marketplace_id,
                     sm.numero_pedido,
+                    mk.id as marketplace_Id,
+
 
                     -- Valor do pedido:
                     COALESCE(v.valor_liquido, 0) AS valor_liquido,
@@ -63,17 +65,16 @@ namespace DashboardTrilhaEsporte.Data.Repository
                     ec.data_repasse AS data_ciclo
 
                 FROM sku_marketplace sm
-                LEFT JOIN marketplaces mk
+                inner JOIN marketplaces mk
                     ON sm.marketplace_id = mk.id
-                LEFT JOIN vendas v
+                left JOIN vendas v
                     ON sm.id = v.sku_marketplace_id
-                LEFT JOIN comissoes_periodo cp
+                left JOIN comissoes_periodo cp
                     ON v.data BETWEEN cp.data_inicio AND cp.data_fim
-                LEFT JOIN evento_centauro ec
+                left JOIN evento_centauro ec
                     ON ec.numero_pedido = sm.numero_pedido
-                LEFT JOIN comissoes_pedido cp2
+                left JOIN comissoes_pedido cp2
                     ON sm.id = cp2.sku_marketplace_id;
-
             ";
 
             await using var reader = await ((DbCommand)command).ExecuteReaderAsync();

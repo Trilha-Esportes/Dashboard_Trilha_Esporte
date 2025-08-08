@@ -10,9 +10,9 @@ namespace DashboardTrilhaEsporte.Application
     {
         private ScrapingRepository _repo;
 
-        public Boolean _dadosCarregados = false;
+        public Boolean _dadosCarregados { get; private set; } = false;
 
-        public ScrapingDadosDTO scrapingDadosDTO = new ScrapingDadosDTO();
+        public ScrapingDadosDTO scrapingDadosDTO { get; private set; } = new ScrapingDadosDTO();
 
 
         public ScrapingManager(ScrapingRepository repository)

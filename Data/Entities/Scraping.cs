@@ -7,20 +7,20 @@ namespace DashboardTrilhaEsporte.Data.Entities
 {
     public class Scraping
     {
-        public int id { get; set; }
-        public int idScrapingHistorico { get; set; }
-        public int idProduto { get; set; }
+        public int id { get; private set; }
+        public int idScrapingHistorico { get;private set; }
+        public int idProduto { get;private set; }
 
-        public ScrapingStatus linkAtivo { get; set; }
-        public string nomeProduto { get; set; } = string.Empty;
-        public decimal precoProduto { get; set; }
-        public ScrapingStatus tagSemEstoque { get; set; }
-        public string descricaoErro { get; set; } = string.Empty;
-        public DateTime dataCriacao { get; set; }
+        public ScrapingStatus linkAtivo { get; private set; }
+        public string nomeProduto { get; private set; } = string.Empty;
+        public decimal precoProduto { get; private set; }
+        public ScrapingStatus tagSemEstoque { get; private set; }
+        public string descricaoErro { get;private set; } = string.Empty;
+        public DateTime dataCriacao { get;private  set; }
 
-        public string nomeProdutoOficial { get; set; } = string.Empty;
-        public string nomeMarketplace { get; set; } = string.Empty;
-        public string skuID { get; set; } = string.Empty;
+        public string nomeProdutoOficial { get; private set; } = string.Empty;
+        public string nomeMarketplace { get; private set; } = string.Empty;
+        public string skuID { get; private set; } = string.Empty;
 
         public static Scraping MapearRegistro(NpgsqlDataReader reader)
         {

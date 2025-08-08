@@ -3,42 +3,47 @@ using Npgsql;
 using System;
 using System.Globalization;
 
-namespace DashboardTrilhaEsporte.Data.Entities{
-
-// Essa classe representa a entidade SkuMarketplace
-// Ela contém todos os parametros que vem da consulta SQL
-// Somados de parametro que representa erro de devolução
-
-public class SkuMarketplace : IEquatable<SkuMarketplace>
+namespace DashboardTrilhaEsporte.Data.Entities
 {
-    public String? marketplace { get; set; }
-    public String skuMarketplaceId { get; set; } = String.Empty;
-    public String? numeroPedido { get; set; }
-    public Decimal valorLiquido { get; set; }
-    public DateTime? dataComissao { get; set; }
-    public Decimal porcentagem { get; set; }
-    public Decimal comissao { get; set; }
-    public Eventos tipoEventoNormalizado { get; set; }
-    public Decimal valorFinal { get; set; }
-    public DateTime? dataEvento { get; set; }
-    public DateTime? dataCiclo { get; set; }
 
-    public List<Decimal> porcentagemPeriodoEspecial { get; set; } = new List<decimal>();
+    // Essa classe representa a entidade SkuMarketplace
+    // Ela contém todos os parametros que vem da consulta SQL
+    // Somados de parametro que representa erro de devolução
+
+    public class SkuMarketplace : IEquatable<SkuMarketplace>
+    {
+        public String? marketplace { get; private set; }
+        public String skuMarketplaceId { get; private set; } = String.Empty;
+        public long marketplaceId { get; private set; }
+
+        public String? numeroPedido { get; private set; }
+        public Decimal valorLiquido { get; private set; }
+        public DateTime? dataComissao { get; private set; }
+        public Decimal porcentagem { get; private set; }
+        public Decimal comissao { get; private set; }
+        public Eventos tipoEventoNormalizado { get; private set; }
+        public Decimal valorFinal { get; private set; }
+        public DateTime? dataEvento { get; private set; }
+        public DateTime? dataCiclo { get; private set; }
+
+        public List<Decimal> porcentagemPeriodoEspecial { get; private set; } = new List<decimal>();
 
 
-    public Boolean erroDevolucao { get; set; }
+        public Boolean erroDevolucao { get; set; }
 
-      
-      // Método responsável por normalizar o tipo de evento
-    // Ele recebe uma string e retorna um valor do enum Eventos
-    public static Eventos normalizarTipoEvento(string evento)
-{
-    if (string.IsNullOrWhiteSpace(evento))
-        return Eventos.Desconhecido;
 
-    evento = evento.Trim().ToLower();
 
-    var mapping = new Dictionary<string, Eventos>
+
+        // Método responsável por normalizar o tipo de evento
+        // Ele recebe uma string e retorna um valor do enum Eventos
+        public static Eventos normalizarTipoEvento(string evento)
+        {
+            if (string.IsNullOrWhiteSpace(evento))
+                return Eventos.Desconhecido;
+
+            evento = evento.Trim().ToLower();
+
+            var mapping = new Dictionary<string, Eventos>
     {
         // Repasse Normal
         { "repasse normal", Eventos.RepasseNormal },
@@ -76,17 +81,17 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
 
         // Ajuste de Ciclo
         { "Ajuste de ciclo", Eventos.AjusteDeCiclo },
-        
+
     };
 
-    return mapping.TryGetValue(evento, out var valorNormalizado)
-        ? valorNormalizado
-        : Eventos.Outros;
-}
+            return mapping.TryGetValue(evento, out var valorNormalizado)
+                ? valorNormalizado
+                : Eventos.Outros;
+        }
 
-    // Método responsável por mapear o registro retornado do banco de dados 
+        // Método responsável por mapear o registro retornado do banco de dados 
         // para um objeto SkuMarketplace
-    public static SkuMarketplace MapearRegistro(NpgsqlDataReader reader)
+        public static SkuMarketplace MapearRegistro(NpgsqlDataReader reader)
         {
             SkuMarketplace marketplace = new SkuMarketplace
             {
@@ -95,6 +100,7 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
                 skuMarketplaceId = reader["sku_marketplace_id"] is DBNull
                     ? string.Empty
                     : Convert.ToString(reader["sku_marketplace_id"]) ?? string.Empty,
+                marketplaceId = reader["marketplace_Id"] is DBNull ? 0 : Convert.ToInt64(reader["marketplace_Id"]),
 
                 numeroPedido = reader["numero_pedido"]?.ToString() ?? string.Empty,
                 valorFinal = reader["valor_final"] is DBNull ? 0 : Convert.ToDecimal(reader["valor_final"]),
@@ -161,38 +167,44 @@ public class SkuMarketplace : IEquatable<SkuMarketplace>
                 && dataEvento == other.dataEvento
                 && dataCiclo == other.dataCiclo;
         }
-    public override bool Equals(object? obj) => Equals(obj as SkuMarketplace);
- 
-    // Método responsável por comparar dois objetos SkuMarketplace (coleções)
-    public override int GetHashCode()
-   {
-        var hash1 = HashCode.Combine(skuMarketplaceId, marketplace, numeroPedido, valorLiquido);
-        var hash2 = HashCode.Combine(dataComissao, porcentagem, comissao, tipoEventoNormalizado);
-        var hash3 = HashCode.Combine(valorFinal, dataEvento, dataCiclo);
+        public override bool Equals(object? obj) => Equals(obj as SkuMarketplace);
 
-        return HashCode.Combine(hash1, hash2, hash3);
-   }      
+        // Método responsável por comparar dois objetos SkuMarketplace (coleções)
+        public override int GetHashCode()
+        {
+            var hash1 = HashCode.Combine(skuMarketplaceId, marketplace, numeroPedido, valorLiquido);
+            var hash2 = HashCode.Combine(dataComissao, porcentagem, comissao, tipoEventoNormalizado);
+            var hash3 = HashCode.Combine(valorFinal, dataEvento, dataCiclo);
 
-    public override string ToString()
-    {
-    var culture = new CultureInfo("pt-BR");
+            return HashCode.Combine(hash1, hash2, hash3);
+        }
 
-    return $"{skuMarketplaceId};" +
-           $"{marketplace};" +
-           $"{numeroPedido};" +
-           $"{tipoEventoNormalizado.GetDescription()};" +
-           $"{valorFinal.ToString("N2", culture)};" +
-           $"{valorLiquido.ToString("N2", culture)};" +
-           $"{porcentagem.ToString("N2", culture)};" +
-           $"{comissao.ToString("N2", culture)};" +
-           $"{(dataComissao.HasValue ? dataComissao.Value.ToString("dd/MM/yyyy") : "-")};" +
-           $"{(dataEvento.HasValue ? dataEvento.Value.ToString("dd/MM/yyyy") : "-")};" +
-           $"{(dataCiclo.HasValue ? dataCiclo.Value.ToString("dd/MM/yyyy") : "-")}";
+        public override string ToString()
+        {
+            var culture = new CultureInfo("pt-BR");
+
+            return $"{skuMarketplaceId};" +
+                   $"{marketplace};" +
+                   $"{numeroPedido};" +
+                   $"{tipoEventoNormalizado.GetDescription()};" +
+                   $"{valorFinal.ToString("N2", culture)};" +
+                   $"{valorLiquido.ToString("N2", culture)};" +
+                   $"{porcentagem.ToString("N2", culture)};" +
+                   $"{comissao.ToString("N2", culture)};" +
+                   $"{(dataComissao.HasValue ? dataComissao.Value.ToString("dd/MM/yyyy") : "-")};" +
+                   $"{(dataEvento.HasValue ? dataEvento.Value.ToString("dd/MM/yyyy") : "-")};" +
+                   $"{(dataCiclo.HasValue ? dataCiclo.Value.ToString("dd/MM/yyyy") : "-")}";
+        }
+
+
+        public void SetProcentagem(decimal procentagem ) {
+            if(porcentagem <= 1 && procentagem >= 0)
+                 this.porcentagem = porcentagem;
+        }
+
+
+
     }
-
-
-
-}
 
 
 }

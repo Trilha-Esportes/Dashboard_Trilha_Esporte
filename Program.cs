@@ -37,7 +37,8 @@ builder.Services.AddScoped<SkuMarketplaceManager>();
 builder.Services.AddScoped<AnymarketManager>();
 builder.Services.AddScoped<ResumoFinanceiroManager>();
 builder.Services.AddScoped<ScrapingManager>();
-
+builder.Services.AddScoped<SkuMarketplaceDevolucaoManager>();
+builder.Services.AddScoped<ProdutoEstornadoRepository>();
 builder.Services.AddScoped<FiltroStateService>();
 
 

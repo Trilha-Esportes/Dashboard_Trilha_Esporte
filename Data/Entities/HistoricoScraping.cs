@@ -4,13 +4,13 @@ namespace DashboardTrilhaEsporte.Data.Entities
 {
     public class ScrapingHistorico
     {
-        public long id { get; set; }
-        public DateTime dataScraping { get; set; }
-        public DateTime inicioExecucao { get; set; }
-        public DateTime fimExecucao { get; set; }
-        public int numeroDeLinks { get; set; }
-        public int numeroErros { get; set; }
-        public string status { get; set; } = "em_andamento";
+        public long id { get; private set; }
+        public DateTime dataScraping { get; private set; }
+        public DateTime inicioExecucao { get; private set; }
+        public DateTime fimExecucao { get; private set; }
+        public int numeroDeLinks { get; private set; }
+        public int numeroErros { get; private set; }
+        public string status { get; private set; } = "em_andamento";
 
         public static ScrapingHistorico MapearRegistro(NpgsqlDataReader reader)
         {

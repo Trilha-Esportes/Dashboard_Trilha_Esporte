@@ -62,7 +62,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
                             if (Math.Abs(valorAlternativo - marketplace.valorFinal) <= 0.05m)
                             {
                                 // Encontrou uma porcentagem especial compatível, atualiza e retorna sucesso
-                                marketplace.porcentagem = p / 100;
+                                marketplace.SetProcentagem(p / 100);
                                 return null;
                             }
                         }

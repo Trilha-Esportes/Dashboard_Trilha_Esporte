@@ -5,11 +5,10 @@ using Npgsql;
 namespace DashboardTrilhaEsporte.Data.Entities{
     public class Vendas
     {
-        public int vendaId { get; set; }
-        public String skuMarketplaceId { get; set; } = String.Empty;
-        public Decimal valorVenda { get; set; }
-
-        public Decimal procentagemPeriodo { set; get; }
+        public int vendaId { get; private set; }
+        public String skuMarketplaceId { get; private set; } = String.Empty;
+        public Decimal valorVenda { get; private set; }
+        public Decimal procentagemPeriodo { private set; get; }
 
         public Vendas()
         {

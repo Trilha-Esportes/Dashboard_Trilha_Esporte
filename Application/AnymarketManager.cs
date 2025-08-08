@@ -8,7 +8,7 @@ namespace DashboardTrilhaEsporte.Application
     {
         private readonly VendasRepository _repo;
 
-        private Boolean _dadosCarregados = false;
+        public Boolean _dadosCarregados { get; private set; } = false;
 
         public AnymarketDadosDTO anymarketDadosDTO { get; private set; } = new AnymarketDadosDTO();
 
