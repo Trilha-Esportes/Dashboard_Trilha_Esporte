@@ -49,7 +49,10 @@ else
 {
 
     <!-- Barra superior -->
+
+    <!-- Barra superior -->
     <MudPaper Class="d-flex justify-space-between align-center px-3 py-2"
+                Style="border-radius: 6px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
                 Style="border-radius: 6px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
                 <MudGrid Justify="Justify.FlexEnd" AlignItems="AlignItems.Center" Spacing="10"
                     Style="align-items: center;">
@@ -86,6 +89,7 @@ else
                         <!-- Grupo: Data Comissão -->
                         <MudItem xs="12">
                             <MudText Typo="Typo.subtitle1">Filtrar por Data Comissão</MudText>
+                            <MudText Typo="Typo.subtitle1">Filtrar por Data Comissão</MudText>
                         </MudItem>
 
                         <MudItem xs="12" md="6">
@@ -103,6 +107,7 @@ else
 
                         <!-- Grupo: Tipo Evento / Erros -->
                         <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle1"  Class="mt-4">Filtrar Por Tipos de Eventos ou Tipos de Erros</MudText>
                             <MudText Typo="Typo.subtitle1"  Class="mt-4">Filtrar Por Tipos de Eventos ou Tipos de Erros</MudText>
                         </MudItem>
 
@@ -131,6 +136,7 @@ else
 
                         <!-- Grupo: Número do Pedido -->
                         <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle1" Class="mt-4">Filtrar por Número do Pedido ou Filtrar Por Data do Ciclo</MudText>
                             <MudText Typo="Typo.subtitle1" Class="mt-4">Filtrar por Número do Pedido ou Filtrar Por Data do Ciclo</MudText>
                         </MudItem>
 
@@ -208,6 +214,7 @@ else
 
         </MudTabPanel>
 
+      
       
 
     </MudTabs>
@@ -434,6 +441,7 @@ else
     }
 
 
+   
    
 
     public void AtualizarListaAnymarket(List<AnymarketErros> listaErros)
