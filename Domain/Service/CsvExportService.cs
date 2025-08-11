@@ -85,7 +85,7 @@ namespace DashboardTrilhaEsporte.Domain.Service{
         }
 
 
-         public static string GerarCsvScraping(List<Scraping> lista)
+        public static string GerarCsvScraping(List<Scraping> lista)
         {
                 var sb = new StringBuilder();
 
@@ -96,6 +96,22 @@ namespace DashboardTrilhaEsporte.Domain.Service{
                     sb.AppendLine(item.ToString());
                 }
 
+                return sb.ToString();
+        }
+
+
+        public static string GerarCsvProdutosEstornados(List<SkuMarketplaceDevolucaoDTO> lista)
+        {
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Numero do Pedido;Motivo da Devolucao ;Estado de Entrada (conferência); Operação;Tipo Evento; Valor do Pedido;Valor Final; Diferença entre Valores;Data Pedido;Data do Ciclo");
+
+                foreach (var item in lista)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+                
+                          
                 return sb.ToString();
         }
 

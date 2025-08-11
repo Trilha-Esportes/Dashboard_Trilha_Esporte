@@ -34,10 +34,9 @@
     if (scrapingDadosDTOListaCorrente != null)
     {
         var csv = CsvExportService.GerarCsvScraping(scrapingDadosDTOListaCorrente.scrapings);
-        var fileName = $"ResumoScraping_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
-        byte[] fakeBytes = System.Text.Encoding.UTF8.GetBytes("arquivo de teste");
-
-        await JS.InvokeVoidAsync("downloadFile", fileName, fakeBytes);
+        var fileName = $"Scraping_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+        var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+        await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
     }
     else
     {

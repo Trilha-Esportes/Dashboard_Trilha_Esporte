@@ -26,12 +26,14 @@
 
     private async Task BaixarSkuMarketplaceDescontarDTO()
     {
-        Snackbar.Add("Seu download começará em alguns segundos...", Severity.Success);
-    
-        string fileName = $"DescontarHouver_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
-        await JS.InvokeVoidAsync("downloadFile", fileName);
-         Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
-
+        if (skuMarketplaceDevolucaoDTOs != null){
+            var csv = CsvExportService.GerarCsvProdutosEstornados(skuMarketplaceDevolucaoDTOs);
+            string fileName = $"Lista_de_Devoluções_{DateTime.Now:dd-MM-yyyy_HH-mm}.xlsx";
+            var xlsxBytes = CsvExportService.CsvToXlsx(csv);
+            await JS.InvokeVoidAsync("downloadFile", fileName, xlsxBytes);
+            
+        }else
+            Snackbar.Add("Infelizmente não foi possível concluir o download", Severity.Error);
 
     }
     
@@ -86,7 +88,7 @@
                 </MudTableSortLabel>
             </MudTh>
             <MudTh Style="min-width: 160px; text-align: center;">
-                <MudTableSortLabel T="SkuMarketplaceDevolucaoDTO" SortBy="x => x.converencia">
+                <MudTableSortLabel T="SkuMarketplaceDevolucaoDTO" SortBy="x => x.conferencia">
                     Situação de Entrada
                 </MudTableSortLabel>
             </MudTh>
@@ -128,7 +130,7 @@
                 @context.motivoEntrada.GetDescription()
             </MudTd>
             <MudTd DataLabel="Situação de Entrada" Style="text-align: center;">
-                @(context.converencia ? "OK" : "Devolvido com Defeito")
+                @(context.conferencia ? "OK" : "Devolvido com Defeito")
             </MudTd>
             <MudTd DataLabel="Diferença" Style=@($"text-align: center; color:{(context.diferenca > 0 ? "green" : "red")};")>
                 @context.diferenca.ToString("C")
