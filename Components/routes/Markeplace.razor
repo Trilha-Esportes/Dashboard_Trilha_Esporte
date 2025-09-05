@@ -193,6 +193,11 @@
                         Data do Ciclo
                     </MudTableSortLabel>
                 </MudTh>
+                 <MudTh Style="min-width: 140px; text-align: center;">
+                    <MudTableSortLabel T="SkuMarketplaceDTO" SortBy="x => x.skuMarketplace.dataComissao">
+                        Data do Comissao
+                    </MudTableSortLabel>
+                </MudTh>
                 <MudTh Style="min-width: 200px; text-align: center;">
                     <MudTableSortLabel T="SkuMarketplaceDTO">
                         Lista de Erros
@@ -221,6 +226,9 @@
                     @context.skuMarketplace.comissao.ToString("C")</MudTd>
                 <MudTd DataLabel="Data do Ciclo" Style="text-align: center;">
                     @context.skuMarketplace.dataCiclo?.ToShortDateString()
+                </MudTd>
+                 <MudTd DataLabel="Data do Ciclo" Style="text-align: center;">
+                    @context.skuMarketplace.dataComissao?.ToShortDateString()
                 </MudTd>
                 <MudTd DataLabel="Lista de Erros" Style="text-align: center;">
                     @if (context.listaErros != null && context.listaErros.Any())

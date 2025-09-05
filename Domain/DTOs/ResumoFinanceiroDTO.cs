@@ -85,9 +85,9 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
             // valor a Receber é o valor total menos a comissão esperada
             DateTime inicioMesEspecial = new DateTime(2021, 8, 1);
-            DateTime fimMesEspecial = new DateTime(2021, 9, 30); // setembro tem 30 dias
+            DateTime fimMesEspecial = new DateTime(2021, 9, 30); 
 
-            var AReceber = 5m;
+            var AReceber = 0m;
 
             var dataRepasse =  grupo.Min(g => g.skuMarketplace.dataCiclo);
 
@@ -144,8 +144,6 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
         private static decimal CalcularValorRecebido(IEnumerable<SkuMarketplaceDTO> grupo)
         {
-
-
             decimal v = grupo
                 .Where(g => g.skuMarketplace.tipoEventoNormalizado == Eventos.RepasseNormal)
                 .Select(g => g.skuMarketplace.valorFinal)

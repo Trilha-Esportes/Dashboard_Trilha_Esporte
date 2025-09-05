@@ -62,7 +62,7 @@ namespace DashboardTrilhaEsporte.Data.Repository
                     ec.tipo_evento,
                     COALESCE(ec.repasse_liquido_evento, 0) AS valor_final,
                     v.data AS data_evento,
-                    ec.data_repasse AS data_ciclo
+                    ec.data AS data_ciclo
 
                 FROM sku_marketplace sm
                 inner JOIN marketplaces mk
