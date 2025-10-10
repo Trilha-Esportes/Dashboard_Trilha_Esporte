@@ -38,43 +38,44 @@ namespace DashboardTrilhaEsporte.Data.Repository
             using var command = connection.CreateCommand();
             command.CommandText = @"
                SELECT
-                    mk.nome AS marketplace,
-                    sm.id AS sku_marketplace_id,
-                    sm.numero_pedido,
-                    mk.id as marketplace_Id,
+                mk.nome AS marketplace,
+                mk.id AS marketplace_id,
+
+                sm.id AS sku_marketplace_id,
+                sm.numero_pedido,
+
+                -- Valor do pedido
+                COALESCE(v.valor_liquido, 0) AS valor_liquido,
+
+                -- Porcentagens da comissão (da tabela comissoes_periodo)
+                cp.porcentagem,
+                cp.porcentagem_especiais,
+
+                -- Data da comissão (da tabela comissoes_pedido)
+                cp2.data AS data_comissao,
+
+                -- Cálculo da comissão
+                (cp.porcentagem * COALESCE(v.valor_liquido, 0)) AS comissao_calc,
+
+                -- Informações do evento (Centauro)
+                ec.tipo_evento,
+                COALESCE(ec.repasse_liquido_evento, 0) AS valor_final,
+                v.data AS data_evento,
+                ec.data_repasse AS data_ciclo
+
+            FROM sku_marketplace sm
+            LEFT JOIN marketplaces mk
+                ON sm.marketplace_id = mk.id
+            LEFT JOIN vendas v
+                ON sm.id = v.sku_marketplace_id
+            LEFT JOIN comissoes_periodo cp
+                ON v.data BETWEEN cp.data_inicio AND cp.data_fim
+            LEFT JOIN evento_centauro ec
+                ON ec.numero_pedido = sm.numero_pedido
+            LEFT JOIN comissoes_pedido cp2
+                ON sm.id = cp2.sku_marketplace_id
 
 
-                    -- Valor do pedido:
-                    COALESCE(v.valor_liquido, 0) AS valor_liquido,
-
-                    -- Data e porcentagem da comissão (agora da comissoes_periodo):
-                
-                    cp.porcentagem,
-                    cp.porcentagem_especiais,
-
-                    -- Data e porcentagem da comissão:
-                    cp2.data AS data_comissao,
-
-                    -- Cálculo da comissão:
-                    (cp.porcentagem * COALESCE(v.valor_liquido, 0)) AS comissao_calc,
-
-                    -- Informações de evento (centauro):
-                    ec.tipo_evento,
-                    COALESCE(ec.repasse_liquido_evento, 0) AS valor_final,
-                    v.data AS data_evento,
-                    ec.data_repasse AS data_ciclo
-
-                FROM sku_marketplace sm
-                inner JOIN marketplaces mk
-                    ON sm.marketplace_id = mk.id
-                left JOIN vendas v
-                    ON sm.id = v.sku_marketplace_id
-                left JOIN comissoes_periodo cp
-                    ON v.data BETWEEN cp.data_inicio AND cp.data_fim
-                left JOIN evento_centauro ec
-                    ON ec.numero_pedido = sm.numero_pedido
-                left JOIN comissoes_pedido cp2
-                    ON sm.id = cp2.sku_marketplace_id;
             ";
 
             await using var reader = await ((DbCommand)command).ExecuteReaderAsync();

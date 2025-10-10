@@ -36,58 +36,57 @@ namespace DashboardTrilhaEsporte.Data.Entities
 
         // Método responsável por normalizar o tipo de evento
         // Ele recebe uma string e retorna um valor do enum Eventos
-        public static Eventos normalizarTipoEvento(string evento)
+            public static Eventos normalizarTipoEvento(string evento)
         {
             if (string.IsNullOrWhiteSpace(evento))
                 return Eventos.Desconhecido;
 
-            evento = evento.Trim().ToLower();
+            evento = evento.Trim();
 
-            var mapping = new Dictionary<string, Eventos>
-    {
-        // Repasse Normal
-        { "repasse normal", Eventos.RepasseNormal },
-        { "repasse - normal", Eventos.RepasseNormal },
-        { "repassse normal", Eventos.RepasseNormal },
-        { "repassse - normal", Eventos.RepasseNormal },
+            var mapping = new Dictionary<string, Eventos>(StringComparer.OrdinalIgnoreCase)
+            {
+                // Repasse Normal
+                { "repasse normal", Eventos.RepasseNormal },
+                { "repasse - normal", Eventos.RepasseNormal },
+                { "repassar normal", Eventos.RepasseNormal },
+                { "repassar - normal", Eventos.RepasseNormal },
+                { "repassse normal", Eventos.RepasseNormal }, // erro comum de digitação
+                { "repassse - normal", Eventos.RepasseNormal },
 
-        // Repassar Normal
-        { "repassar normal", Eventos.RepasseNormal },
-        { "repassar - normal",Eventos.RepasseNormal },
+                // Não repassar
+                { "não repassar", Eventos.NaoRepassar },
+                { "nao repassar", Eventos.NaoRepassar },
 
-        // Não repassar
-        { "não repassar", Eventos.NaoRepassar },
-        { "nao repassar", Eventos.NaoRepassar },
+                // Descontar Houve/Hove
+                { "descontar houve", Eventos.DescontarHoveHouve },
+                { "descontar - houve", Eventos.DescontarHoveHouve },
+                { "descontar hove", Eventos.DescontarHoveHouve },
+                { "descontar - hove", Eventos.DescontarHoveHouve },
 
-        // Descontar Houve/Hove
-        { "descontar hove", Eventos.DescontarHoveHouve },
-        { "descontar houve", Eventos.DescontarHoveHouve },
-        { "descontar - houve", Eventos.DescontarHoveHouve },
-        { "descontar - hove", Eventos.DescontarHoveHouve },
+                // Descontar Reversa Centauro Envios
+                { "descontar reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
+                { "descontar - reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
 
-        // Descontar Reversa Centauro Envios
-        { "descontar reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
-        { "descontar - reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
+                // Descontar Retroativo
+                { "descontar retroativo", Eventos.DescontarRetroativo },
+                { "descontar - retroativo", Eventos.DescontarRetroativo },
+                { "descontar retroativo sac", Eventos.DescontarRetroativo },
+                { "descontar - retroativo sac", Eventos.DescontarRetroativo },
+                { "descontar retroativos", Eventos.DescontarRetroativo },
+                { "descontar - retroativos", Eventos.DescontarRetroativo },
+                { "descontar retroativos sac", Eventos.DescontarRetroativo },
+                { "descontar - retroativos sac", Eventos.DescontarRetroativo },
 
-        // Descontar Retroativo
-        { "descontar retroativo", Eventos.DescontarRetroativo },
-        { "descontar - retroativo", Eventos.DescontarRetroativo },
-        { "descontar retroativo sac", Eventos.DescontarRetroativo },
-        { "descontar - retroativo sac", Eventos.DescontarRetroativo },
-        { "descontar retroativos", Eventos.DescontarRetroativo },
-        { "descontar - retroativos", Eventos.DescontarRetroativo },
-        { "descontar retroativos sac", Eventos.DescontarRetroativo },
-        { "descontar - retroativos sac", Eventos.DescontarRetroativo },
-
-        // Ajuste de Ciclo
-        { "Ajuste de ciclo", Eventos.AjusteDeCiclo },
-
-    };
+                // Ajuste de Ciclo
+                { "ajuste de ciclo", Eventos.AjusteDeCiclo },
+               
+            };
 
             return mapping.TryGetValue(evento, out var valorNormalizado)
                 ? valorNormalizado
                 : Eventos.Outros;
         }
+
 
         // Método responsável por mapear o registro retornado do banco de dados 
         // para um objeto SkuMarketplace
