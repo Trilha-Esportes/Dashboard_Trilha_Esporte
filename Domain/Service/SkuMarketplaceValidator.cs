@@ -27,7 +27,7 @@ namespace DashboardTrilhaEsporte.Domain.Service
                 {
                     listaErros.Add(Erros.FaltaDeComisao);
                 }
-                if (marketplace.dataComissao == null)
+                if (marketplace.dataEvento == null)
                 {
                     listaErros.Add(Erros.FaltaDataComissao);
                 }

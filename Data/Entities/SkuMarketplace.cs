@@ -31,61 +31,121 @@ namespace DashboardTrilhaEsporte.Data.Entities
 
         public Boolean erroDevolucao { get; set; }
 
+        private static string RemoverAcentos(string texto)
+        {
+            var normalized = texto.Normalize(System.Text.NormalizationForm.FormD);
+            var sb = new System.Text.StringBuilder();
 
+            foreach (var c in normalized)
+            {
+                var unicodeCategory = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
+        }
 
 
         // Método responsável por normalizar o tipo de evento
         // Ele recebe uma string e retorna um valor do enum Eventos
-            public static Eventos normalizarTipoEvento(string evento)
+        public static Eventos normalizarTipoEvento(string evento)
         {
             if (string.IsNullOrWhiteSpace(evento))
                 return Eventos.Desconhecido;
 
-            evento = evento.Trim();
+            // Normalização básica
+            evento = evento.Trim().ToLowerInvariant();
 
+            // Remove acentos e espaços/hífens duplicados
+            evento = RemoverAcentos(evento)
+                .Replace("--", "-")
+                .Replace("  ", " ")
+                .Replace(" - ", "-")
+                .Trim();
+
+            // Dicionário de correspondência
             var mapping = new Dictionary<string, Eventos>(StringComparer.OrdinalIgnoreCase)
-            {
-                // Repasse Normal
-                { "repasse normal", Eventos.RepasseNormal },
-                { "repasse - normal", Eventos.RepasseNormal },
-                { "repassar normal", Eventos.RepasseNormal },
-                { "repassar - normal", Eventos.RepasseNormal },
-                { "repassse normal", Eventos.RepasseNormal }, // erro comum de digitação
-                { "repassse - normal", Eventos.RepasseNormal },
+    {
+        // ========================
+        // REPASSE NORMAL
+        // ========================
+        { "repasse normal", Eventos.RepasseNormal },
+        { "repasse-normal", Eventos.RepasseNormal },
+        { "repassar normal", Eventos.RepasseNormal },
+        { "repassar-normal", Eventos.RepasseNormal },
+        { "repassse normal", Eventos.RepasseNormal },
+        { "repassse-normal", Eventos.RepasseNormal },
 
-                // Não repassar
-                { "não repassar", Eventos.NaoRepassar },
-                { "nao repassar", Eventos.NaoRepassar },
+        // ========================
+        // NÃO REPASSAR
+        // ========================
+        { "nao repassar", Eventos.NaoRepassar },
+        { "nao-repassar", Eventos.NaoRepassar },
+        { "nao repasse", Eventos.NaoRepassar },
+        { "nao-repasse", Eventos.NaoRepassar },
 
-                // Descontar Houve/Hove
-                { "descontar houve", Eventos.DescontarHoveHouve },
-                { "descontar - houve", Eventos.DescontarHoveHouve },
-                { "descontar hove", Eventos.DescontarHoveHouve },
-                { "descontar - hove", Eventos.DescontarHoveHouve },
+        // ========================
+        // DESCONTAR HOUVE / HOVE
+        // ========================
+        { "descontar houve", Eventos.DescontarHoveHouve },
+        { "descontar-houve", Eventos.DescontarHoveHouve },
+        { "descontar hove", Eventos.DescontarHoveHouve },
+        { "descontar-hove", Eventos.DescontarHoveHouve },
 
-                // Descontar Reversa Centauro Envios
-                { "descontar reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
-                { "descontar - reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
+        // ========================
+        // DESCONTAR REVERSA CENTAURO ENVIOS
+        // ========================
+        { "descontar reversa centauro envios", Eventos.DescontarReversaCentauroEnvios },
+        { "descontar-reversa-centauro-envios", Eventos.DescontarReversaCentauroEnvios },
+        { "descontar reverse centauro envios", Eventos.DescontarReversaCentauroEnvios }, // erro comum
+        { "descontar-reverse-centauro-envios", Eventos.DescontarReversaCentauroEnvios },
+        { "descontar reserva", Eventos.DescontarReversaCentauroEnvios }, // erro comum "reserva"
 
-                // Descontar Retroativo
-                { "descontar retroativo", Eventos.DescontarRetroativo },
-                { "descontar - retroativo", Eventos.DescontarRetroativo },
-                { "descontar retroativo sac", Eventos.DescontarRetroativo },
-                { "descontar - retroativo sac", Eventos.DescontarRetroativo },
-                { "descontar retroativos", Eventos.DescontarRetroativo },
-                { "descontar - retroativos", Eventos.DescontarRetroativo },
-                { "descontar retroativos sac", Eventos.DescontarRetroativo },
-                { "descontar - retroativos sac", Eventos.DescontarRetroativo },
+        // ========================
+        // DESCONTAR RETROATIVOS
+        // ========================
+        { "descontar retroativo", Eventos.DescontarRetroativo },
+        { "descontar-retroativo", Eventos.DescontarRetroativo },
+        { "descontar retroativo sac", Eventos.DescontarRetroativo },
+        { "descontar-retroativo-sac", Eventos.DescontarRetroativo },
+        { "descontar retroativos", Eventos.DescontarRetroativo },
+        { "descontar-retroativos", Eventos.DescontarRetroativo },
+        { "descontar retroativos sac", Eventos.DescontarRetroativo },
+        { "descontar-retroativos-sac", Eventos.DescontarRetroativo },
 
-                // Ajuste de Ciclo
-                { "ajuste de ciclo", Eventos.AjusteDeCiclo },
-               
-            };
+        // ========================
+        // AJUSTE DE CICLO
+        // ========================
+        { "ajuste de ciclo", Eventos.AjusteDeCiclo },
+        { "ajuste ciclo", Eventos.AjusteDeCiclo },
+        { "ajuste-ciclo", Eventos.AjusteDeCiclo },
+        { "ajuste deciclo", Eventos.AjusteDeCiclo }, // erro de espaço
+        { "ajusteciclo", Eventos.AjusteDeCiclo },
+    };
 
-            return mapping.TryGetValue(evento, out var valorNormalizado)
-                ? valorNormalizado
-                : Eventos.Outros;
+            // Normaliza para procurar sem erro de acento/hífen
+            if (mapping.TryGetValue(evento, out var valorNormalizado))
+                return valorNormalizado;
+
+            // Procura fuzzy simples — caso contenha palavras-chave conhecidas
+            if (evento.Contains("repasse") || evento.Contains("repassar"))
+                return Eventos.RepasseNormal;
+            if (evento.Contains("nao repassar") || evento.Contains("não repassar"))
+                return Eventos.NaoRepassar;
+            if (evento.Contains("descontar") && evento.Contains("hou"))
+                return Eventos.DescontarHoveHouve;
+            if (evento.Contains("reversa") || evento.Contains("reverse") || evento.Contains("reserva"))
+                return Eventos.DescontarReversaCentauroEnvios;
+            if (evento.Contains("retroativo"))
+                return Eventos.DescontarRetroativo;
+            if (evento.Contains("ajuste") && evento.Contains("ciclo"))
+                return Eventos.AjusteDeCiclo;
+
+            // Caso nada corresponda
+            return Eventos.Outros;
         }
+
 
 
         // Método responsável por mapear o registro retornado do banco de dados 
@@ -196,9 +256,10 @@ namespace DashboardTrilhaEsporte.Data.Entities
         }
 
 
-        public void SetProcentagem(decimal procentagem ) {
-            if(porcentagem <= 1 && procentagem >= 0)
-                 this.porcentagem = porcentagem;
+        public void SetProcentagem(decimal procentagem)
+        {
+            if (porcentagem <= 1 && procentagem >= 0)
+                this.porcentagem = porcentagem;
         }
 
 
