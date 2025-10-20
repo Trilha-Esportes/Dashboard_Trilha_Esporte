@@ -238,17 +238,17 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
         {
             var culture = new CultureInfo("pt-BR");
 
-          return $"{skuId};" +
-                $"{marketplace};" +
-                $"{codigoPedido};" +
-                $"{dataPedido?.ToString("dd/MM/yyyy")};" +
-                $"{valorTotalProdutos.ToString("N2", culture)};" +
-                $"{comissaoEsperada?.ToString("N2", culture)};" +
-                $"{valorRecebido.ToString("N2", culture)};" +
-                $"{valorAReceber.ToString("N2", culture)};" +
-                $"{valorDescontado.ToString("N2", culture)};" +
-                $"{descontoFrete.ToString("N2", culture)};" + 
-                $"{situacaoFinal.GetDescription()}";
+            return $"{skuId};" +
+                  $"{marketplace};" +
+                  $"{codigoPedido};" +
+                  $"{dataPedido?.ToString("dd/MM/yyyy")};" +
+                  $"{valorTotalProdutos.ToString("N2", culture)};" +
+                  $"{comissaoEsperada?.ToString("N2", culture)};" +
+                  $"{valorRecebido.ToString("N2", culture)};" +
+                  $"{valorAReceber.ToString("N2", culture)};" +
+                  $"{valorDescontado.ToString("N2", culture)};" +
+                  $"{descontoFrete.ToString("N2", culture)};" +
+                  $"{situacaoPagamento.GetDescription()};";
 
         }
 
