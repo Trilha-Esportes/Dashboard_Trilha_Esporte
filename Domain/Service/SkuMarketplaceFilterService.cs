@@ -12,6 +12,8 @@ namespace DashboardTrilhaEsporte.Domain.Service
         public DateTime? dataComissaoFinal { get; set; }
         public DateTime? dataCicloSelecionada { get; set; }
 
+        public DateTime? dataEventoInicio { get; set; }
+
         public String? numeroPedido { get; set; }
 
         public List<Erros> listaErros { get; set; } = new List<Erros>();
@@ -29,10 +31,12 @@ namespace DashboardTrilhaEsporte.Domain.Service
             DateTime? dataCicloSelecionada = null,
             string? numeroPedido = null,
             List<Erros>? listaErros = null,
-            List<Eventos>? tipoEventos = null)
+            List<Eventos>? tipoEventos = null,
+            DateTime? dataEventoInicio = null)
         {
             this.dataComissaoInicio = dataComissaoInicio;
             this.dataComissaoFinal = dataComissaoFinal;
+            this.dataEventoInicio = dataEventoInicio;
             this.dataCicloSelecionada = dataCicloSelecionada;
             this.numeroPedido = numeroPedido;
             this.listaErros = listaErros ?? new List<Erros>();
@@ -73,6 +77,11 @@ namespace DashboardTrilhaEsporte.Domain.Service
 
             if (filtros.TipoEventos != null && filtros.TipoEventos.Any())
                 query = query.Where(x => filtros.TipoEventos.Contains(x.skuMarketplace.tipoEventoNormalizado));
+
+            if (filtros.dataEventoInicio.HasValue)
+                query = query.Where(x => x.skuMarketplace.dataEvento.HasValue &&
+                                         x.skuMarketplace.dataEvento.Value == filtros.dataEventoInicio.Value);
+            
 
             return query.ToList();
         }

@@ -100,7 +100,7 @@ else
                                 @bind-Date="_filtro.dataComissaoFinal" MinDate="@SkuManager.resultDTO?.dataComissaoInicial"
                                 MaxDate="@SkuManager.resultDTO?.dataComissaoFinal" />
                         </MudItem>
-
+                      
 
                         <!-- Grupo: Tipo Evento / Erros -->
                         <MudItem xs="12">
@@ -158,7 +158,18 @@ else
                             </MudSelect>
                         </MudItem>
 
+             <!-- grupo: filtrar por Evento -->
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle1">Filtrar por Data Pedido</MudText>
+                        </MudItem>
 
+                        <MudItem xs="12" md="6">
+                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
+                                @bind-Date="_filtro.dataEventoInicio" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
+                                MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
+                        </MudItem>
+
+                       
                     </MudGrid>
 
                     <MudDivider Class="my-4" />

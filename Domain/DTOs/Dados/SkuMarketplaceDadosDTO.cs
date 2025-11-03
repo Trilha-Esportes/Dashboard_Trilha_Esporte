@@ -30,6 +30,9 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
                 public List<DateTime> dateTimesCiclos { get; set; }
 
+                public DateTime? dataEventoInicial { get; set; }
+                public DateTime? dataEventoFinal { get; set; }
+
 
 
                 public SkuMarketplaceDadosDTO(List<SkuMarketplace> skuMarketplaces)
@@ -124,6 +127,18 @@ namespace DashboardTrilhaEsporte.Domain.DTOs
 
                         this.dataComissaoInicial = comissoes.Any() ? comissoes.Min() : null;
                         this.dataComissaoFinal = comissoes.Any() ? comissoes.Max() : null;
+                       
+                        this.dataEventoInicial = this.skuMarketplaceDTOs
+                            .Where(x => x.skuMarketplace.dataEvento.HasValue)
+                            .Select(x => x.skuMarketplace.dataEvento.Value)
+                            .DefaultIfEmpty()
+                            .Min();
+                       
+                        this.dataEventoFinal = this.skuMarketplaceDTOs
+                            .Where(x => x.skuMarketplace.dataEvento.HasValue)
+                            .Select(x => x.skuMarketplace.dataEvento.Value)
+                            .DefaultIfEmpty()
+                            .Max();     
                        
                 }
 
