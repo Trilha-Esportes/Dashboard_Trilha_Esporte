@@ -86,19 +86,19 @@ else
 
                         <!-- Grupo: Data Comissão -->
                         <MudItem xs="12">
-                            <MudText Typo="Typo.subtitle1">Filtrar por Data Comissão</MudText>
+                            <MudText Typo="Typo.subtitle1">Filtrar por Data Pedido</MudText>
                         </MudItem>
 
                         <MudItem xs="12" md="6">
                             <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
-                                @bind-Date="_filtro.dataComissaoInicio" MinDate="@SkuManager.resultDTO?.dataComissaoInicial"
-                                MaxDate="@SkuManager.resultDTO?.dataComissaoFinal" />
+                                @bind-Date="_filtro.dataEventoInicio" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
+                                MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
                         </MudItem>
 
                         <MudItem xs="12" md="6">
                             <MudDatePicker Style="width: 100%;" Label="Data Comissão Final"
-                                @bind-Date="_filtro.dataComissaoFinal" MinDate="@SkuManager.resultDTO?.dataComissaoInicial"
-                                MaxDate="@SkuManager.resultDTO?.dataComissaoFinal" />
+                                @bind-Date="_filtro.dataEventoFinal" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
+                                MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
                         </MudItem>
                       
 
@@ -159,15 +159,7 @@ else
                         </MudItem>
 
              <!-- grupo: filtrar por Evento -->
-                        <MudItem xs="12">
-                            <MudText Typo="Typo.subtitle1">Filtrar por Data Pedido</MudText>
-                        </MudItem>
-
-                        <MudItem xs="12" md="6">
-                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
-                                @bind-Date="_filtro.dataEventoInicio" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
-                                MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
-                        </MudItem>
+                      
 
                        
                     </MudGrid>

@@ -8,11 +8,10 @@ namespace DashboardTrilhaEsporte.Domain.Service
 {
     public class SkuMarketplaceFilterService
     {
-        public DateTime? dataComissaoInicio { get; set; }
-        public DateTime? dataComissaoFinal { get; set; }
+        public DateTime? dataEventoInicio { get; set; }
+        public DateTime? dataEventoFinal { get; set; }
         public DateTime? dataCicloSelecionada { get; set; }
 
-        public DateTime? dataEventoInicio { get; set; }
 
         public String? numeroPedido { get; set; }
 
@@ -26,17 +25,15 @@ namespace DashboardTrilhaEsporte.Domain.Service
 
         }
         public SkuMarketplaceFilterService(
-            DateTime? dataComissaoInicio = null,
-            DateTime? dataComissaoFinal = null,
+            DateTime? dataEventoInicio = null,
+            DateTime? dataEventoFinal = null,
             DateTime? dataCicloSelecionada = null,
             string? numeroPedido = null,
             List<Erros>? listaErros = null,
-            List<Eventos>? tipoEventos = null,
-            DateTime? dataEventoInicio = null)
+            List<Eventos>? tipoEventos = null)
         {
-            this.dataComissaoInicio = dataComissaoInicio;
-            this.dataComissaoFinal = dataComissaoFinal;
             this.dataEventoInicio = dataEventoInicio;
+            this.dataEventoFinal = dataEventoFinal;
             this.dataCicloSelecionada = dataCicloSelecionada;
             this.numeroPedido = numeroPedido;
             this.listaErros = listaErros ?? new List<Erros>();
@@ -53,13 +50,13 @@ namespace DashboardTrilhaEsporte.Domain.Service
             if (!string.IsNullOrWhiteSpace(filtros.numeroPedido))
                 query = query.Where(x => x.skuMarketplace.numeroPedido == filtros.numeroPedido);
 
-            if (filtros.dataComissaoInicio.HasValue)
-                query = query.Where(x => x.skuMarketplace.dataComissao.HasValue &&
-                                         x.skuMarketplace.dataComissao.Value >= filtros.dataComissaoInicio.Value);
+            if (filtros.dataEventoInicio.HasValue)
+                query = query.Where(x => x.skuMarketplace.dataEvento.HasValue &&
+                                         x.skuMarketplace.dataEvento.Value >= filtros.dataEventoInicio.Value);
 
-            if (filtros.dataComissaoFinal.HasValue)
-                query = query.Where(x => x.skuMarketplace.dataComissao.HasValue &&
-                                         x.skuMarketplace.dataComissao.Value <= filtros.dataComissaoFinal.Value);
+            if (filtros.dataEventoFinal.HasValue)
+                query = query.Where(x => x.skuMarketplace.dataEvento.HasValue &&
+                                         x.skuMarketplace.dataEvento.Value <= filtros.dataEventoFinal.Value);
 
            if (filtros.dataCicloSelecionada.HasValue)
             {
@@ -78,9 +75,6 @@ namespace DashboardTrilhaEsporte.Domain.Service
             if (filtros.TipoEventos != null && filtros.TipoEventos.Any())
                 query = query.Where(x => filtros.TipoEventos.Contains(x.skuMarketplace.tipoEventoNormalizado));
 
-            if (filtros.dataEventoInicio.HasValue)
-                query = query.Where(x => x.skuMarketplace.dataEvento.HasValue &&
-                                         x.skuMarketplace.dataEvento.Value == filtros.dataEventoInicio.Value);
             
 
             return query.ToList();
