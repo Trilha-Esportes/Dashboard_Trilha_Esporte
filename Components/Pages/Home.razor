@@ -90,13 +90,13 @@ else
                         </MudItem>
 
                         <MudItem xs="12" md="6">
-                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Início"
+                            <MudDatePicker Style="width: 100%;" Label="Data Pedido Início"
                                 @bind-Date="_filtro.dataEventoInicio" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
                                 MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
                         </MudItem>
 
                         <MudItem xs="12" md="6">
-                            <MudDatePicker Style="width: 100%;" Label="Data Comissão Final"
+                            <MudDatePicker Style="width: 100%;" Label="Data Pedido Final"
                                 @bind-Date="_filtro.dataEventoFinal" MinDate="@SkuManager.resultDTO?.dataEventoInicial"
                                 MaxDate="@SkuManager.resultDTO?.dataEventoFinal" />
                         </MudItem>
