@@ -22,7 +22,7 @@ var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 
-var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
+var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password=#{dbPassword};Database={dbName}";
 
 // Add MudBlazor services
 builder.Services.AddMudServices();

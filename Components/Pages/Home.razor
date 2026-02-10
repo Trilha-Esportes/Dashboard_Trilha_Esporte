@@ -20,7 +20,9 @@
 @inject SkuMarketplaceManager SkuManager
 @inject AnymarketManager AnymarketManager
 @inject ResumoFinanceiroManager FinanceiroManager
-@inject ScrapingManager scrapingManager
+
+@inject ScrapingManager scrapingManager 
+
 @inject VendasRepository vendasRepository
 
 @inject SkuMarketplaceDevolucaoManager skuMarketplaceDevolucaoManager
@@ -289,14 +291,15 @@ else
 
             await Task.WhenAll(taskSku, taskScraping, taskVendas);
 
-
+       
             
 
             // Verifica se os dados estão prontos
             if (SkuManager.resultDTO.skuMarketplaceDTOs != null 
                 && FinanceiroManager.FinanceiroDadosDTO != null
                 && AnymarketManager.anymarketDadosDTO != null
-                && scrapingManager.scrapingDadosDTO !=null)
+                && scrapingManager.scrapingDadosDTO != null
+                )
             {
                 
                 skuMarketplaceListaCorrente = SkuManager.resultDTO;
